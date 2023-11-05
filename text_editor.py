@@ -28,7 +28,7 @@ while True:
         if pointer==0: pointer=1
         extra=black+"File: "+filename+"  "+reset
         if status_st==0: status=saved_df
-        extra="█"*(len(extra)//2-6)+status+"█"*(len(extra)//2-5)+extra
+        extra="█"*(len(extra)//2-9)+status+"█"*(len(extra)//2-9)+extra
         arr[line+offset-banoff]=text; max_len=len(text)
         print(banner+"\n".join(arr[offset:rows+offset+1])+bottom+extra+("\r\033[%d;%dH"%(line+1, pointer)),end="")
         key=getch()
@@ -70,7 +70,7 @@ while True:
             if not pointer==1: #Delete char
                 p1=list(text); p1.pop(pointer-2)
                 text="".join(p1); pointer-=1
-            elif not line+offset==0: #move all to previous line
+            elif not line+offset==2: #move all to previous line
                 seltext=arr[line+offset-banoff-1]
                 arr[line+offset-banoff-1]=seltext+text
                 arr.pop(line+offset-banoff)
@@ -112,6 +112,3 @@ while True:
     except Exception as e: print("\033c"+str(e)); break
 
 input()
-
-
-
