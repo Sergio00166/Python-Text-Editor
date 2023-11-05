@@ -36,7 +36,7 @@ while True:
         
         extra=black+"File: "+filename+"  "+reset
         extra_len=(96-len(extra))//2
-        extra="█"*extra_len+status+"█"*extra_len+extra
+        extra="█"*extra_len+status+"█"*(extra_len+1)+extra
         arr[line+offset-banoff]=text; max_len=len(text)
         all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr)+1)
         print(banner+all_file+bottom+extra+("\r\033[%d;%dH"%(line+1, pointer)),end="")
