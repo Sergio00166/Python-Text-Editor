@@ -17,9 +17,10 @@ if not ":\\" in filename: filename=getcwd()+"\\"+filename
 if exists(filename):
     tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
     for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+    arr.append("")
 else: arr=[""]
 
-text=arr[0]; pointer=offset=0; line=banoff=2; arr.append("")
+text=arr[0]; pointer=offset=0; line=banoff=2
 black="[47m[30m[2m"; reset="[0m"; rows=get_terminal_size()[0]//5
 banner="\033c"+"█"*46+black+"BASIC TEXT EDITOR"+reset+"█"*46+"\n\n"
 bottom="\n\n "+black+"^O"+reset+" Write out   "+black+"^X"+reset+" EXIT  "
@@ -28,17 +29,19 @@ saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
 
 while True:
     try:
+        if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if line==1: line=2
-        extra=black+"File: "+filename+"  "+reset
         if status_st==0: status=saved_df
+        
+        extra=black+"File: "+filename+"  "+reset
         extra_len=(96-len(extra))//2
         extra="█"*extra_len+status+"█"*extra_len+extra
         arr[line+offset-banoff]=text; max_len=len(text)
-        all_file="\n".join(arr[offset:rows+offset+1])
-        if len(all_file)<rows+1: all_file+="\n"*(rows-len(all_file))
+        all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr)+1)
         print(banner+all_file+bottom+extra+("\r\033[%d;%dH"%(line+1, pointer)),end="")
         key=getch()
+        
         if key==b'\xe0': #Directional arrows
             arrow_key=getch()
             if arrow_key==b'H': #Up
@@ -48,7 +51,7 @@ while True:
                 elif offset>0: offset-=1; line+=1
 
             elif arrow_key==b'P': #Down
-                if not line+offset==len(arr)+banoff:
+                if not line+offset==len(arr)+banoff-1:
                     if not line==rows+banoff:
                         line+=1; text=arr[line+offset-banoff]
                         pointer=fixlenline(text, pointer)
@@ -82,7 +85,10 @@ while True:
                 arr[line+offset-banoff-1]=seltext+text
                 arr.pop(line+offset-banoff)
                 pointer=len(seltext)+1
-                text=seltext+text; line-=1
+                text=seltext+text
+                if not offset==0:
+                    offset-=1
+                else: line-=1
                       
         elif key==b'\r': #Return
             seltext=[text[:pointer-1]]
@@ -117,3 +123,4 @@ while True:
             pointer+=1
         status_st-=1
     except: pass
+
