@@ -5,43 +5,52 @@ from os import get_terminal_size, getcwd
 from sys import argv
 from os.path import exists
 
+#Dont ask me what it does
 def fixlenline(text, pointer):
     length=len(text)
     if pointer>length: return length
     else: return pointer
 
+#Check if we have arguments via cli, if not ask the user for a file to open
 if not len(argv)==1: filename=" ".join(argv[1:])
 else: filename=str(input("File to open: "))
 if not ":\\" in filename: filename=getcwd()+"\\"+filename
 
-if exists(filename):
+#If file exist open it if not create an empty list
+if exists(filename): 
     tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
     for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
     arr.append("")
 else: arr=[""]
 
+#Define a lot of stuff
 text=arr[0]; pointer=offset=0; line=banoff=2
 black="[47m[30m[2m"; reset="[0m"; rows=get_terminal_size()[0]//5
-banner="█"*40+black+"BASIC TEXT EDITOR"+reset+"█"*46+"\n\n"
-bottom="\n\n "+black+"^Q"+reset+" EXIT   "+black+"^S"+reset+" SAVE   "
-bottom+=black+"^X"+reset+" CUT   "+black+"^C"+reset+" COPY   "
-bottom+=black+"^P"+reset+" PASTE   "+black+"^G"+reset+" GOTO"
+banner="█"*20+black+"BASIC TEXT EDITOR"+reset
+bottom="\n\n     "+black+"^Q"+reset+" EXIT        "+black+"^S"+reset+" SAVE        "
+bottom+=black+"^X"+reset+" CUT        "+black+"^C"+reset+" COPY       "
+bottom+=black+"^P"+reset+" PASTE        "+black+"^G"+reset+" GOTO"
 copy_buffer=""; cls="\033c"
 
+#Flag to show after saving the file
 saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
 
 while True:
     try:
+        #Fix some things every time
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if line==1: line=2
         if status_st==0: status=saved_df
         
+        #A lot of stuff
         max_len=len(text); arr[line+offset-banoff]=text
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
         all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr))
-        print(cls+position+banner+all_file+bottom+("\r\033[%d;%dH"%(line+1, pointer)),end="")
-        key=getch()
+        print(cls+position+"█"*10+status+banner+"█"*(52-len(filename))+black+filename+
+              reset+"█\n\n"+all_file+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
+        
+        key=getch() #Read char
         
         if key==b'\xe0': #Directional arrows
             arrow_key=getch()
@@ -58,7 +67,7 @@ while True:
                         pointer=fixlenline(text, pointer)
                     elif not line+offset==len(arr)+1:
                         offset+=1; line-=1
-                    
+
             elif arrow_key==b'M': #Right
                 if not pointer>max_len:
                     pointer+=1
@@ -81,17 +90,19 @@ while True:
             if not pointer==1: #Delete char
                 p1=list(text); p1.pop(pointer-2)
                 text="".join(p1); pointer-=1
-            elif not line+offset==1: #move all to previous line
-                seltext=arr[line+offset-banoff-1]
-                arr[line+offset-banoff-1]=seltext+text
-                arr.pop(line+offset-banoff)
-                pointer=len(seltext)+1
-                text=seltext+text
-                if not offset==0:
-                    offset-=1
-                else: line-=1
-                      
-        elif key==b'\r': #Return
+            else: #move all to previous line
+                if not offset+line-1==1:
+                    seltext=arr[line+offset-banoff-1]
+                    arr[line+offset-banoff-1]=seltext+text
+                    arr.pop(line+offset-banoff)
+                    pointer=len(seltext)+1
+                    text=seltext+text
+                    print(offset+line)
+                    if not offset==0:
+                        offset-=1
+                    else: line-=1
+
+        elif key==b'\r': #Return (adds new lines or moves text
             seltext=[text[:pointer-1]]
             if not line+offset==len(arr):
                 p1=arr[:line+offset-banoff]
@@ -138,10 +149,10 @@ while True:
             print(black+" Go to line:"+reset, end=" ")
             p1=input()
             try:
-                p1=int(p1)+1
-                if not p1<1 and p1<len(arr):
-                    if p1<rows-banoff-1: line=p1; offset=1
-                    else: line=(p1-banoff)//rows-1; offset=p1-line+1
+                p1=int(p1)
+                offset=p1//rows
+                line=p1-offset+2
+                text=arr[line+offset-banoff]
             except:
                 print("\r\033[%d;%dH"%(line+1, 1),end="")
                 print(text)
