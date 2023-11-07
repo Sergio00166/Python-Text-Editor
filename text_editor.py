@@ -5,6 +5,15 @@ from os import get_terminal_size, getcwd
 from sys import argv
 from os.path import exists
 
+#Because Python is dumb
+UTF8_dict={b'\xb1':"ñ",b'\x91':"Ñ",b'\xa7':"ç",b'\x87':"Ç",b'\xa1':'á',
+b'\xa9':'é',b'\xad':'í',b'\xb3':'ó',b'\xba':'ú',b'\xb1':'ñ',b'\x9c':'Ü',b'\xbf':'¿',
+b'\xa1':'¡',b'\xa4':'ä',b'\xab':'ë',b'\xaf':'ï',b'\b6':'ö',b'\xbc':'ü',b'\x84':'Ä',
+b'\x8b':'Ë',b'\x8f':'Ï',b'\x96':'Ö',b'\x93':'Ó',b'\x89':'É',b'\xa0':'à',b'\xa8':'è',
+b'\xac':'ì',b'\xb2':'ò',b'\xb9':'ù',b'\x80':'À',b'\x99':'Ù',b'\x8c':'Ì',b'\x92':'Ò',
+b'\x88':'È',b'\xa2':"â",b'\xaa':"ê",b'\xae':"î",b'\xb4':"ô",b'\xbb':"û",b'\x82':"Â",
+b'\x8a':"Ê",b'\x8e':"Î",b'\x94':"Ô",b'\x9b':"Û"}
+
 #Dont ask me what it does
 def fixlenline(text, pointer):
     length=len(text)
@@ -46,9 +55,9 @@ while True:
         #A lot of stuff
         max_len=len(text); arr[line+offset-banoff]=text
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
-        all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr))
+        all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr)+1)
         print(cls+position+"█"*10+status+banner+"█"*(52-len(filename))+black+filename+
-              reset+"█\n\n"+all_file+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
+                reset+"█\n\n"+all_file+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
         
         key=getch() #Read char
         
@@ -97,28 +106,20 @@ while True:
                     arr.pop(line+offset-banoff)
                     pointer=len(seltext)+1
                     text=seltext+text
-                    print(offset+line)
                     if not offset==0:
                         offset-=1
                     else: line-=1
 
         elif key==b'\r': #Return (adds new lines or moves text
             seltext=[text[:pointer-1]]
-            if not line+offset==len(arr):
-                p1=arr[:line+offset-banoff]
-                p2=arr[line+offset-banoff:]
-                if not len(text)==0:
-                    seltext=[text[:pointer-1]]
-                    arr=p1+seltext+p2
-                    text=text[pointer-1:]
-                    pointer=0    
-                else: arr=p1+[""]+p2
-            else:
-                if not len(text)==0:
-                    arr.append(seltext)
-                    text=text[pointer-1:]
-                    pointer=0    
-                else: arr.append("")
+            p1=arr[:line+offset-banoff]
+            p2=arr[line+offset-banoff:]
+            if not len(text)==0:
+                seltext=[text[:pointer-1]]
+                arr=p1+seltext+p2
+                text=text[pointer-1:]
+                pointer=0
+            else: arr=p1+[""]+p2
             if not line>rows+1: line+=1
             else: offset+=1
 
@@ -146,21 +147,24 @@ while True:
     
         elif key==b'\x07': #Ctrl + G (go to line)
             print(" "*len(text)+"\r\033[%d;%dH"%(line+1, 1),end="")
-            print(black+" Go to line:"+reset, end=" ")
-            p1=input()
+            print(black+" Go to line:"+reset, end=" "); p1=input()
             try:
                 p1=int(p1)
-                line=p1%rows+offset
-                offset=p1//rows*rows
+                if p1<rows:
+                    offset=0
+                    line=p1+banoff
+                else:
+                    offset=p1-rows
+                    line=rows+banoff
                 text=arr[line+offset-banoff]
-            except:
-                print("\r\033[%d;%dH"%(line+1, 1),end="")
-                print(text)
-            
+            except: print(("\r\033[%d;%dH"%(line+1, 1))+text,end="")
+        
         else: #All the other keys
             p1=text[:pointer-1]; p2=text[pointer-1:]
-            text=(p1+key.decode('utf-8')+p2)
-            pointer+=1
-        status_st-=1
+            #Check for strings that Python cannot manage
+            out=UTF8_dict.get(key, None)
+            if out==None: out=key.decode('utf-8')
+            text=(p1+out+p2); pointer+=1; status_st-=1
 
-    except Exception as e: print("\033c"+str(e)); input(); break
+    except: pass
+
