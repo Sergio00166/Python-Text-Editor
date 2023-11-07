@@ -150,13 +150,14 @@ while True:
             print(black+" Go to line:"+reset, end=" "); p1=input()
             try:
                 p1=int(p1)
-                if p1<rows:
-                    offset=0
-                    line=p1+banoff
-                else:
-                    offset=p1-rows
-                    line=rows+banoff
-                text=arr[line+offset-banoff]
+                if p1<len(array):
+                    if p1<rows:
+                        offset=0
+                        line=p1+banoff
+                    else:
+                        offset=p1-rows
+                        line=rows+banoff
+                    text=arr[line+offset-banoff]
             except: print(("\r\033[%d;%dH"%(line+1, 1))+text,end="")
         
         else: #All the other keys
