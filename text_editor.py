@@ -150,8 +150,8 @@ while True:
             p1=input()
             try:
                 p1=int(p1)
-                offset=p1//rows
-                line=p1-offset+2
+                line=p1%rows+offset
+                offset=p1//rows*rows
                 text=arr[line+offset-banoff]
             except:
                 print("\r\033[%d;%dH"%(line+1, 1),end="")
