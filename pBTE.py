@@ -9,10 +9,12 @@ from re import compile as regex
 version="v0.1.2"
 
 #Dont ask me what it does
-def fixlenline(text, pointer):
+def fixlenline(text, pointer, oldptr):
     length=len(text)
-    if pointer>length: return length
-    else: return pointer
+    if pointer>length or oldptr>length:
+        return length,oldptr
+    elif oldptr>pointer: return oldptr,oldptr
+    else: return pointer,oldptr
 
 #Check if we have arguments via cli, if not ask the user for a file to open
 if not len(argv)==1: filename=" ".join(argv[1:])
@@ -33,7 +35,7 @@ banner="█"*8+black+"pBTE "+version+reset
 bottom="\n\n\t"+black+"^Q"+reset+" EXIT        "+black+"^S"+reset+" SAVE        "
 bottom+=black+"^X"+reset+" CUT        "+black+"^C"+reset+" COPY       "
 bottom+=black+"^P"+reset+" PASTE        "+black+"^G"+reset+" GOTO"
-copy_buffer=""; cls="\033c"; fix=False
+copy_buffer=""; cls="\033c"; fix=False; oldptr=0
 
 #Flag to show after saving the file
 saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
@@ -61,20 +63,20 @@ while True:
                 if not line==banoff: line-=1
                 elif offset>0: offset-=1
                 text=arr[line+offset-banoff]
-                pointer=fixlenline(text, pointer)
+                pointer,oldptr=fixlenline(text, pointer, oldptr)
 
             elif special_key==b'P': #Down
                 if not line+offset==len(arr)+banoff-1:
                     if not line==rows+banoff: line+=1
                     elif not line+offset==len(arr)+1: offset+=1
                     text=arr[line+offset-banoff]
-                    pointer=fixlenline(text, pointer)
+                    pointer,oldptr=fixlenline(text, pointer, oldptr)
  
             elif special_key==b'M': #Right
-                if not pointer>max_len: pointer+=1
+                if not pointer>max_len: pointer+=1; oldptr=pointer
                     
             elif special_key==b'K': #Left
-                if not pointer==1: pointer-=1
+                if not pointer==1: pointer-=1; oldptr=pointer
                     
             elif special_key==b'S': #Supr
                 if not pointer==max_len+1:
