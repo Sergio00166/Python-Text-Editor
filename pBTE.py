@@ -6,7 +6,7 @@ from sys import argv
 from os.path import exists
 from re import compile as regex
 
-version="v0.1.0"
+version="v0.1.2"
 
 #Dont ask me what it does
 def fixlenline(text, pointer):
@@ -61,7 +61,9 @@ while True:
                 if not line==banoff:
                     line-=1; text=arr[line+offset-banoff]
                     pointer=fixlenline(text, pointer)
-                elif offset>0: offset-=1; line+=1
+                elif offset>0:
+                    offset-=1; line-=1
+                    text=arr[line+offset-banoff]
 
             elif arrow_key==b'P': #Down
                 if not line+offset==len(arr)+banoff-1:
@@ -69,15 +71,13 @@ while True:
                         line+=1; text=arr[line+offset-banoff]
                         pointer=fixlenline(text, pointer)
                     elif not line+offset==len(arr)+1:
-                        offset+=1; line-=1
+                        offset+=1; text=arr[line+offset-banoff]
 
             elif arrow_key==b'M': #Right
-                if not pointer>max_len:
-                    pointer+=1
+                if not pointer>max_len: pointer+=1
                     
             elif arrow_key==b'K': #Left
-                if not pointer==1:
-                    pointer-=1
+                if not pointer==1: pointer-=1
                     
             elif arrow_key==b'S': #Supr
                 if not pointer==max_len+1:
