@@ -58,21 +58,18 @@ while True:
         if key==b'\xe0': #Directional arrows
             special_key=getch()
             if special_key==b'H': #Up
-                if not line==banoff:
-                    line-=1; text=arr[line+offset-banoff]
-                    pointer=fixlenline(text, pointer)
-                elif offset>0:
-                    offset-=1; line-=1
-                    text=arr[line+offset-banoff]
+                if not line==banoff: line-=1
+                elif offset>0: offset-=1
+                text=arr[line+offset-banoff]
+                pointer=fixlenline(text, pointer)
 
             elif special_key==b'P': #Down
                 if not line+offset==len(arr)+banoff-1:
-                    if not line==rows+banoff:
-                        line+=1; text=arr[line+offset-banoff]
-                        pointer=fixlenline(text, pointer)
-                    elif not line+offset==len(arr)+1:
-                        offset+=1; text=arr[line+offset-banoff]
-
+                    if not line==rows+banoff: line+=1
+                    elif not line+offset==len(arr)+1: offset+=1
+                    text=arr[line+offset-banoff]
+                    pointer=fixlenline(text, pointer)
+ 
             elif special_key==b'M': #Right
                 if not pointer>max_len: pointer+=1
                     
