@@ -33,7 +33,7 @@ banner="█"*8+black+"pBTE "+version+reset
 bottom="\n\n\t"+black+"^Q"+reset+" EXIT        "+black+"^S"+reset+" SAVE        "
 bottom+=black+"^X"+reset+" CUT        "+black+"^C"+reset+" COPY       "
 bottom+=black+"^P"+reset+" PASTE        "+black+"^G"+reset+" GOTO"
-copy_buffer=""; cls="\033c"
+copy_buffer=""; cls="\033c"; fix=False
 
 #Flag to show after saving the file
 saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
@@ -56,8 +56,8 @@ while True:
         key=getch() #Read char
         
         if key==b'\xe0': #Directional arrows
-            arrow_key=getch()
-            if arrow_key==b'H': #Up
+            special_key=getch()
+            if special_key==b'H': #Up
                 if not line==banoff:
                     line-=1; text=arr[line+offset-banoff]
                     pointer=fixlenline(text, pointer)
@@ -65,7 +65,7 @@ while True:
                     offset-=1; line-=1
                     text=arr[line+offset-banoff]
 
-            elif arrow_key==b'P': #Down
+            elif special_key==b'P': #Down
                 if not line+offset==len(arr)+banoff-1:
                     if not line==rows+banoff:
                         line+=1; text=arr[line+offset-banoff]
@@ -73,13 +73,13 @@ while True:
                     elif not line+offset==len(arr)+1:
                         offset+=1; text=arr[line+offset-banoff]
 
-            elif arrow_key==b'M': #Right
+            elif special_key==b'M': #Right
                 if not pointer>max_len: pointer+=1
                     
-            elif arrow_key==b'K': #Left
+            elif special_key==b'K': #Left
                 if not pointer==1: pointer-=1
                     
-            elif arrow_key==b'S': #Supr
+            elif special_key==b'S': #Supr
                 if not pointer==max_len+1:
                     p1=list(text); p1.pop(pointer-1)
                     text="".join(p1)
@@ -88,6 +88,9 @@ while True:
                     arr[line+offset-banoff+1]=text+seltext
                     arr.pop(line+offset-banoff+1)
                     text=text+seltext
+
+            elif special_key==b'G': pointer=1
+            elif special_key==b'O': pointer=len(text)+1
                 
         elif key==b'\x08': #Delete
             if not pointer==1: #Delete char
