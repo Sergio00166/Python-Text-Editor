@@ -4,7 +4,6 @@ from msvcrt import getch
 from os import get_terminal_size, getcwd
 from sys import argv
 from os.path import exists
-from re import compile as regex
 
 version="v0.1.2"
 
@@ -32,16 +31,17 @@ else: arr=[""]
 text=arr[0]; pointer=offset=0; line=banoff=2
 black="[47m[30m[2m"; reset="[0m"; rows=get_terminal_size()[0]//5
 banner="█"*8+black+"pBTE "+version+reset
-bottom="\n\n\t"+black+"^Q"+reset+" EXIT        "+black+"^S"+reset+" SAVE        "
-bottom+=black+"^X"+reset+" CUT        "+black+"^C"+reset+" COPY       "
-bottom+=black+"^P"+reset+" PASTE        "+black+"^G"+reset+" GOTO"
+bottom="\n\n "+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
+bottom+=black+"^A"+reset+" Save as    "+black+"^X"+reset+" CUT    "
+bottom+=black+"^C"+reset+" COPY    "+black+"^P"+reset+" PASTE    "
+bottom+=black+"^G"+reset+" GOTO    "
 copy_buffer=""; cls="\033c"; fix=False; oldptr=0
 
 #Flag to show after saving the file
 saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
 
 while True:
-    try:
+    #try:
         #Fix some things every time
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
@@ -117,7 +117,7 @@ while True:
                 pointer=0
             else: arr=p1+[""]+p2
             if not line>rows+1: line+=1
-            else: offset+=1
+            else: offset+=1           
 
         elif key==b'\x13': #Ctrl + S (SAVE)
             out=open(filename,"w",encoding="UTF-8")
@@ -142,8 +142,9 @@ while True:
                 text=copy_buffer
     
         elif key==b'\x07': #Ctrl + G (go to line)
-            print(" "*len(text)+"\r\033[%d;%dH"%(line+1, 1),end="")
-            print(black+" Go to line:"+reset, end=" "); p1=input()
+            print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
+            print(" "+black+"Go to line:"+reset, end=" "); p1=input()
+            print("\r\033[%d;%dH"%(line, 1),end="")
             try:
                 p1=int(p1)
                 if p1<len(arr):
@@ -153,9 +154,50 @@ while True:
                     else:
                         offset=p1-rows
                         line=rows+banoff
-                    text=arr[line+offset-banoff]
-            except: print(("\r\033[%d;%dH"%(line+1, 1))+text,end="")
-        
+            except: pass
+
+        elif key==b'\x01': #Ctrl + A (Save as)
+            saveastxt=black+" Save as:"+reset+" "
+            lenght=len(saveastxt)-16
+            filewrite=filename
+            wrtptr=lenght+len(filewrite)
+            while True:
+                print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
+                print("\r"+" "*(len(filewrite)+lenght+1), end="")
+                print("\r "+saveastxt+filewrite,end="")
+                print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr),end="")
+                key=getch() #Map keys
+                if key==b'\x13': #Ctrl + S (confirms)
+                    try:
+                        out=open(filewrite,"w",encoding="UTF-8")
+                        out.write("\n".join(arr)); out.close()
+                        status=saved_txt; status_st=2; break
+                    except: pass
+
+                elif key==b'\x11': #Ctrl + Q (cancel)
+                    break
+            
+                elif key==b'\x08': #Delete
+                    if not wrtptr==lenght:
+                        p1=list(filewrite); p1.pop(wrtptr-lenght-1)
+                        filewrite="".join(p1); wrtptr-=1
+
+                elif key==b'\xe0': #Arrows
+                    arrow=getch()
+                    if arrow==b'K': #Left
+                        if not wrtptr==lenght:
+                            wrtptr-=1
+                    elif arrow==b'M': #Right
+                        if not wrtptr>len(filewrite)+lenght-1:
+                            wrtptr+=1
+
+                else: #Rest of keys
+                    out=decode(key)
+                    p1=filewrite[:wrtptr-lenght]
+                    p2=filewrite[wrtptr-lenght:]
+                    filewrite=p1+out+p2
+                    wrtptr+=1
+                    
         else: #All the other keys
             p1=text[:pointer-1]; p2=text[pointer-1:]
             #To read special key combinations like AltGr+4
@@ -166,4 +208,4 @@ while True:
             pointer+=1
             status_st-=1
 
-    except: pass
+    #except: pass
