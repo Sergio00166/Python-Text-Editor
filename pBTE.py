@@ -3,20 +3,19 @@
 from init import *
 
 while True:
-    try:
+    #try:
         #Fix some things every time
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
-        if line==1: line=2
         if status_st==0: status=saved_df
         
         #A lot of stuff
         max_len=len(text); arr[line+offset-banoff]=text
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
-        all_file="\n".join(arr[offset:rows+offset+1])+"\n"*(rows-len(arr)+1)
-        print(cls+position+"█"*4+status+banner+"█"*(72-len(filename))+black+filename+
-                reset+"█\n\n"+all_file+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
-        
+        all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
+        print(cls+position+"█"*4+status+banner+"█"*(72-len(filename))+black+filename+reset+"█\n", end="")
+        print(all_file+"\n"*(rows-len(arr))+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
+
         key=getch() #Read char
         
         if key==b'\xe0': #Directional arrows
@@ -30,14 +29,20 @@ while True:
                 down(line, offset, arr, text, banoff, oldptr, rows, pointer)
  
             elif special_key==b'M': #Right
-                if not pointer>max_len: pointer+=1; oldptr=pointer
+                if not pointer+p_offset>len(text):
+                    if not pointer>columns-1:
+                        pointer+=1
+                    else: p_offset+=1
+                oldptr=pointer
                     
             elif special_key==b'K': #Left
-                if not pointer==1: pointer-=1; oldptr=pointer
+                if not pointer==1: pointer-=1
+                elif not p_offset==0: p_offset-=1
+                oldptr=pointer
                     
             elif special_key==b'S': #Supr
                 text, arr =\
-                supr(pointer, max_len, text, offset, banoff, arr)
+                supr(pointer, max_len, text, offset, banoff, arr, line, p_offset)
 
             elif special_key==b'G': pointer=1
             elif special_key==b'O': pointer=len(text)+1
@@ -81,5 +86,4 @@ while True:
             p1=text[:pointer-1]; p2=text[pointer-1:]
             out=decode(key); text=(p1+out+p2); pointer+=1
         status_st-=1
-
-    except: pass
+    #except: pass

@@ -2,19 +2,6 @@
 
 from msvcrt import getch
 
-def decode(key):
-    for x in range(3):
-        try: out=key.decode("UTF-8"); break
-        except: key+=getch()
-    return out
-
-def fixlenline(text, pointer, oldptr):
-    length=len(text)
-    if pointer>length or oldptr>length:
-        return length,oldptr
-    elif oldptr>pointer: return oldptr,oldptr
-    else: return pointer,oldptr
-
 def delete(pointer, text, offset, line, arr, banoff):
     if not pointer==1: #Delete char
         p1=list(text); p1.pop(pointer-2)
@@ -30,21 +17,6 @@ def delete(pointer, text, offset, line, arr, banoff):
                 offset-=1
             else: line-=1
     return line, offset, text, arr, pointer
-
-def down(line, offset, arr, text, banoff, oldptr, rows, pointer):
-    if not line+offset==len(arr)+banoff-1:
-        if not line==rows+banoff: line+=1
-        elif not line+offset==len(arr)+1: offset+=1
-        text=arr[line+offset-banoff]
-        pointer,oldptr=fixlenline(text, pointer, oldptr)
-    return pointer, oldptr, text, offset, line
-
-def up(line, offset, arr, text, banoff, oldptr, rows, pointer):
-    if not line==banoff: line-=1
-    elif offset>0: offset-=1
-    text=arr[line+offset-banoff]
-    pointer,oldptr=fixlenline(text, pointer, oldptr)   
-    return pointer, oldptr, text, offset, line
 
 def goto(rows, banoff, line, arr, offset, black, reset):
     print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
@@ -62,9 +34,9 @@ def goto(rows, banoff, line, arr, offset, black, reset):
     except: pass
     return line, offset
 
-def supr(pointer, max_len, text, offset, banoff, arr):
+def supr(pointer, max_len, text, offset, banoff, arr, line, p_offset):
     if not pointer==max_len+1:
-        p1=list(text); p1.pop(pointer-1)
+        p1=list(text); p1.pop(pointer+p_offset-1)
         text="".join(p1)
     elif not line+offset==1: #move all to previous line
         seltext=arr[line+offset-banoff+1]
