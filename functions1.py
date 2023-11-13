@@ -36,13 +36,13 @@ def goto(rows, banoff, line, arr, offset, black, reset):
             else:
                 offset=p1-rows
                 line=rows+banoff
+        text=arr[line+offset-banoff]
     except: pass
-    return line, offset
+    return line, offset, text
 
 def supr(pointer, max_len, text, offset, banoff, arr, line, p_offset):
     if not pointer==max_len+1:
         p1=list(text); p1.pop(pointer+p_offset-1)
-        
         text="".join(p1)
     elif not line+offset==1: #move all to previous line
         seltext=arr[line+offset-banoff+1]

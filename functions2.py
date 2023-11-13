@@ -54,6 +54,3 @@ def fix_scr(arr, org_arr, p_offset, black, reset, columns, line, offset, banoff)
     except:
         out.append(fix_line(x, p_offset, black, reset, columns))
         return "\n".join(out[1:])
-    
-    
-        
