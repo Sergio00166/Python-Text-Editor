@@ -27,6 +27,7 @@ def goto(rows, banoff, line, arr, offset, black, reset):
     print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
     print(" "+black+"Go to line:"+reset, end=" "); p1=input()
     print("\r\033[%d;%dH"%(line, 1),end="")
+    if p1=="-": p1=len(arr)-1
     try:
         p1=int(p1)
         if p1<len(arr):

@@ -3,14 +3,11 @@
 from init import *
 
 while True:
-    try:
+    #try:
 
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
-        if pointer>columns+2:
-            p_offset=len(text)-columns+2
-            pointer=columns
           
         #A lot of stuff
         max_len=len(text); arr[line+offset-banoff]=text
@@ -33,7 +30,7 @@ while True:
 
         elif key==b'\r': #Return (adds new lines or moves text
             line, offset, arr, pointer, text =\
-            newline(text, pointer, offset, banoff, line, arr, rows)       
+            newline(text, pointer, offset, banoff, line, arr, rows, p_offset)       
 
         elif key==b'\x13': #Ctrl + S (SAVE)
             out=open(filename,"w",encoding="UTF-8")
@@ -70,4 +67,4 @@ while True:
             else: pointer+=1
         status_st-=1
         
-    except: pass
+    #except: pass

@@ -8,7 +8,7 @@ def decode(key):
 
 def fixlenline(text, pointer, oldptr, p_offset):
     if p_offset+pointer>len(text)+2: p_offset=0
-    length=len(text)
+    length=len(text)+1
     if pointer>length or oldptr>length:
         return length,oldptr,p_offset
     elif oldptr>pointer: return oldptr,oldptr,p_offset

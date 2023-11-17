@@ -9,7 +9,7 @@ if not __name__=="__main__":
     from functions1 import *
     from functions2 import *
 
-    version="v0.1.8"
+    version="v0.2.0"
 
     #Check if we have arguments via cli, if not ask the user for a file to open
     if not len(argv)==1: filename=" ".join(argv[1:])
@@ -49,7 +49,7 @@ def special_keys(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset, max_l
         down(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
 
     elif special_key==b'M': #Right
-        if not pointer+p_offset>len(text)+1:
+        if not pointer+p_offset>len(text):
             if not pointer>columns-1: pointer+=1
             else: p_offset+=1
         oldptr=pointer
@@ -63,8 +63,14 @@ def special_keys(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset, max_l
         text, arr =\
         supr(pointer, max_len, text, offset, banoff, arr, line, p_offset)
 
-    elif special_key==b'G': pointer=1
-    elif special_key==b'O': pointer=len(text)+1
+    elif special_key==b'G':
+        pointer=1; p_offset=0
+    
+    elif special_key==b'O':
+        if len(text)>columns+1:
+            p_offset=len(text)-columns+2
+            pointer=columns
+        else: pointer=len(text)+1
     
     return pointer, oldptr, text, offset, line, p_offset
 
