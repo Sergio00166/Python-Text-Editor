@@ -51,14 +51,15 @@ def supr(pointer, max_len, text, offset, banoff, arr, line, p_offset):
         text=text+seltext
     return text, arr
 
-def newline(text, pointer, offset, banoff, line, arr, rows):
-    seltext=[text[:pointer-1]]
+def newline(text, pointer, offset, banoff, line, arr, rows, p_offset):
     p1=arr[:line+offset-banoff]
     p2=arr[line+offset-banoff:]
     if not len(text)==0:
-        seltext=[text[:pointer-1]]
+        if p_offset>0: fix=2
+        else: fix=1
+        seltext=[text[:pointer+p_offset-fix]]
         arr=p1+seltext+p2
-        text=text[pointer-1:]
+        text=text[pointer+p_offset-fix:]
         pointer=0
     else: arr=p1+[""]+p2
     if not line>rows+1: line+=1
