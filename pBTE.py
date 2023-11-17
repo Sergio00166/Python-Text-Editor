@@ -3,8 +3,7 @@
 from init import *
 
 while True:
-    #try:
-
+    try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -21,8 +20,32 @@ while True:
         key=getch() #Read char
         
         if key==b'\xe0': #Directional arrows
-            pointer, oldptr, text, offset, line, p_offset =\
-            special_keys(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset, max_len)
+            special_key=getch()
+            if special_key==b'H': #Up
+                pointer, oldptr, text, offset, line, p_offset =\
+                up(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
+
+            elif special_key==b'P': #Down
+                pointer, oldptr, text, offset, line, p_offset =\
+                down(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
+
+            elif special_key==b'M': #Right
+                text, pointer, p_offset, oldptr, line, offset =\
+                right(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr)
+                    
+            elif special_key==b'K': #Left
+                pointer, oldptr, p_offset, text, line, offset =\
+                left(pointer,oldptr,line,offset,banoff,columns,p_offset,text,arr)
+                
+            elif special_key==b'S': #Supr
+                text, arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset)
+
+            elif special_key==b'G': #Start
+                pointer=1; p_offset=0
+            
+            elif special_key==b'O': #End
+                if len(text)>columns+1: p_offset=len(text)-columns+2; pointer=columns
+                else: pointer=len(text)+1
             
         elif key==b'\x08': #Delete
             line, offset, text, arr, pointer, p_offset =\
@@ -40,17 +63,18 @@ while True:
         elif key==b'\x11': print("\033c",end=""); break #Ctrl + Q (EXIT)
 
         elif key==b'\x18': #Ctrl + X (CUT LINE)
-            copy_buffer=arr[line+offset-banoff]
-            arr.pop(line+offset-banoff)
-            text=arr[line+offset-banoff]
+            copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
+            out=arr[line+offset-banoff][:pointer+p_offset-1]
+            arr[line+offset-banoff]=text=out
             
         elif key==b'\x03': #Ctrl + C (COPY LINE)
-            copy_buffer=arr[line+offset-banoff]
+            copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
             
         elif key==b'\x10': #Ctrl + P (PASTE TEXT)
             if not len(copy_buffer)==0:
-                p1=arr[:line+offset-banoff]; p2=arr[line+offset-banoff:]
-                arr=p1+[copy_buffer]+p2; text=copy_buffer
+                p1=arr[:line+offset-banoff]; p2=arr[line+offset-banoff+1:]
+                fix1=text[:p_offset+pointer-1]; fix2=text[p_offset+pointer-1:]
+                out=fix1+copy_buffer+fix2; arr=p1+[out]+p2; text=out
         
         elif key==b'\x07': #Ctrl + G (go to line)
             line, offset, text = goto(rows, banoff, line, arr, offset, black, reset)
@@ -65,6 +89,6 @@ while True:
             if p_offset==0: pointer+=1
             elif not p_offset+pointer>len(text)+2: p_offset+=1
             else: pointer+=1
+
         status_st-=1
-        
-    #except: pass
+    except: pass

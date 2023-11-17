@@ -2,26 +2,11 @@
 
 from msvcrt import getch
 
-def delete(pointer, text, offset, line, arr, banoff, p_offset):
-    if not pointer==1: #Delete char
-        p1=list(text)+[""]
-        if p_offset>0: fix=1
-        else: fix=0
-        p1.pop(pointer+p_offset-2-fix)
-        text="".join(p1);
-        if p_offset==0: pointer-=1
-        else: p_offset-=1
-    else: #move all to previous line
-        if not offset+line==1:
-            seltext=arr[line+offset-banoff-1]
-            arr[line+offset-banoff-1]=seltext+text
-            arr.pop(line+offset-banoff)
-            pointer=len(seltext)+1
-            text=seltext+text
-            if not offset==0:
-                offset-=1
-            else: line-=1
-    return line, offset, text, arr, pointer, p_offset
+def decode(key):
+    for x in range(3):
+        try: out=key.decode("UTF-8"); break
+        except: key+=getch()
+    return out
 
 def goto(rows, banoff, line, arr, offset, black, reset):
     print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
@@ -31,26 +16,31 @@ def goto(rows, banoff, line, arr, offset, black, reset):
     try:
         p1=int(p1)
         if p1<len(arr):
-            if p1<rows:
-                offset=0
-                line=p1+banoff
-            else:
-                offset=p1-rows
-                line=rows+banoff
+            if p1<rows: offset=0; line=p1+banoff
+            else: offset=p1-rows; line=rows+banoff
         text=arr[line+offset-banoff]
     except: pass
     return line, offset, text
 
-def supr(pointer, max_len, text, offset, banoff, arr, line, p_offset):
-    if not pointer==max_len+1:
-        p1=list(text); p1.pop(pointer+p_offset-1)
+def delete(pointer, text, offset, line, arr, banoff, p_offset):
+    if not pointer==1: #Delete char
+        p1=list(text)+[""]
+        if p_offset>0: fix=1
+        else: fix=0
+        p1.pop(pointer+p_offset-2-fix)
         text="".join(p1)
-    elif not line+offset==1: #move all to previous line
-        seltext=arr[line+offset-banoff+1]
-        arr[line+offset-banoff+1]=text+seltext
-        arr.pop(line+offset-banoff+1)
-        text=text+seltext
-    return text, arr
+        if p_offset==0: pointer-=1
+        else: p_offset-=1
+    else: #move all to previous line
+        if not offset+line==1:
+            seltext=arr[line+offset-banoff-1]
+            arr[line+offset-banoff-1]=seltext+text
+            arr.pop(line+offset-banoff)
+            pointer=len(seltext)+1
+            text=seltext+text
+            if not offset==0: offset-=1
+            else: line-=1
+    return line, offset, text, arr, pointer, p_offset
 
 def newline(text, pointer, offset, banoff, line, arr, rows, p_offset):
     p1=arr[:line+offset-banoff]
