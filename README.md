@@ -1,7 +1,7 @@
 # pBTE
-python-based Basic Text Edito
+python-based Basic Text Editor
 
-A a "copy" of GNU/NANO but with some changes
+A a "clone" of GNU/NANO with some changes
 
 Nowadays it is in development stage, then it can be expected to be broken
 
