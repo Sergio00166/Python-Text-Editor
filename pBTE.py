@@ -19,33 +19,9 @@ while True:
         
         key=getch() #Read char
         
-        if key==b'\xe0': #Directional arrows
-            special_key=getch()
-            if special_key==b'H': #Up
-                pointer, oldptr, text, offset, line, p_offset =\
-                up(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
-
-            elif special_key==b'P': #Down
-                pointer, oldptr, text, offset, line, p_offset =\
-                down(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
-
-            elif special_key==b'M': #Right
-                text, pointer, p_offset, oldptr, line, offset =\
-                right(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr)
-                    
-            elif special_key==b'K': #Left
-                pointer, oldptr, p_offset, text, line, offset =\
-                left(pointer,oldptr,line,offset,banoff,columns,p_offset,text,arr)
-                
-            elif special_key==b'S': #Supr
-                text, arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset)
-
-            elif special_key==b'G': #Start
-                pointer=1; p_offset=0
-            
-            elif special_key==b'O': #End
-                if len(text)>columns+1: p_offset=len(text)-columns+2; pointer=columns
-                else: pointer=len(text)+1
+        if key==b'\xe0': #Special Keys
+            text, pointer, p_offset, oldptr, line, offset =\
+            special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr)
             
         elif key==b'\x08': #Delete
             line, offset, text, arr, pointer, p_offset =\
