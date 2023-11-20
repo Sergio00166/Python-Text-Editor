@@ -12,7 +12,8 @@ while True:
         max_len=len(text); arr[line+offset-banoff]=text
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
         all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
-        print(cls+position+"█"*4+status+banner+"█"*(72-len(filename))+black+filename+reset+"█\n", end="")
+        first_banner=position+"█"*5+status+banner
+        print(cls+first_banner+"█"*(columns-len(first_banner)-7)+black+filename+reset+"█\n", end="")
         print(all_file+"\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
 
         if max_len<=columns-2: p_offset=0
@@ -56,15 +57,20 @@ while True:
             line, offset, text = goto(rows, banoff, line, arr, offset, black, reset)
 
         elif key==b'\x01': #Ctrl + A (Save as)
-            arr, status_st, filename =\
-            save_as(filename, black, reset, rows, banoff, arr, saved_txt)
-        
+            arr, status_st, filename, status =\
+            save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns)
+
         else: #All the other keys
-            p1=text[:pointer+p_offset-1]; p2=text[pointer+p_offset-1:]
-            out=decode(key); text=(p1+out+p2);
-            if p_offset==0: pointer+=1
-            elif not p_offset+pointer>len(text)+2: p_offset+=1
-            else: pointer+=1
+            if key==b'\t': #Tab fix
+                fix=tab_size
+                out=" "*tab_size
+            else: fix=1; out=decode(key)
+            p1=text[:pointer+p_offset-1]
+            p2=text[pointer+p_offset-1:]
+            text=(p1+out+p2)
+            if p_offset==0 and not pointer+fix>columns: pointer+=fix
+            elif not p_offset+pointer>len(text)+2: p_offset+=fix
+            else: pointer+=fix
 
         status_st-=1
     except: pass

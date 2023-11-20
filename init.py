@@ -10,8 +10,8 @@ if not __name__=="__main__":
     from functions1 import *
     from functions2 import *
 
-    version="v0.2.0"
-
+    version="v0.2.1"  ;  tab_size=4
+    
     #Check if we have arguments via cli, if not ask the user for a file to open
     if not len(argv)==1: filename=" ".join(argv[1:])
     else: filename=str(input("File to open: "))

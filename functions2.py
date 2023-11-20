@@ -2,6 +2,36 @@
 
 from msvcrt import getch
 
+
+def newline(text, pointer, offset, banoff, line, arr, rows, p_offset):
+    p1=arr[:line+offset-banoff]
+    p2=arr[line+offset-banoff:]
+    if not len(text)==0:
+        if p_offset>0: fix=2
+        else: fix=1
+        seltext=[text[:pointer+p_offset-fix]]
+        arr=p1+seltext+p2
+        text=text[pointer+p_offset-fix:]
+        pointer=0
+    else: arr=p1+[""]+p2
+    if not line>rows+1: line+=1
+    else: offset+=1
+    return line, offset, arr, pointer, text
+
+def goto(rows, banoff, line, arr, offset, black, reset):
+    print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
+    print(" "+black+"Go to line:"+reset, end=" "); p1=input()
+    print("\r\033[%d;%dH"%(line, 1),end="")
+    if p1=="-": p1=len(arr)-1
+    try:
+        p1=int(p1)
+        if p1<len(arr):
+            if p1<rows: offset=0; line=p1+banoff
+            else: offset=p1-rows; line=rows+banoff
+        text=arr[line+offset-banoff]
+    except: pass
+    return line, offset, text
+
 def fixlenline(text, pointer, oldptr, p_offset):
     if p_offset+pointer>len(text)+2: p_offset=0
     length=len(text)+1
