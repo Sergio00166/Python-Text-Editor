@@ -13,7 +13,8 @@ while True:
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
         all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
         outb=position+"█"*5+status+banner
-        print(cls+outb+"█"*(columns-len(outb)+len(filename)-5), end="")
+        cls()
+        print(outb+"█"*(columns-len(outb)+len(filename)+3), end="")
         print(black+filename+reset+"█\n"+all_file, end="")
         print("\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
 
