@@ -9,13 +9,24 @@ if not __name__=="__main__":
     from os.path import exists
     from functions1 import *
     from functions2 import *
-
-    version="v0.2.1"  ;  tab_size=4
-
+    from subprocess import check_output
     from colorama import init, Fore, Back, Style
+    
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
-    cls="\033c"
+    
+    version="v0.2.2"  ;  tab_size=4
+
+    size=get_terminal_size()
+    columns=size[0]-2
+    rows=size[1]-4
+
+    # FIXES WHEN USING LEGACY CMD
+    fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
+    fix_oldcmd=int(fix_oldcmd[fix_oldcmd.find(":")+1:])
+    if not fix_oldcmd>rows+4: cls="\033c"
+    else: cls=(("\r\033[%d;%dH"%(rows+4, columns+2))+"\n")
+        
     
     #Check if we have arguments via cli, if not ask the user for a file to open
     if not len(argv)==1: filename=" ".join(argv[1:])
@@ -31,7 +42,7 @@ if not __name__=="__main__":
 
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
-    rows=get_terminal_size()[1]-4
+    
     banner=black+" "*8+"pBTE "+version+reset
     bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
     bottom+=black+"^A"+reset+" Save as    "+black+"^X"+reset+" CUT    "
@@ -42,7 +53,7 @@ if not __name__=="__main__":
     #Flag to show after saving the file
     saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
-    p_offset=0; columns=get_terminal_size()[0]-2
+    p_offset=0
 
 def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr):
     special_key=getch()

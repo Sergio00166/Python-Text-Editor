@@ -3,7 +3,7 @@
 from init import *
 
 while True:
-    #try:
+    try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -13,6 +13,7 @@ while True:
         position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
         all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
         outb=position+black+" "*5+reset+status+banner
+
         print(cls+outb+black+" "*(columns-35-len(filename))+reset, end="")
         print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
         print("\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
@@ -38,7 +39,10 @@ while True:
             out.write("\n".join(arr)); out.close()
             status=saved_txt; status_st=2
             
-        elif key==b'\x11': print("\033c",end=""); break #Ctrl + Q (EXIT)
+        elif key==b'\x11': #Ctrl + Q (EXIT)
+            print("\033c",end="")
+            print(f"\x1b[8;{9001};{columns+2}t")
+            break 
 
         elif key==b'\x18': #Ctrl + X (CUT LINE)
             copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
@@ -72,6 +76,6 @@ while True:
             if p_offset==0 and not pointer+fix>columns: pointer+=fix
             elif not p_offset+pointer>len(text)+2: p_offset+=fix
             else: pointer+=fix
-
-        status_st-=1
-    #except: pass
+            status_st-=1
+  
+    except: break
