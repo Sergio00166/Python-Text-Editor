@@ -3,7 +3,7 @@
 from init import *
 
 while True:
-    try:
+    #try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -12,8 +12,9 @@ while True:
         max_len=len(text); arr[line+offset-banoff]=text
         position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
         all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
-        outb=position+"█"*5+status+banner+"█"*(columns-len(first_banner)+len(filename)-5)
-        print(cls+outb+black+filename+reset+"█\n"+all_file, end="")
+        outb=position+"█"*5+status+banner
+        print(cls+outb+"█"*(columns-len(outb)+len(filename)-5), end="")
+        print(black+filename+reset+"█\n"+all_file, end="")
         print("\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
 
         if max_len<=columns-2: p_offset=0
@@ -58,7 +59,7 @@ while True:
 
         elif key==b'\x01': #Ctrl + A (Save as)
             arr, status_st, filename, status =\
-            save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns)
+            save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,status)
 
         else: #All the other keys
             if key==b'\t': #Tab fix
@@ -73,4 +74,4 @@ while True:
             else: pointer+=fix
 
         status_st-=1
-    except: pass
+    #except: pass

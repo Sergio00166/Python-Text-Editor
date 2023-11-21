@@ -29,7 +29,7 @@ def delete(pointer, text, offset, line, arr, banoff, p_offset):
     return line, offset, text, arr, pointer, p_offset
 
 
-def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, columns):
+def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, columns, status):
     
     saveastxt="Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
     bottom="\n\t"+black+"^Q"+reset+" CANCEL        "+black+"^S"+reset+" SAVE        "
@@ -41,7 +41,7 @@ def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, col
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
         print("\r"+" "*(len(filewrite)+lenght+1), end="")
         print("\r"+black+out+(" "*full)+reset+bottom,end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr),end="")
+        print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
         
         key=getch() #Map keys
         
