@@ -106,7 +106,7 @@ def right(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr):
         else: p_offset+=1
         oldptr=pointer
     else:
-        if not line==rows: line+=1
+        if not line>rows-2: line+=1
         else: offset+=1
         pointer=1; p_offset=0
         text=arr[line+offset-banoff]
