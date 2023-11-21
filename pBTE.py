@@ -10,12 +10,11 @@ while True:
           
         #A lot of stuff
         max_len=len(text); arr[line+offset-banoff]=text
-        position="██"+black+str(line+offset-banoff)+reset+"█"*(4-len(str(line+offset-banoff)))
+        position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
         all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
-        outb=position+"█"*5+status+banner
-        cls()
-        print(outb+"█"*(columns-len(outb)+len(filename)+3), end="")
-        print(black+filename+reset+"█\n"+all_file, end="")
+        outb=position+black+" "*5+reset+status+banner
+        print(cls+outb+black+" "*(columns-35-len(filename))+reset, end="")
+        print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
         print("\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
 
         if max_len<=columns-2: p_offset=0

@@ -9,15 +9,13 @@ if not __name__=="__main__":
     from os.path import exists
     from functions1 import *
     from functions2 import *
-    from os import system as cmd
-
-    def cls(): cmd("CLS")
 
     version="v0.2.1"  ;  tab_size=4
 
     from colorama import init, Fore, Back, Style
-    init(autoreset=False); reset=Style.RESET_ALL
+    init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
+    cls="\033c"
     
     #Check if we have arguments via cli, if not ask the user for a file to open
     if not len(argv)==1: filename=" ".join(argv[1:])
@@ -34,7 +32,7 @@ if not __name__=="__main__":
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
     rows=get_terminal_size()[1]-4
-    banner="█"*8+black+"pBTE "+version+reset
+    banner=black+" "*8+"pBTE "+version+reset
     bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
     bottom+=black+"^A"+reset+" Save as    "+black+"^X"+reset+" CUT    "
     bottom+=black+"^C"+reset+" COPY    "+black+"^P"+reset+" PASTE    "
@@ -42,7 +40,7 @@ if not __name__=="__main__":
     copy_buffer=""; fix=False; oldptr=0
 
     #Flag to show after saving the file
-    saved_txt=black+"SAVED"+reset; status=saved_df="█"*5; status_st=0
+    saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
     p_offset=0; columns=get_terminal_size()[0]-2
 
