@@ -11,4 +11,3 @@ Requirements:<br>
 Python 3 (tested under python 3.12)<br>
 No dependencies<br>
 Windows, with UTF-8 mode<br>
-Requires windows terminal, because windows console host is too slow 
