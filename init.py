@@ -9,6 +9,7 @@ if not __name__=="__main__":
     from os.path import exists
     from functions1 import *
     from functions2 import *
+    from saveas import *
     from subprocess import check_output
     from colorama import init, Fore, Back, Style
     
@@ -45,8 +46,8 @@ if not __name__=="__main__":
     
     banner=black+" "*8+"pBTE "+version+reset
     bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
-    bottom+=black+"^A"+reset+" Save as    "+black+"^X"+reset+" CUT    "
-    bottom+=black+"^C"+reset+" COPY    "+black+"^P"+reset+" PASTE    "
+    bottom+=black+"^A"+reset+" Save as    "+black+"^C"+reset+" COPY    "
+    bottom+=black+"^X"+reset+" CUT    "+black+"^P"+reset+" PASTE    "
     bottom+=black+"^G"+reset+" GOTO    "
     copy_buffer=""; fix=False; oldptr=0
 

@@ -2,103 +2,69 @@
 
 from msvcrt import getch
 
+
 def decode(key):
     for x in range(3):
         try: out=key.decode("UTF-8"); break
         except: key+=getch()
     return out
 
-def delete(pointer, text, offset, line, arr, banoff, p_offset):
-    if not pointer==1: #Delete char
-        p1=list(text)+[""]
-        if p_offset>0: fix=1
-        else: fix=0
-        p1.pop(pointer+p_offset-2-fix)
-        text="".join(p1)
-        if p_offset==0: pointer-=1
-        else: p_offset-=1
-    else: #move all to previous line
-        if not offset+line==1:
-            seltext=arr[line+offset-banoff-1]
-            arr[line+offset-banoff-1]=seltext+text
-            arr.pop(line+offset-banoff)
-            pointer=len(seltext)+1
-            text=seltext+text
-            if not offset==0: offset-=1
-            else: line-=1
-    return line, offset, text, arr, pointer, p_offset
+def down(line, offset, arr, text, banoff, oldptr, rows, pointer, p_offset):
+    if not line+offset==len(arr)+banoff-1:
+        if not line==rows+banoff: line+=1
+        elif not line+offset==len(arr)+1: offset+=1
+        text=arr[line+offset-banoff]
+        pointer,oldptr,p_offset=fixlenline(text,pointer,oldptr,p_offset)
+    return pointer, oldptr, text, offset, line, p_offset
+
+def up(line, offset, arr, text, banoff, oldptr, rows, pointer, p_offset):
+    if not line==banoff: line-=1
+    elif offset>0: offset-=1
+    text=arr[line+offset-banoff]
+    pointer,oldptr,p_offset=fixlenline(text,pointer,oldptr,p_offset) 
+    return pointer, oldptr, text, offset, line, p_offset
+
+def fixlenline(text, pointer, oldptr, p_offset):
+    if p_offset+pointer>len(text)+2: p_offset=0
+    length=len(text)+1
+    if pointer>length or oldptr>length:
+        return length,oldptr,p_offset
+    elif oldptr>pointer: return oldptr,oldptr,p_offset
+    else: return pointer,oldptr,p_offset
+
+def fix_line(text, p_offset, black, reset, columns):
+    if len(text)>columns:
+        if p_offset < 0: p_offset = 0
+        if p_offset + columns > len(text): p_offset = len(text) - columns+1
+        fix_text = text[p_offset:p_offset + columns]
+        if p_offset > 0: fix_text=black+'<'+reset+fix_text[1:]
+        if p_offset+columns<len(text): fix_text=fix_text[:-1]+black+'>'+reset
+    else: fix_text=text
+    return fix_text
+
+def fix_scr(arr, org_arr, p_offset, black, reset, columns, line, offset, banoff):
+    out=[]
+    for x in arr: out.append(fix_line(x, 0, black, reset, columns))
+    x=org_arr[line+offset-banoff]
+    try:
+        out[line-banoff]=fix_line(x, p_offset, black, reset, columns)
+        return "\n".join(out)
+    except:
+        out.append(fix_line(x, p_offset, black, reset, columns))
+        return "\n".join(out[1:])
+
+def goto(rows, banoff, line, arr, offset, black, reset):
+    print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
+    print(" "+black+"Go to line:"+reset, end=" "); p1=input()
+    print("\r\033[%d;%dH"%(line, 1),end="")
+    if p1=="-": p1=len(arr)-1
+    try:
+        p1=int(p1)
+        if p1<len(arr):
+            if p1<rows: offset=0; line=p1+banoff
+            else: offset=p1-rows; line=rows+banoff
+        text=arr[line+offset-banoff]
+    except: pass
+    return line, offset, text
 
 
-def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, columns, status):
-    
-    saveastxt="Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
-    bottom="\n\t"+black+"^Q"+reset+" CANCEL        "+black+"^S"+reset+" SAVE        "
-    bottom+=black+"^B"+reset+" BACKUP        "+black+"^A"+reset+" APPEND        "
-    bottom+=black+"^P"+reset+" PREPEND                    "
-    
-    while True:
-        out=saveastxt+filewrite; full=columns-len(out)
-        print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
-        print("\r"+" "*(len(filewrite)+lenght+1), end="")
-        print("\r"+black+out+(" "*full)+reset+bottom,end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
-        
-        key=getch() #Map keys
-        
-        #Ctrl + S (confirms) or Ctrl + B backup
-        if key==b'\x13' or key==b'\x02':
-            try:
-                
-                if key==b'\x02' and filewrite==filename:
-                    filewrite+=".bak" #Ctrl+B and if same name
-                    
-                out=open(filewrite,"w",encoding="UTF-8")
-                out.write("\n".join(arr)); out.close(); status_st=2
-                
-                if key==b'\x13': #Ctr + S
-                    status=saved_txt; tmp=open(filewrite, "r", encoding="UTF-8").readlines(); arr=[]
-                    for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
-                    arr.append(""); filename=filewrite; break
-                    
-                else: status=black+"Backed UP"+reset; break
-                
-            except: pass
-            
-        #Ctrl + Q (cancel)
-        elif key==b'\x11': break
-    
-        elif key==b'\x08': #Delete
-            if not wrtptr==lenght:
-                p1=list(filewrite); p1.pop(wrtptr-lenght-1)
-                filewrite="".join(p1); wrtptr-=1
-
-        elif key==b'\xe0': #Arrows
-            arrow=getch()
-            if arrow==b'K': #Left
-                if not wrtptr==lenght:
-                    wrtptr-=1
-            elif arrow==b'M': #Right
-                if not wrtptr>len(filewrite)+lenght-1:
-                    wrtptr+=1
-     
-        elif key==b'\r': pass
-
-        elif key==b'\x10' or key==b'\x01': #Ctrl + P or Ctrl + A
-            try:
-                tmp=open(filewrite, "r", encoding="UTF-8").readlines()
-                status=saved_txt
-                if key==b'\x01': output=list(arr+tmp)
-                elif key==b'\x10': output=list(tmp+arr)
-                out=open(filewrite, "w", encoding="UTF-8")
-                out.write("\n".join(output)); break
-            except: pass
-        
-        else: #Rest of keys
-            if not wrtptr>columns-1:
-                out=decode(key)
-                p1=filewrite[:wrtptr-lenght]
-                p2=filewrite[wrtptr-lenght:]
-                filewrite=p1+out+p2
-                wrtptr+=1
-
-    return arr, status_st, filename, status
