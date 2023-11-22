@@ -38,6 +38,13 @@ if not __name__=="__main__":
         arr.append("")
     else: arr=[""]
 
+    # Creates a list of banned chars code
+    values=["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"]
+    fixstr=[]
+    for x in range(0,2):
+        for y in values:
+            fixstr.append(str(x)+y)
+    
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
     banner=black+" "*8+"pBTE "+version+reset

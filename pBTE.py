@@ -59,16 +59,17 @@ while True:
             save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,status)
 
         else: #All the other keys
-            if key==b'\t': #Tab fix
-                fix=tab_size
-                out=" "*tab_size
-            else: fix=1; out=decode(key)
-            p1=text[:pointer+p_offset-1]
-            p2=text[pointer+p_offset-1:]
-            text=(p1+out+p2)
-            if p_offset==0 and not pointer+fix>columns: pointer+=fix
-            elif not p_offset+pointer>len(text)+2: p_offset+=fix
-            else: pointer+=fix
-            status_st-=1
+            if not str(key)[4:6] in fixstr:
+                if key==b'\t': #Tab fix
+                    fix=tab_size
+                    out=" "*tab_size
+                else: fix=1; out=decode(key)
+                p1=text[:pointer+p_offset-1]
+                p2=text[pointer+p_offset-1:]
+                text=(p1+out+p2)
+                if p_offset==0 and not pointer+fix>columns: pointer+=fix
+                elif not p_offset+pointer>len(text)+2: p_offset+=fix
+                else: pointer+=fix
+                status_st-=1
   
     #except: pass
