@@ -1,6 +1,12 @@
 #Code by Sergio1260
 
 
+def get_size():
+    size=get_terminal_size()
+    columns=size[0]-2
+    rows=size[1]-4
+    return rows, columns
+
 if not __name__=="__main__":
 
     from msvcrt import getch
@@ -16,19 +22,16 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
     
-    version="v0.2.2"  ;  tab_size=4
+    version="v0.2.3"  ;  tab_size=4
 
-    size=get_terminal_size()
-    columns=size[0]-2
-    rows=size[1]-4
+    rows,columns=get_size()
 
     # FIXES WHEN USING LEGACY CMD
     fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
     fix_oldcmd=int(fix_oldcmd[fix_oldcmd.find(":")+1:])
-    if not fix_oldcmd>rows+4: cls="\033c"
-    else: cls=(("\r\033[%d;%dH"%(rows+4, columns+2))+"\n")
+    if fix_oldcmd>rows+4: legacy=True
+    else: legacy=False
         
-    
     #Check if we have arguments via cli, if not ask the user for a file to open
     if not len(argv)==1: filename=" ".join(argv[1:])
     else: filename=str(input("File to open: "))
@@ -55,6 +58,7 @@ if not __name__=="__main__":
     saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
     p_offset=0
+
 
 def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr):
     special_key=getch()
