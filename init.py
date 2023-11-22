@@ -1,20 +1,14 @@
 #Code by Sergio1260
 
-
-def get_size():
-    size=get_terminal_size()
-    columns=size[0]-2
-    rows=size[1]-4
-    return rows, columns
-
 if not __name__=="__main__":
 
     from msvcrt import getch
-    from os import get_terminal_size, getcwd
+    from os import getcwd
     from sys import argv
     from os.path import exists
     from functions1 import *
     from functions2 import *
+    from special_keys import special_keys
     from saveas import *
     from subprocess import check_output
     from colorama import init, Fore, Back, Style
@@ -46,7 +40,6 @@ if not __name__=="__main__":
 
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
-    
     banner=black+" "*8+"pBTE "+version+reset
     bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
     bottom+=black+"^A"+reset+" Save as    "+black+"^C"+reset+" COPY    "
@@ -60,34 +53,3 @@ if not __name__=="__main__":
     p_offset=0
 
 
-def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr):
-    special_key=getch()
-    if special_key==b'H': #Up
-        pointer, oldptr, text, offset, line, p_offset =\
-        up(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
-
-    elif special_key==b'P': #Down
-        pointer, oldptr, text, offset, line, p_offset =\
-        down(line,offset,arr,text,banoff,oldptr,rows,pointer,p_offset)
-
-    elif special_key==b'M': #Right
-        text, pointer, p_offset, oldptr, line, offset =\
-        right(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr)
-            
-    elif special_key==b'K': #Left
-        pointer, oldptr, p_offset, text, line, offset =\
-        left(pointer,oldptr,line,offset,banoff,columns,p_offset,text,arr)
-        
-    elif special_key==b'S': #Supr
-        text, arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset)
-
-    elif special_key==b'G': #Start
-        pointer=1; p_offset=0
-        oldptr=pointer
-    
-    elif special_key==b'O': #End
-        if len(text)>columns+1: p_offset=len(text)-columns+2; pointer=columns
-        else: pointer=len(text)+1
-        oldptr=pointer
-
-    return text, pointer, p_offset, oldptr, line, offset
