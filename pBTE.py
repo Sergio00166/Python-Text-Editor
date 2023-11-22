@@ -3,7 +3,7 @@
 from init import *
 
 while True:
-    #try:
+    try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -72,4 +72,4 @@ while True:
                 else: pointer+=fix
                 status_st-=1
   
-    #except: pass
+    except: pass
