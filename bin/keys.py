@@ -4,7 +4,7 @@ from special_keys import special_keys
 from functions1 import *
 from functions2 import *
 
-def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix):
+def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix,black,reset):
         
         if key==b'\xe0': #Special Keys
             text, pointer, p_offset, oldptr, line, offset =\
