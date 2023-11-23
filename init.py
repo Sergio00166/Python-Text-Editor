@@ -1,5 +1,35 @@
 #Code by Sergio1260
 
+
+def updscr_thr():
+    global black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr,banner,filename,bottom,rows,columns,run_thread,text
+    open("debug.txt","w")
+    while True:
+        if run_thread:
+            delay(0.1)
+            old_rows=rows; old_columns=columns
+            rows,columns=get_size()
+            if not (old_rows==rows and old_columns==columns):
+                if len(arr)==0: arr.append("")
+                if pointer==0: pointer=1
+                if status_st==0: status=saved_df
+                max_len=len(text)
+                arr[line+offset-banoff]=text
+                if max_len<=columns-2: p_offset=0
+                if pointer>columns+2:
+                    p_offset=len(text)-columns+2
+                    pointer=columns
+        
+                debug=open("debug.txt","a")
+                debug.write(f"\n----UPDATE -------------------------------\n")
+                debug.write(f"  old: {old_rows}rows {old_columns}columns\n")
+                debug.write(f"  new: {rows}rows {columns}columns\n")
+                debug.write(f"  OTHER: {line}line {offset}offset\n")
+
+                update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,
+                           pointer,arr,banner,filename,bottom,rows,columns)
+                print(("\r\033[%d;%dH"%(line+1, pointer)),end="")
+            
 if not __name__=="__main__":
 
     from msvcrt import getch
@@ -12,6 +42,8 @@ if not __name__=="__main__":
     from saveas import *
     from subprocess import check_output
     from colorama import init, Fore, Back, Style
+    from threading import Thread
+    from time import sleep as delay
     
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
@@ -19,6 +51,9 @@ if not __name__=="__main__":
     version="v0.2.3"  ;  tab_size=4
 
     rows,columns=get_size()
+
+    update_thr=Thread(target=updscr_thr)
+    run_thread=True; update_thr.start()
 
     # FIXES WHEN USING LEGACY CMD
     fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
@@ -52,11 +87,12 @@ if not __name__=="__main__":
     bottom+=black+"^A"+reset+" Save as    "+black+"^C"+reset+" COPY    "
     bottom+=black+"^X"+reset+" CUT    "+black+"^P"+reset+" PASTE    "
     bottom+=black+"^G"+reset+" GOTO    "
-    copy_buffer=""; fix=False; oldptr=0
+    copy_buffer=""; fix=False; oldptr=0; p_offset=0
 
     #Flag to show after saving the file
     saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
-    p_offset=0
+    
 
+    
 

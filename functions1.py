@@ -14,8 +14,7 @@ def get_size():
     size=get_terminal_size()
     return size[1]-4,size[0]-2
 
-def update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr,banner,filename,bottom):
-    rows,columns=get_size() #Get Terminal size
+def update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr,banner,filename,bottom,rows,columns):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     all_file=fix_scr(arr[offset:rows+offset+1], arr, p_offset, black, reset, columns, line, offset, banoff)
     outb=position+black+" "*5+reset+status+banner
@@ -24,7 +23,6 @@ def update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr
     print(cls+outb+black+" "*(columns-35-len(filename))+reset, end="")
     print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
     print("\n"*(rows-len(arr)+1)+bottom+("\r\033[%d;%dH"%(line+1, pointer)), end="")
-    return rows, columns
 
 def fix_scr(arr, org_arr, p_offset, black, reset, columns, line, offset, banoff):
     out=[]

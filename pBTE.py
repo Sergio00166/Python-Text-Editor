@@ -3,17 +3,22 @@
 from init import *
 
 while True:
-    try:
+    #try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
         max_len=len(text)
         arr[line+offset-banoff]=text
         if max_len<=columns-2: p_offset=0
+
+        rows,columns=get_size()
         
-        rows,colums=update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr,banner,filename,bottom)
+        update_scr(black,reset,legacy,status,p_offset,banoff,offset,
+                   line,pointer,arr,banner,filename,bottom,rows,columns)
         
+        run=True #Start update Thread
         key=getch() #Read char
+        run=False #Stop update Thread
         
         if key==b'\xe0': #Special Keys
             text, pointer, p_offset, oldptr, line, offset =\
@@ -35,7 +40,7 @@ while True:
         elif key==b'\x11': #Ctrl + Q (EXIT)
             print("\033c",end="")
             print(f"\x1b[8;{9001};{columns+2}t")
-            break 
+            exit()
 
         elif key==b'\x18': #Ctrl + X (CUT LINE)
             copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
@@ -72,4 +77,4 @@ while True:
                 else: pointer+=fix
                 status_st-=1
   
-    except: pass
+    #except: pass
