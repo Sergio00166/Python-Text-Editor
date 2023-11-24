@@ -3,8 +3,9 @@
 from special_keys import special_keys
 from functions1 import *
 from functions2 import *
+from saveas import save_as
 
-def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix,black,reset):
+def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix,black,reset,saved_txt):
         
         if key==b'\xe0': #Special Keys
             text, pointer, p_offset, oldptr, line, offset =\

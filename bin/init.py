@@ -8,9 +8,7 @@ if not __name__=="__main__":
     from sys import argv
     from os.path import exists
     from functions1 import *
-    from functions2 import *
     from keys import keys
-    from saveas import *
     from subprocess import check_output
     from colorama import init, Fore, Back, Style
     from threading import Thread
@@ -29,17 +27,22 @@ if not __name__=="__main__":
     if fix_oldcmd>rows+4: legacy=True
     else: legacy=False
         
-    #Check if we have arguments via cli, if not ask the user for a file to open
-    if not len(argv)==1: filename=" ".join(argv[1:])
-    else: filename=str(input("File to open: "))
-    if not ":\\" in filename: filename=getcwd()+"\\"+filename
+    #Check if we have arguments via cli, if not create an empty one
+    if not len(argv)==1:
+        filename=" ".join(argv[1:])
 
-    #If file exist open it if not create an empty list
-    if exists(filename): 
-        tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
-        for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
-        arr.append("")
-    else: arr=[""]
+        #If file exist open it if not create an empty list
+        if exists(filename): 
+            tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
+            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+            arr.append("")
+        else: arr=[""]
+        
+    else: #Create an empty new file
+        filename="NewFile"; arr=[""] 
+
+    if not ":\\" in filename: #Fix file path
+        filename=getcwd()+"\\"+filename 
 
     # Creates a list of banned chars code
     values=["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"]

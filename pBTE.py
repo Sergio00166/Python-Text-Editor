@@ -58,7 +58,8 @@ while True:
             #Call keys list and functions
             text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,\
             max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix=\
-            keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,\
-            max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix,black,reset)
+            keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,\
+            arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,\
+            tab_size,fix,black,reset,saved_txt)
         
     #except: pass
