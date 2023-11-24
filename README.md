@@ -5,6 +5,8 @@ A a "clone" of GNU/NANO with some changes
 
 Nowadays it is in development stage, then it can be expected to be broken
 
+*Hotfix* TABs not work correctly but it is replaced with spaces
+
 Basic functionalities currently available such as copy, cut, paste lines, and the basic for a text editor
 
 Requirements:<br>
