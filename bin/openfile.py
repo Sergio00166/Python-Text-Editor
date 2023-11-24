@@ -49,7 +49,7 @@ def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len):
         
         #Ctrl + N
         elif key==b'\x0e':
-            arr=[""]; filename="NewFile"
+            arr=[""]; filename=getcwd+"\\NewFile"
             break
         
         else: #Rest of keys
