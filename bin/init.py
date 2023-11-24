@@ -17,8 +17,8 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
     
-    version="v0.2.5"  ;  tab_size=4
-
+    version="v0.2.7"
+    
     rows,columns=get_size()
 
     # FIXES WHEN USING LEGACY CMD
@@ -34,7 +34,7 @@ if not __name__=="__main__":
         #If file exist open it if not create an empty list
         if exists(filename): 
             tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
-            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(8))
             arr.append("")
         else: arr=[""]
         
@@ -55,9 +55,9 @@ if not __name__=="__main__":
     text=arr[0]; pointer=offset=0; line=banoff=1
     banner=black+" "*8+"pBTE "+version+reset
     bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
-    bottom+=black+"^A"+reset+" Save as    "+black+"^C"+reset+" COPY    "
-    bottom+=black+"^X"+reset+" CUT    "+black+"^P"+reset+" PASTE    "
-    bottom+=black+"^G"+reset+" GOTO    "
+    bottom+=black+"^A"+reset+" Save as    "+black+"^O"+reset+" OPEN    "
+    bottom+=black+"^C"+reset+" COPY    "+black+"^X"+reset+" CUT    "
+    bottom+=black+"^P"+reset+" PASTE    "+black+"^G"+reset+" GOTO    "
     copy_buffer=""; fix=False; oldptr=0; p_offset=0
 
     #Flag to show after saving the file

@@ -33,7 +33,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    #try:
+    try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -56,10 +56,10 @@ while True:
             
         else:
             #Call keys list and functions
-            text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,\
-            max_len,filename,status,status_st,copy_buffer,fixstr,tab_size,fix=\
+            text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,\
+            rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix=\
             keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,\
             arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,\
-            tab_size,fix,black,reset,saved_txt)
+            fix,black,reset,saved_txt)
         
-    #except: pass
+    except: pass

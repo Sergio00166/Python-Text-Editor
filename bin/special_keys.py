@@ -4,7 +4,7 @@ from msvcrt import getch
 from functions1 import *
 from functions2 import *
 
-def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr,max_len):
+def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st):
     
     special_key=getch() #Read char
     
@@ -26,6 +26,7 @@ def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldpt
         
     elif special_key==b'S': #Supr
         text, arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset)
+        status_st=False
 
     elif special_key==b'G': #Start
         pointer=1; p_offset=0
@@ -36,5 +37,5 @@ def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldpt
         else: pointer=len(text)+1
         oldptr=pointer
 
-    return text, pointer, p_offset, oldptr, line, offset
+    return text, pointer, p_offset, oldptr, line, offset, status_st
 

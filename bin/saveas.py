@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from msvcrt import getch
+from functions1 import decode
 
 def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, columns, status):
     
@@ -26,7 +27,7 @@ def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, col
                     filewrite+=".bak" #Ctrl+B and if same name
                     
                 out=open(filewrite,"w",encoding="UTF-8")
-                out.write("\n".join(arr)); out.close(); status_st=2
+                out.write("\n".join(arr)); out.close(); status_st=True
                 
                 if key==b'\x13': #Ctr + S
                     status=saved_txt; tmp=open(filewrite, "r", encoding="UTF-8").readlines(); arr=[]
