@@ -6,7 +6,7 @@ from functions2 import *
 from saveas import save_as
 from openfile import open_file
 
-def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt):
+def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt,tab_len):
         
         if key==b'\xe0': #Special Keys
             text, pointer, p_offset, oldptr, line, offset, status_st =\
@@ -52,7 +52,7 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
 
         elif key==b'\x0f': #Ctlr + O (Open file)
             arr, filename = open_file(\
-            filename,black,reset,rows,banoff,arr,columns)
+            filename,black,reset,rows,banoff,arr,columns,tab_len)
         
         else: #All the other keys
             if not str(key)[4:6] in fixstr:
@@ -61,7 +61,7 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
                 p2=text[pointer+p_offset-1:]
                 text=(p1+out+p2)
                 if key==b'\t': #Tab fix
-                    fix=tab_len(pointer+p_offset,text)
+                    fix=fix_tab(pointer+p_offset,text,tab_len)
                     out=" "*fix; text=(p1+out+p2)
                 else: fix=1
                 

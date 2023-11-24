@@ -3,11 +3,11 @@
 from msvcrt import getch
 from os import get_terminal_size
 
-def tab_len(pointer,text):
+def fix_tab(pointer,text,tab_len):
     p1=text[:pointer+1]
     p2=text[pointer+1:]
     fix=p1+"\f"+p2
-    fix=fix.expandtabs(8)
+    fix=fix.expandtabs(tab_len)
     length=fix[pointer:]
     length=length[:length.find("\f")]
               

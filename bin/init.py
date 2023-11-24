@@ -21,6 +21,8 @@ if not __name__=="__main__":
     
     rows,columns=get_size()
 
+    tab_len=4
+    
     # FIXES WHEN USING LEGACY CMD
     fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
     fix_oldcmd=int(fix_oldcmd[fix_oldcmd.find(":")+1:])
@@ -34,7 +36,7 @@ if not __name__=="__main__":
         #If file exist open it if not create an empty list
         if exists(filename): 
             tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
-            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(8))
+            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(tab_len))
             arr.append("")
         else: arr=[""]
         

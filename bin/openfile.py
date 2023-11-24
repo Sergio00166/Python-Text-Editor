@@ -3,7 +3,7 @@
 from msvcrt import getch
 from functions1 import decode
 
-def open_file(filename, black, reset, rows, banoff, arr, columns):
+def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len):
     
     saveastxt="Open: "; lenght=len(saveastxt)+2; openfile=filename; wrtptr=lenght+len(openfile)
     bottom="\n                "+black+"^Q"+reset+" CANCEL                "
@@ -23,7 +23,7 @@ def open_file(filename, black, reset, rows, banoff, arr, columns):
         if key==b'\x0f':
             try:
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
-                for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(8))
+                for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(tab_len))
                 arr.append(""); filename=openfile; break
             except: pass
             
