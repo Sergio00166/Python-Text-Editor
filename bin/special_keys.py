@@ -4,7 +4,7 @@ from msvcrt import getch
 from functions1 import *
 from functions2 import *
 
-def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st):
+def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st,tabchr,tab_len):
     
     special_key=getch() #Read char
     
@@ -18,14 +18,16 @@ def special_keys(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldpt
 
     elif special_key==b'M': #Right
         text, pointer, p_offset, oldptr, line, offset =\
-        right(pointer,p_offset,text,columns,offset,line,banoff,arr,rows,oldptr)
+        right(pointer,p_offset,text,columns,offset,line,\
+              banoff,arr,rows,oldptr,tabchr,tab_len)
             
     elif special_key==b'K': #Left
         pointer, oldptr, p_offset, text, line, offset =\
-        left(pointer,oldptr,line,offset,banoff,columns,p_offset,text,arr)
+        left(pointer,oldptr,line,offset,banoff,columns,\
+             p_offset,text,arr,tabchr,tab_len)
         
     elif special_key==b'S': #Supr
-        text, arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset)
+        text,arr = supr(pointer,max_len,text,offset,banoff,arr,line,p_offset,tabchr,tab_len)
         status_st=False
 
     elif special_key==b'G': #Start

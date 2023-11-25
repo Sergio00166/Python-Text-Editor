@@ -1,9 +1,9 @@
 #Code by Sergio1260
 
 from msvcrt import getch
-from functions1 import decode
+from functions1 import decode, fix_out_tab,fix_read_tab
 
-def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, columns, status):
+def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,status,tabchr,tab_len):
     
     saveastxt="Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
     bottom="\n\t"+black+"^Q"+reset+" CANCEL        "+black+"^S"+reset+" SAVE        "
@@ -27,12 +27,17 @@ def save_as(filename, black, reset, rows, banoff, arr, saved_txt, status_st, col
                     filewrite+=".bak" #Ctrl+B and if same name
                     
                 out=open(filewrite,"w",encoding="UTF-8")
+                arr=fix_out_tab(arr,tabchr,tab_len)
                 out.write("\n".join(arr)); out.close(); status_st=True
                 
                 if key==b'\x13': #Ctr + S
                     status=saved_txt; tmp=open(filewrite, "r", encoding="UTF-8").readlines(); arr=[]
                     for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
-                    arr.append(""); filename=filewrite; break
+                    arr.append(""); filename=filewrite
+                    out=open(filewrite,"r",encoding="UTF-8")
+                    arr=out.readlines()+[""]
+                    arr=fix_read_tab(arr,tab_len,tabchr)
+                    break
                     
                 else: status=black+"Backed UP"+reset; break
                 

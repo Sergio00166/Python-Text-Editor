@@ -7,7 +7,7 @@ if not __name__=="__main__":
     from os import getcwd
     from sys import argv
     from os.path import exists
-    from functions1 import *
+    from fixes import *
     from keys import keys
     from subprocess import check_output
     from colorama import init, Fore, Back, Style
@@ -17,11 +17,11 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
     
-    version="v0.2.7"
+    version="v0.2.8"
     
     rows,columns=get_size()
 
-    tab_len=4
+    tab_len=4; tabchr=b'\xc2\xa0'.decode("UTF-8")
     
     # FIXES WHEN USING LEGACY CMD
     fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
@@ -36,7 +36,8 @@ if not __name__=="__main__":
         #If file exist open it if not create an empty list
         if exists(filename): 
             tmp=open(filename, "r", encoding="UTF-8").readlines(); arr=[]
-            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(tab_len))
+            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+            arr=fix_read_tab(arr,tab_len,tabchr)
             arr.append("")
         else: arr=[""]
         

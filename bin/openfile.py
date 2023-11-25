@@ -1,9 +1,9 @@
 #Code by Sergio1260
 
 from msvcrt import getch
-from functions1 import decode
+from fixes import decode,fix_read_tab
 
-def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len):
+def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len,tabchr):
     
     saveastxt="Open: "; lenght=len(saveastxt)+2; openfile=filename; wrtptr=lenght+len(openfile)
     bottom="\n                "+black+"^Q"+reset+" CANCEL                "
@@ -23,7 +23,8 @@ def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len):
         if key==b'\x0f':
             try:
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
-                for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f","").expandtabs(tab_len))
+                for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+                arr=fix_read_tab(arr,tab_len,tabchr)
                 arr.append(""); filename=openfile; break
             except: pass
             
@@ -49,7 +50,7 @@ def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len):
         
         #Ctrl + N
         elif key==b'\x0e':
-            arr=[""]; filename=getcwd+"\\NewFile"
+            arr=[""]; filename=getcwd()+"\\NewFile"
             break
         
         else: #Rest of keys
