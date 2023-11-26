@@ -63,7 +63,7 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
         arr, filename = open_file(\
         filename,black,reset,rows,banoff,arr,columns,tab_len,tabchr)
 
-    elif key==b'\x14':
+    elif key==b'\x14': #Ctrl + T (Use 4 spaces instead of tabs)
         if ch_T_SP: ch_T_SP=False
         else: ch_T_SP=True
         
