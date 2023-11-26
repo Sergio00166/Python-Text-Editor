@@ -34,7 +34,6 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
         arr=out.readlines()+[""]
         arr=fix_read_tab(arr,tab_len,tabchr)
         
-
     elif key==b'\x18': #Ctrl + X (CUT LINE)
         if not line+offset>len(arr)-1:
             copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
@@ -73,12 +72,13 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
             p1=text[:pointer+p_offset-1]
             p2=text[pointer+p_offset-1:]
             if key==b'\t': #Tab fix
-                if p2=="": p2=tabchr
+                if p2=="": p2=tabchr; fix_empty=1
+                else: fix_empty=0
                 text=(p1+out+p2)    
                 #Set spaces as 4 for python
                 if ch_T_SP: tabchr=" "; fix=4
                 else: fix=fix_tab(pointer+p_offset,text,tab_len)
-                out=tabchr*fix
+                out=tabchr*(fix-fix_empty)
             else: fix=1;
             text=(p1+out+p2)
             if p_offset==0 and not pointer+fix>columns: pointer+=fix
