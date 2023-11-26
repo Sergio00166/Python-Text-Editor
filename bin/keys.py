@@ -8,7 +8,7 @@ from saveas import save_as
 from openfile import open_file
 
 def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,\
-         status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt,tab_len,tabchr):
+         status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt,tab_len,tabchr,ch_T_SP):
         
     if key==b'\xe0': #Special Keys
         text, pointer, p_offset, oldptr, line, offset, status_st =\
@@ -36,10 +36,10 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
         
 
     elif key==b'\x18': #Ctrl + X (CUT LINE)
-        copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
-        out=arr[line+offset-banoff][:pointer+p_offset-1]
-        arr[line+offset-banoff]=text=out
-        status_st=False
+        if not line+offset>len(arr)-1:
+            copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
+            arr.pop(line+offset-banoff); text=arr[line+offset-banoff]
+            status_st=False
         
     elif key==b'\x03': #Ctrl + C (COPY LINE)
         copy_buffer=arr[line+offset-banoff][pointer+p_offset-1:]
@@ -62,7 +62,11 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
     elif key==b'\x0f': #Ctlr + O (Open file)
         arr, filename = open_file(\
         filename,black,reset,rows,banoff,arr,columns,tab_len,tabchr)
-            
+
+    elif key==b'\x14':
+        if ch_T_SP: ch_T_SP=False
+        else: ch_T_SP=True
+        
     else: #All the other keys
         if not str(key)[4:6] in fixstr:
             out=decode(key)
@@ -71,7 +75,9 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
             if key==b'\t': #Tab fix
                 if p2=="": p2=tabchr
                 text=(p1+out+p2)    
-                fix=fix_tab(pointer+p_offset,text,tab_len)
+                #Set spaces as 4 for python
+                if ch_T_SP: tabchr=" "; fix=4
+                else: fix=fix_tab(pointer+p_offset,text,tab_len)
                 out=tabchr*fix
             else: fix=1;
             text=(p1+out+p2)
@@ -80,5 +86,5 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
             else: pointer+=fix
             status_st=False
 
-    return text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix
+    return text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP
 

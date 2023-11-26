@@ -8,22 +8,25 @@ def updscr_thr():
             delay(0.1)
             old_rows=rows; old_columns=columns
             rows,columns=get_size()
-            if not (old_rows==rows and old_columns==columns):
-                if len(arr)==0: arr.append("")
-                if pointer==0: pointer=1
-                if status_st==0: status=saved_df
-                max_len=len(text)
-                arr[line+offset-banoff]=text
-                if max_len<=columns-2: p_offset=0
-                if pointer>columns+2:
-                    p_offset=len(text)-columns+2
-                    pointer=columns
-                if line>rows:
-                    offset=offset+(line-rows)
-                    line=rows
+            if columns<89: #Minimun size
+                print("\033c\n\n\n\tTERMINAL TOO SMALL")
+            else:
+                if not (old_rows==rows and old_columns==columns):
+                    if len(arr)==0: arr.append("")
+                    if pointer==0: pointer=1
+                    if status_st==0: status=saved_df
+                    max_len=len(text)
+                    arr[line+offset-banoff]=text
+                    if max_len<=columns-2: p_offset=0
+                    if pointer>columns+2:
+                        p_offset=len(text)-columns+2
+                        pointer=columns
+                    if line>rows:
+                        offset=offset+(line-rows)
+                        line=rows
                 
-                update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,
-                           pointer,arr,banner,filename,bottom,rows,columns)
+                    update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,
+                               pointer,arr,banner,filename,bottom,rows,columns)
 
 from sys import path
 path.append(path[0]+"\\bin")
@@ -56,10 +59,10 @@ while True:
             
         else:
             #Call keys list and functions
-            text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,\
-            rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix=\
+            text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,\
+            max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,=\
             keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,\
             arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,\
-            fix,black,reset,saved_txt,tab_len,tabchr)
+            fix,black,reset,saved_txt,tab_len,tabchr,ch_T_SP)
         
     except: pass

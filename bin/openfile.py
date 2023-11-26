@@ -6,9 +6,9 @@ from fixes import decode,fix_read_tab
 def open_file(filename,black,reset,rows,banoff,arr,columns,tab_len,tabchr):
     
     saveastxt="Open: "; lenght=len(saveastxt)+2; openfile=filename; wrtptr=lenght+len(openfile)
-    bottom="\n                "+black+"^Q"+reset+" CANCEL                "
+    bottom="\n            "+black+"^Q"+reset+" CANCEL                "
     bottom+=black+"^O"+reset+" OPEN                "
-    bottom+=black+"^N"+reset+" NEW FILE                        "
+    bottom+=black+"^N"+reset+" NEW FILE                "
     
     while True:
         out=saveastxt+openfile; full=columns-len(out)

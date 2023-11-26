@@ -17,11 +17,12 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
     
-    version="v0.2.8"
+    version="v0.3.0"
     
     rows,columns=get_size()
 
-    tab_len=4; tabchr=b'\xc2\xa0'.decode("UTF-8")
+    tab_len=8; tabchr=b'\xc2\xa0'.decode("UTF-8")
+    ch_T_SP=False
     
     # FIXES WHEN USING LEGACY CMD
     fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
@@ -56,11 +57,12 @@ if not __name__=="__main__":
     
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
-    banner=black+" "*8+"pBTE "+version+reset
-    bottom="\n\n\t"+black+"^Q"+reset+" EXIT    "+black+"^S"+reset+" SAVE    "
-    bottom+=black+"^A"+reset+" Save as    "+black+"^O"+reset+" OPEN    "
-    bottom+=black+"^C"+reset+" COPY    "+black+"^X"+reset+" CUT    "
-    bottom+=black+"^P"+reset+" PASTE    "+black+"^G"+reset+" GOTO    "
+    banner=black+" "*3+"pBTE "+version+reset
+    bottom="\n\n    "+black+"^Q"+reset+" EXIT  "+black+"^S"+reset+" SAVE  "
+    bottom+=black+"^A"+reset+" Save as  "+black+"^O"+reset+" OPEN  "
+    bottom+=black+"^C"+reset+" COPY  "+black+"^X"+reset+" CUT  "
+    bottom+=black+"^P"+reset+" PASTE  "+black+"^G"+reset+" GOTO  "
+    bottom+=black+"^T"+reset+" T/SP    "
     copy_buffer=""; fix=False; oldptr=0; p_offset=0
 
     #Flag to show after saving the file

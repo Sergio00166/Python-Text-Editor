@@ -6,9 +6,9 @@ from functions1 import decode, fix_out_tab,fix_read_tab
 def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,status,tabchr,tab_len):
     
     saveastxt="Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
-    bottom="\n\t"+black+"^Q"+reset+" CANCEL        "+black+"^S"+reset+" SAVE        "
-    bottom+=black+"^B"+reset+" BACKUP        "+black+"^A"+reset+" APPEND        "
-    bottom+=black+"^P"+reset+" PREPEND                    "
+    bottom="\n       "+black+"^Q"+reset+" CANCEL      "+black+"^S"+reset+" SAVE      "
+    bottom+=black+"^B"+reset+" BACKUP      "+black+"^A"+reset+" APPEND      "
+    bottom+=black+"^P"+reset+" PREPEND           "
     
     while True:
         out=saveastxt+filewrite; full=columns-len(out)
