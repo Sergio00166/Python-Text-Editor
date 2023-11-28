@@ -49,9 +49,8 @@ def get_size():
 
 def update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr,banner,filename,bottom,rows,columns):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
-    out_arr=arr[offset:]
-    out_arr=out_arr[:rows+1]
-    all_file="\n".join(out_arr)
+    all_file=fix_scr(arr[offset:rows+offset+1],arr,p_offset,black,reset,columns,line,offset,banoff)
+    outb=position+black+" "*5+reset+status+banner
     outb=position+black+" "+reset+status+banner
     if not legacy: cls="\033c"
     else: cls=("\r\033[%d;%dH"%(rows+4, columns+2))+"\n"
@@ -63,6 +62,16 @@ def update_scr(black,reset,legacy,status,p_offset,banoff,offset,line,pointer,arr
     print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
     print(("\r\033[%d;%dH"%(line+1, pointer)), end="")
     
+def fix_scr(arr, org_arr, p_offset, black, reset, columns, line, offset, banoff):
+    out=[]
+    for x in arr: out.append(fix_line(x, 0, black, reset, columns))
+    x=org_arr[line+offset-banoff]
+    try:
+        out[line-banoff]=fix_line(x, p_offset, black, reset, columns)
+        return "\n".join(out)
+    except:
+        out.append(fix_line(x, p_offset, black, reset, columns))
+        return "\n".join(out[1:])
 
 def fix_line(text, p_offset, black, reset, columns):
     if len(text)>columns:
