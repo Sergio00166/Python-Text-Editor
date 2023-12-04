@@ -63,6 +63,6 @@ while True:
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,=\
             keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,\
             arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,\
-            fix,black,reset,saved_txt,tab_len,tabchr,ch_T_SP)
+            fix,black,reset,saved_txt,ch_T_SP)
         
     except: pass
