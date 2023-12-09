@@ -7,12 +7,12 @@ from functions2 import *
 from saveas import save_as
 from openfile import open_file
 
-def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,\
+def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,\
          status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt,ch_T_SP):
         
     if key==b'\xe0': #Special Keys
-        text, pointer, p_offset, oldptr, line, offset, status_st =\
-        special_keys(pointer,p_offset,text,columns,offset,line,banoff,\
+        text, pointer, oldptr, line, offset, status_st =\
+        special_keys(pointer,text,columns,offset,line,banoff,\
                      arr,rows,oldptr,max_len,status_st)
         
     elif key==b'\x08': #Backspace (removes char)
@@ -68,8 +68,8 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
     else: #All the other keys
         if not str(key)[4:6] in fixstr:
             out=decode(key)
-            p1=text[:pointer+p_offset-1]
-            p2=text[pointer+p_offset-1:]
+            p1=text[:pointer-1]
+            p2=text[pointer-1:]
             if out=="\t" and ch_T_SP:
                 out=" "*4
                 pointer+=3
@@ -77,5 +77,5 @@ def keys(key,text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,ma
             pointer+=1
             status_st=False
 
-    return text,pointer,p_offset,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP
+    return text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP
 
