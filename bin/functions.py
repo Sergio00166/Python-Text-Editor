@@ -7,7 +7,7 @@ from wcwidth import wcwidth
 
 
 def wrap(text, columns):
-    out=[]; counter=0; buffer=""
+    out=[]; counter=-1; buffer=""
     for x in text:
         if counter>=columns-1:
             if x=="\t":

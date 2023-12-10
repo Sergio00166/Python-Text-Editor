@@ -34,10 +34,8 @@ def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,sta
                     for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
                     arr.append(""); filename=filewrite
                     out=open(filewrite,"r",encoding="UTF-8")
-                    arr=out.readlines()+[""]
                     break
-                    
-                else: status=black+"Backed UP"+reset; break
+                else: status=black+"BkUPd"+reset; break
                 
             except: pass
             
@@ -78,4 +76,4 @@ def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,sta
                 filewrite=p1+out+p2
                 wrtptr+=1
 
-    return arr, status_st, filename, status
+    return status_st, filename, status

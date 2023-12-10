@@ -27,11 +27,9 @@ def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,fil
 
     elif key==b'\x13': #Ctrl + S (SAVE)
         out=open(filename,"w",encoding="UTF-8")
-        arr1=fix_out_tab(arr,tabchr,tab_len)
-        out.write("\n".join(arr1)); out.close()
+        out.write("\n".join(arr)); out.close()
         status=saved_txt; status_st=True
         out=open(filename,"r",encoding="UTF-8")
-        arr=out.readlines()+[""]
         
     elif key==b'\x18': #Ctrl + X (CUT LINE)
         if not line+offset>len(arr)-1:
@@ -53,9 +51,9 @@ def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,fil
         line,offset,text = goto(rows,banoff,line,arr,offset,black,reset)
 
     elif key==b'\x01': #Ctrl + A (Save as)
-        arr, status_st, filename, status =\
-        save_as(filename,black,reset,rows,banoff,arr,saved_txt,\
-                status_st,columns,status)
+        status_st, filename, status =\
+        save_as(filename,black,reset,rows,banoff,\
+        arr,saved_txt,status_st,columns,status)
 
     elif key==b'\x0f': #Ctlr + O (Open file)
         arr,filename = open_file(filename,black,\
