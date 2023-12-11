@@ -2,6 +2,8 @@
 
 from msvcrt import getch
 from functions import decode
+from glob import glob
+from os import getcwd
 
 def open_file(filename,black,reset,rows,banoff,arr,columns):
     
@@ -22,6 +24,7 @@ def open_file(filename,black,reset,rows,banoff,arr,columns):
         #Ctrl + O (open)
         if key==b'\x0f':
             try:
+                openfile=glob(openfile, recursive=False)[0]
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
                 for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
                 arr.append(""); filename=openfile

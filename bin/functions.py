@@ -5,6 +5,7 @@ from sys import path
 path.append(path[0]+"\\lib.zip")
 from wcwidth import wcwidth
 
+
 def wrap(text, columns):
     out=[]; counter=-1; buffer=""
     for x in text:
@@ -59,4 +60,3 @@ def fixlenline(text, pointer, oldptr):
         return length,oldptr
     elif oldptr>pointer: return oldptr,oldptr
     else: return pointer,oldptr
-        

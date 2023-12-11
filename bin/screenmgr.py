@@ -20,10 +20,11 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     elif fix==len(wrapped_text):
         text=wrapped_text[fix-1]
     else: text=wrapped_text[fix]
+    pointer-=(fix*columns)
+    
     if (len(wrapped_text)-fix)>1:
         text+=black+">"+reset
     if fix>0: text=black+"<"+reset+text
-    pointer-=(fix*columns)
 
     return pointer+1, text
 
