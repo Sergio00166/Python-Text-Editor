@@ -6,9 +6,9 @@ from functions import decode
 def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,status):
     
     saveastxt=" Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
-    bottom="\n       "+black+"^Q"+reset+" CANCEL      "+black+"^S"+reset+" SAVE      "
+    bottom="\n        "+black+"^Q"+reset+" CANCEL      "+black+"^S"+reset+" SAVE      "
     bottom+=black+"^B"+reset+" BACKUP      "+black+"^A"+reset+" APPEND      "
-    bottom+=black+"^P"+reset+" PREPEND           "
+    bottom+=black+"^P"+reset+" PREPEND              "
     
     while True:
         out=saveastxt+filewrite; full=columns-len(out)+2
