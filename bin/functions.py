@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from os import get_terminal_size
+from msvcrt import getch
 from sys import path
 path.append(path[0]+"\\lib.zip")
 from wcwidth import wcwidth
