@@ -3,6 +3,8 @@ python-based Basic Text Editor
 
 A a basic "clone" of GNU/NANO with some changes
 
+Using the minimun external libraries as possible (only wcwidth and colorama) 
+
 Nowadays it is in development stage, then it can be expected to be broken
 
 Basic functionalities currently available such as copy, cut, paste lines, and the basic for a text editor
