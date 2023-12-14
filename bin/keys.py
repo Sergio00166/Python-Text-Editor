@@ -67,6 +67,8 @@ def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,fil
     elif key==b'\x14': #Ctrl + T (Use 4 spaces instead of tabs)
         if ch_T_SP: ch_T_SP=False
         else: ch_T_SP=True
+
+    elif key==b'\n': pass
         
     else: #All the other keys
         if not str(key)[4:6] in fixstr:

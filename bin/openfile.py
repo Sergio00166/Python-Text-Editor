@@ -47,7 +47,7 @@ def open_file(filename,black,reset,rows,banoff,arr,columns):
                     wrtptr+=1
 
         #Block intro
-        elif key==b'\r': pass
+        elif key==b'\r' or key==b'\n': pass
         
         #Ctrl + N
         elif key==b'\x0e':

@@ -53,7 +53,7 @@ def save_as(filename,black,reset,rows,banoff,arr,saved_txt,status_st,columns,sta
                 if not wrtptr>len(filewrite)+lenght-1:
                     wrtptr+=1
      
-        elif key==b'\r': pass
+        elif key==b'\r' or key==b'\n': pass
 
         elif key==b'\x10' or key==b'\x01': #Ctrl + P or Ctrl + A
             try:
