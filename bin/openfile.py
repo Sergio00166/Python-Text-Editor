@@ -7,16 +7,14 @@ from os import getcwd
 
 def open_file(filename,black,reset,rows,banoff,arr,columns):
     
-    saveastxt=" Open: "; lenght=len(saveastxt)+2; openfile=filename; wrtptr=lenght+len(openfile)
-    bottom="\n            "+black+"^Q"+reset+" CANCEL                "
-    bottom+=black+"^O"+reset+" OPEN                "
-    bottom+=black+"^N"+reset+" NEW FILE                "
+    openfile=chr(92).join(filename.split(chr(92))[:-1])+chr(92)
+    saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
     
     while True:
         out=saveastxt+openfile; full=columns-len(out)+2
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
         print("\r"+" "*(len(openfile)+lenght), end="")
-        print("\r"+black+out+(" "*full)+reset+bottom,end="")
+        print("\r"+black+out+(" "*full)+reset,end="")
         print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
         
         key=getch() #Map keys

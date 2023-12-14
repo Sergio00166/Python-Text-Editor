@@ -2,27 +2,24 @@
 
 def updscr_thr():
     global black,reset,legacy,status,banoff,offset,line,pointer,arr
-    global banner,filename,bottom,rows,columns,run_thread,text, kill,p_offset
+    global banner,filename,rows,columns,run_thread,text, kill,p_offset
     while not kill:
         if run_thread:
-            delay(0.1)
+            delay(0.01)
             old_rows=rows; old_columns=columns
             rows,columns=get_size()
-            if columns<89: #Minimun size
-                print("\033c\n\n\n\tTERMINAL TOO SMALL")
-            else:
-                if not (old_rows==rows and old_columns==columns):
-                    if len(arr)==0: arr.append("")
-                    if pointer==0: pointer=1
-                    if status_st==0: status=saved_df
-                    max_len=len(text)
-                    arr[line+offset-banoff]=text
-                    if line>rows:
-                        offset=offset+(line-rows)
-                        line=rows
-                
-                    update_scr(black,reset,legacy,status,banoff,offset,\
-                    line,pointer,arr,banner,filename,bottom,rows,columns)
+            if not (old_rows==rows and old_columns==columns):
+                if len(arr)==0: arr.append("")
+                if pointer==0: pointer=1
+                if status_st==0: status=saved_df
+                max_len=len(text)
+                arr[line+offset-banoff]=text
+                if line>rows:
+                    offset=offset+(line-rows)
+                    line=rows
+            
+                update_scr(black,reset,legacy,status,banoff,offset,\
+                line,pointer,arr,banner,filename,rows,columns)
 
 from sys import path
 path.append(path[0]+"\\bin")
@@ -41,7 +38,7 @@ while True:
         arr[line+offset-banoff]=text
         rows,columns=get_size()
         update_scr(black,reset,legacy,status,banoff,offset,\
-        line,pointer,arr,banner,filename,bottom,rows,columns)
+        line,pointer,arr,banner,filename,rows,columns)
         
         run=True #Start update Thread
         key=getch() #Read char
@@ -54,11 +51,11 @@ while True:
             break
             
         else:
-            #Call keys list and functions
+            #Call keys functions (Yeah, its a lot of args and returned values)
             text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
-            max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,=\
-            keys(key,text,pointer,oldptr,line,offset,columns,banoff,\
-            arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,\
-            fix,black,reset,saved_txt,ch_T_SP)
+            max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
+            ch_T_SP,= keys(key,text,pointer,oldptr,line,offset,columns,\
+            banoff,arr,rows,max_len,filename,status,status_st,\
+            copy_buffer,fixstr,fix,black,reset,saved_txt,ch_T_SP)
         
     except: pass
