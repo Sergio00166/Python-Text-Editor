@@ -40,9 +40,9 @@ while True:
         update_scr(black,reset,legacy,status,banoff,offset,\
         line,pointer,arr,banner,filename,rows,columns)
         
-        run=True #Start update Thread
+        run_thread=True #Start update Thread
         key=getch() #Read char
-        run=False #Stop update Thread
+        run_thread=False #Stop update Thread
        
         if key==b'\x11': #Ctrl + Q (EXIT)
             kill=True
