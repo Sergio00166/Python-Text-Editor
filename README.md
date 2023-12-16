@@ -20,5 +20,5 @@ Windows, with UTF-8 mode<br>
 <br>*Open file menu*<br>
 ^Q CANCEL | ^O OPEN  | ^N NEW FILE <br>
 <br>*Save as menu*<br>
-^Q CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
+^Q CANCEL | ^A SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br>
