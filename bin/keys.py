@@ -7,8 +7,9 @@ from functions2 import *
 from saveas import save_as
 from openfile import open_file
 
-def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,\
-         status,status_st,copy_buffer,fixstr,fix,black,reset,saved_txt,ch_T_SP):
+def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
+         max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
+         black,reset,saved_txt,ch_T_SP,legacy,banner):
         
     if key==b'\xe0': #Special Keys
         text, pointer, oldptr, line, offset, status_st =\
@@ -55,14 +56,13 @@ def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,fil
         line,offset,text = goto(rows,banoff,line,arr,offset,black,reset)
 
     elif key==b'\x01': #Ctrl + A (Save as)
-        status_st, filename, status =\
-        save_as(filename,black,reset,rows,banoff,\
-        arr,saved_txt,status_st,columns,status)
+        args=(filename,black,reset,rows,banoff,arr,columns,\
+        legacy,status,offset,line,banner,status_st,saved_txt)
+        status_st, filename, status = save_as(args)
 
     elif key==b'\x0f': #Ctlr + O (Open file)
-        arr,filename = open_file(filename,\
-        black,reset,rows,banoff,arr,columns)
-        line=1; offset=0; text=arr[0]
+        args=(filename,black,reset,rows,banoff,arr,columns,legacy,status,offset,line,banner)
+        arr,filename = open_file(args); line=1; offset=0; text=arr[0]
 
     elif key==b'\x14': #Ctrl + T (Use 4 spaces instead of tabs)
         if ch_T_SP: ch_T_SP=False

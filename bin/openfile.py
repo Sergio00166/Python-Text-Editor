@@ -4,20 +4,52 @@ from msvcrt import getch
 from functions import decode
 from glob import glob
 from os import getcwd
+from screenmgr import update_scr
+from functions import get_size
+from threading import Thread
+from time import sleep as delay
 
-def open_file(filename,black,reset,rows,banoff,arr,columns):
-    
+def updscr_thr():
+    global saveastxt,openfile,rows,columns,black,reset,legacy,status,banoff,lenght
+    global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
+    while not kill:
+        delay(0.01)
+        if run:
+            old_rows=rows; old_columns=columns
+            rows,columns=get_size()
+            if not (old_rows==rows and old_columns==columns):
+                out=saveastxt+openfile
+                rows,columns=get_size()
+                full=columns-len(out)+2
+                update_scr(black,reset,legacy,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
+                print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
+                print("\r"+" "*(len(openfile)+lenght), end="")
+                print("\r"+black+out+(" "*full)+reset,end="")
+                print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
+
+def open_file(args):
+    global saveastxt,openfile,rows,columns,black,reset,legacy,status,banoff,lenght
+    global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
+
+    filename,black,reset,rows,banoff,arr,columns,legacy,status,offset,line,banner=args
     openfile=chr(92).join(filename.split(chr(92))[:-1])+chr(92)
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
+    thr=Thread(target=updscr_thr); run=False; kill=False; thr.start() 
     
     while True:
-        out=saveastxt+openfile; full=columns-len(out)+2
+        out=saveastxt+openfile
+        rows,columns=get_size()
+        full=columns-len(out)+2
+        update_scr(black,reset,legacy,status,banoff,\
+        offset,line,0,arr,banner,filename,rows,columns)
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
         print("\r"+" "*(len(openfile)+lenght), end="")
         print("\r"+black+out+(" "*full)+reset,end="")
         print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
-        
+
+        run=True #Start update screen thread
         key=getch() #Map keys
+        run=False #Stop update screen thread
         
         #Ctrl + O (open)
         if key==b'\x0f':
@@ -30,7 +62,9 @@ def open_file(filename,black,reset,rows,banoff,arr,columns):
             except: pass
             
         #Ctrl + Q (cancel)
-        elif key==b'\x11': break
+        elif key==b'\x11':
+            run=False;kill=True
+            thr.join(); break
     
         elif key==b'\x08': #Delete
             if not wrtptr==lenght:

@@ -42,10 +42,10 @@ def update_scr(black,reset,legacy,status,banoff,offset,line,pointer,arr,banner,f
     else: cls=("\r\033[%d;%dH"%(rows+3, columns+2))+"\n"
     fix=("\r\033[%d;%dH"%(1, 1))
     
-    if len(filename)+30>columns: #If filename overflows
+    if len(filename)+31>columns: #If filename overflows
         flfix=filename.split("\\")
         filename=flfix[len(flfix)-1]
-        if len(filename)+30>columns: #If still not fiting
+        if len(filename)+31>columns: #If still not fiting
             filename=filename[:5]+"*"+filename[len(filename)-4:]
             
     print(cls+outb+black+" "*(columns-31-len(filename))+reset, end="")
