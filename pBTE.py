@@ -51,7 +51,7 @@ while True:
             #Call keys functions (Yeah, its a lot of args and returned values)
             text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
-            ch_T_SP,= keys(key,text,pointer,oldptr,line,offset,columns,\
+            ch_T_SP = keys(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
             fixstr,fix,black,reset,saved_txt,ch_T_SP,banner)
         

@@ -9,7 +9,7 @@ from openfile import open_file
 
 def keys(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
          max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
-         black,reset,saved_txt,ch_T_SP,legacy,banner):
+         black,reset,saved_txt,ch_T_SP,banner):
         
     if key==b'\xe0': #Special Keys
         text, pointer, oldptr, line, offset, status_st =\
