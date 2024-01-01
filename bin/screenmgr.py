@@ -24,7 +24,7 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
 
     return pointer+1, text
 
-def update_scr(black,reset,legacy,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
+def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
     
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     text=arr[line+offset-1]
@@ -36,9 +36,7 @@ def update_scr(black,reset,legacy,status,banoff,offset,line,pointer,arr,banner,f
     outb=position+black+" "+reset+status+banner
     outb=outb+black+"    "+reset
     
-    if not legacy: cls="\033c"
-    else: cls=("\r\033[%d;%dH"%(rows+3, columns+2))+"\n"
-    fix=("\r\033[%d;%dH"%(1, 1))
+    cls="\033c"
     
     if len(filename)+31>columns: #If filename overflows
         flfix=filename.split("\\")

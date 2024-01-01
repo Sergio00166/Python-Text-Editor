@@ -8,7 +8,7 @@ from threading import Thread
 from time import sleep as delay
 
 def updscr_thr():
-    global saveastxt,filewrite,rows,columns,black,reset,legacy,status,banoff
+    global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
     while not kill:
         delay(0.01)
@@ -19,17 +19,17 @@ def updscr_thr():
                 out=saveastxt+filewrite
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,legacy,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(filewrite)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
                 print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
 
 def save_as(args):
-    global saveastxt,filewrite,rows,columns,black,reset,legacy,status,banoff
+    global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
-    filename,black,reset,rows,banoff,arr,columns,legacy,status,offset,line,banner,status_st,saved_txt=args
+    filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt=args
     saveastxt=" Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start() 
     
@@ -37,7 +37,7 @@ def save_as(args):
         out=saveastxt+filewrite
         rows,columns=get_size()
         full=columns-len(out)+2
-        update_scr(black,reset,legacy,status,banoff,\
+        update_scr(black,reset,status,banoff,\
         offset,line,0,arr,banner,filename,rows,columns)
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
         print("\r"+" "*(len(filewrite)+lenght), end="")

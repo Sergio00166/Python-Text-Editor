@@ -10,7 +10,7 @@ from threading import Thread
 from time import sleep as delay
 
 def updscr_thr():
-    global saveastxt,openfile,rows,columns,black,reset,legacy,status,banoff,lenght
+    global saveastxt,openfile,rows,columns,black,reset,status,banoff,lenght
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
     while not kill:
         delay(0.01)
@@ -21,17 +21,17 @@ def updscr_thr():
                 out=saveastxt+openfile
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,legacy,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(openfile)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
                 print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
 
 def open_file(args):
-    global saveastxt,openfile,rows,columns,black,reset,legacy,status,banoff,lenght
+    global saveastxt,openfile,rows,columns,black,reset,status,banoff,lenght
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
-    filename,black,reset,rows,banoff,arr,columns,legacy,status,offset,line,banner=args
+    filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner=args
     openfile=chr(92).join(filename.split(chr(92))[:-1])+chr(92)
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start() 
@@ -40,7 +40,7 @@ def open_file(args):
         out=saveastxt+openfile
         rows,columns=get_size()
         full=columns-len(out)+2
-        update_scr(black,reset,legacy,status,banoff,\
+        update_scr(black,reset,status,banoff,\
         offset,line,0,arr,banner,filename,rows,columns)
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
         print("\r"+" "*(len(openfile)+lenght), end="")

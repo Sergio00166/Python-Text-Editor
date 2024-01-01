@@ -25,11 +25,6 @@ if not __name__=="__main__":
 
     ch_T_SP=False
     
-    # FIXES WHEN USING LEGACY CMD
-    fix_oldcmd=str(check_output("mode con", shell=True)).split("\\r\\n")[3].replace(" ","")
-    fix_oldcmd=int(fix_oldcmd[fix_oldcmd.find(":")+1:])
-    if fix_oldcmd>rows+4: legacy=True
-    else: legacy=False
         
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:
