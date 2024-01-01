@@ -13,11 +13,13 @@ def wrap(text, columns):
         if counter>=columns-1:
             lenght=str_len(x)
             if lenght>1:
-                out.append(buffer)
+                ext=buffer
                 buffer=x
             else:
-                out.append(buffer+x)
+                ext=buffer+x
                 buffer=""
+                
+            out.append(ext)
             counter=0
         else:
             buffer+=x

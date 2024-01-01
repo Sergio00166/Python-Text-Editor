@@ -8,16 +8,23 @@ from functions import wrap, str_len, tab_len, fix_arr_line_len
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
     
-    len_arr=[]; ptr=pointer
+    len_arr=[]; ptr=pointer; pos=0
     pointer=str_len(text,pointer)
     
     fix=pointer//(columns+2)
     wrapped_text = wrap(text,columns)
-    if len(wrapped_text)==0: wrapped_text=""
-    elif fix==len(wrapped_text):
-        text=wrapped_text[fix-1]
-    else: text=wrapped_text[fix]
-    pointer-=(fix*columns)
+    
+    for x in wrapped_text:
+        if pointer-str_len(x)<1:
+            break
+        else: pos+=1
+        pointer-=str_len(x)
+
+    if pos>0: pointer+=1
+    
+    if len(wrapped_text)==0:
+        wrapped_text==""
+    else: text=wrapped_text[pos]
     if fix>0: text=black+"<"+reset+text
     if (len(wrapped_text)-fix)>1:
         text+=black+">"+reset
