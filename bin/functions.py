@@ -75,25 +75,15 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
 
-def newcls(arr,text,columns):
-    out_arr=[]
-    for x in arr:
-        lenght=str_len(x)
-        if lenght<columns:
-            out=x+" "*(columns-lenght)
-            out_arr.append(out)
-        else: out_arr.append(x)
-    lenght=str_len(text)
-    if lenght<columns: text=text+" "*(columns-lenght)
-    out_arr.append(" "*columns)
-    return out_arr, text, "\r\033[%d;%dH"%(1, 1)
-
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,fixcs=False):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
     out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
     if fixcs: cls = "\033c" # ANSII code to clear scr
-    else: out_arr,text,cls=newcls(out_arr,text,columns)
+    else:
+        cls="\r\033[%d;%dH"%(1, 1)
+        cls+=(" "*(columns+2))*(rows+2)
+        cls+="\r\033[%d;%dH"%(1, 1)  
     out_arr[line-1]=text 
     all_file="\n".join(out_arr).expandtabs(8)
     outb=position+black+" "+reset+status+banner
