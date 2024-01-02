@@ -19,7 +19,7 @@ def updscr_thr():
                 out=saveastxt+openfile
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns,True)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(openfile)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
@@ -57,7 +57,7 @@ def open_file(args):
                 for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
                 arr.append(""); filename=openfile
                 run=False;kill=True
-                thr.join(); break
+                thr.join();print("\033c", end=""); break
             except: pass
             
         #Ctrl + Q (cancel)
@@ -85,7 +85,7 @@ def open_file(args):
         #Ctrl + N
         elif key==b'\x0e':
             arr=[""]; filename=getcwd()+"\\NewFile"
-            break
+            print("\033c", end=""); break
         
         else: #Rest of keys
             if not wrtptr>columns-1:

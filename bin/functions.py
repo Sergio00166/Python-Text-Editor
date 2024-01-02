@@ -13,18 +13,10 @@ def wrap(text, columns):
     for x in text:
         if counter>=columns-1:
             lenght=str_len(x)
-            if lenght>1:
-                ext=buffer
-                buffer=x
-            else:
-                ext=buffer+x
-                buffer=""
-                
-            out.append(ext)
-            counter=0
-        else:
-            buffer+=x
-            counter+=str_len(x)
+            if lenght>1: ext=buffer; buffer=x
+            else: ext=buffer+x; buffer=""    
+            out.append(ext); counter=0
+        else: buffer+=x; counter+=str_len(x)
     if not buffer=="": out.append(buffer)
     return out
 
@@ -67,52 +59,50 @@ def fixlenline(text, pointer, oldptr):
     elif oldptr>pointer: return oldptr,oldptr
     else: return pointer,oldptr
 
-
 def fix_cursor_pos(text,pointer,columns,black,reset):
-    
     len_arr=[]; ptr=pointer; pos=0
-    pointer=str_len(text,pointer)
-    
+    pointer=str_len(text,pointer)   
     fix=pointer//(columns+2)
-    wrapped_text = wrap(text,columns)
-    
+    wrapped_text = wrap(text,columns)  
     for x in wrapped_text:
-        if pointer-str_len(x)<1:
-            break
+        if pointer-str_len(x)<1: break
         else: pos+=1
         pointer-=str_len(x)
-
     if pos>0: pointer+=1
-    
-    if len(wrapped_text)==0:
-        wrapped_text==""
+    if len(wrapped_text)==0: wrapped_text==""
     else: text=wrapped_text[pos]
     if fix>0: text=black+"<"+reset+text
-    if (len(wrapped_text)-fix)>1:
-        text+=black+">"+reset
-
+    if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
 
-def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
-    
+def newcls(arr,text,columns):
+    out_arr=[]
+    for x in arr:
+        lenght=str_len(x)
+        if lenght<columns:
+            out=x+" "*(columns-lenght)
+            out_arr.append(out)
+        else: out_arr.append(x)
+    lenght=str_len(text)
+    if lenght<columns: text=text+" "*(columns-lenght)
+    out_arr.append(" "*columns)
+    return out_arr, text, "\r\033[%d;%dH"%(1, 1)
+
+def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,fixcs=False):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
-    text=arr[line+offset-1]
-    pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
-    out_arr=arr[offset:rows+offset+1]
-    out_arr=fix_arr_line_len(out_arr, columns, black, reset)
-    out_arr[line-1]=text
+    text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
+    out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
+    if fixcs: cls = "\033c" # ANSII code to clear scr
+    else: out_arr,text,cls=newcls(out_arr,text,columns)
+    out_arr[line-1]=text 
     all_file="\n".join(out_arr).expandtabs(8)
     outb=position+black+" "+reset+status+banner
     outb=outb+black+"    "+reset
-    
-    cls="\033c"
-    
     if len(filename)+31>columns: #If filename overflows
         flfix=filename.split("\\")
         filename=flfix[len(flfix)-1]
         if len(filename)+31>columns: #If still not fiting
-            filename=filename[:5]+"*"+filename[len(filename)-4:]
-            
+            filename=filename[:5]+"*"+filename[len(filename)-4:]    
     print(cls+outb+black+" "*(columns-31-len(filename))+reset, end="")
     print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
     print(("\r\033[%d;%dH"%(line+1, pointer)), end="")

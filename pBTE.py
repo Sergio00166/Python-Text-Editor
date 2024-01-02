@@ -14,12 +14,9 @@ def updscr_thr():
                 if status_st==0: status=saved_df
                 max_len=len(text)
                 arr[line+offset-banoff]=text
-                if line>rows:
-                    offset=offset+(line-rows)
-                    line=rows
-            
+                if line>rows: offset=offset+(line-rows); line=rows   
                 update_scr(black,reset,status,banoff,offset,\
-                line,pointer,arr,banner,filename,rows,columns)
+                line,pointer,arr,banner,filename,rows,columns,True)
 
 from sys import path
 path.append(path[0]+"\\bin")
@@ -29,7 +26,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    #try:
+    try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -37,22 +34,18 @@ while True:
         arr[line+offset-banoff]=text
         rows,columns=get_size()
         update_scr(black,reset,status,banoff,offset,\
-        line,pointer,arr,banner,filename,rows,columns)
-        
+        line,pointer,arr,banner,filename,rows,columns)     
         run_thread=True #Start update Thread
         key=getch() #Read char
         run_thread=False #Stop update Thread
-       
         if key==b'\x11': #Ctrl + Q (EXIT)
             kill=True; update_thr.join()
-            print("\033c",end=""); break
-            
+            print("\033c",end=""); break    
         else:
             #Call keys functions (Yeah, its a lot of args and returned values)
             text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
             ch_T_SP = keys(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
-            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner)
-        
-    #except: pass
+            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner)    
+    except: pass

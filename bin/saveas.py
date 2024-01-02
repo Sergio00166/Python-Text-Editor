@@ -17,7 +17,7 @@ def updscr_thr():
                 out=saveastxt+filewrite
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns,True)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(filewrite)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
