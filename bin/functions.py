@@ -8,6 +8,7 @@ from wcwidth import wcwidth
 
 
 def wrap(text, columns):
+    text=text.expandtabs(8)
     out=[]; counter=-1; buffer=""
     for x in text:
         if counter>=columns-1:
