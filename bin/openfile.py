@@ -56,8 +56,8 @@ def open_file(args):
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
                 for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
                 arr.append(""); filename=openfile
-                run=False;kill=True
-                thr.join();print("\033c", end=""); break
+                run=False;kill=True;thr.join()
+                print("\033c", end=""); break
             except: pass
             
         #Ctrl + Q (cancel)
@@ -85,7 +85,9 @@ def open_file(args):
         #Ctrl + N
         elif key==b'\x0e':
             arr=[""]; filename=getcwd()+"\\NewFile"
-            print("\033c", end=""); break
+            print("\033c", end="")
+            run=False;kill=True
+            thr.join(); break
         
         else: #Rest of keys
             if not wrtptr>columns-1:
