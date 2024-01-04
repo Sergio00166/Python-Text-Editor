@@ -85,7 +85,7 @@ def save_as(args):
                 if not wrtptr>len(filewrite)+lenght-1:
                     wrtptr+=1
      
-        elif key==b'\r' or key==b'\n': pass
+        elif key==b'\r' or key==b'\n' or key==b'\t': pass
 
         elif key==b'\x10' or key==b'\x01': #Ctrl + P or Ctrl + A
             try:

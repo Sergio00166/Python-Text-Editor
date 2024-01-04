@@ -79,8 +79,7 @@ def open_file(args):
                 if not wrtptr>len(openfile)+lenght-1:
                     wrtptr+=1
 
-        #Block intro
-        elif key==b'\r' or key==b'\n': pass
+        elif key==b'\r' or key==b'\n' or key==b'\t': pass
         
         #Ctrl + N
         elif key==b'\x0e':
