@@ -32,7 +32,9 @@ def open_file(args):
     filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner=args
     openfile=chr(92).join(filename.split(chr(92))[:-1])+chr(92)
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
-    thr=Thread(target=updscr_thr); run=False; kill=False; thr.start() 
+    thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
+
+    complete=False; cmp_counter=0
     
     while True:
         out=saveastxt+openfile
@@ -48,9 +50,23 @@ def open_file(args):
         run=True #Start update screen thread
         key=getch() #Map keys
         run=False #Stop update screen thread
+
+        if key==b'\t':
+            try:
+                if not complete: content=glob(openfile+"*",recursive=False)
+                if len(content)>1: complete=True
+                if complete:
+                    openfile=content[cmp_counter]; cmp_counter+=1
+                    if cmp_counter>=len(content): cmp_counter=0
+                else: openfile=content[0]
+            except: pass
+
+        elif complete and key==b'\r':
+            wrtptr=len(openfile)+len(saveastxt)+2
+            complete=False
         
         #Ctrl + O (open)
-        if key==b'\x0f':
+        elif key==b'\x0f':
             try:
                 openfile=glob(openfile, recursive=False)[0]
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
@@ -67,8 +83,13 @@ def open_file(args):
     
         elif key==b'\x08': #Delete
             if not wrtptr==lenght:
-                p1=list(openfile); p1.pop(wrtptr-lenght-1)
-                openfile="".join(p1); wrtptr-=1
+                if complete:
+                    openfile=sep.join(openfile.split(sep)[:-1])+sep
+                    wrtptr-=len(openfile.split(sep)[:-1])-2
+                    complete=False
+                else: 
+                    p1=list(openfile); p1.pop(wrtptr-lenght-1)
+                    openfile="".join(p1); wrtptr-=1
 
         elif key==b'\xe0': #Arrows
             arrow=getch()
