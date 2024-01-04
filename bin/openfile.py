@@ -79,7 +79,9 @@ def open_file(args):
         #Ctrl + Q (cancel)
         elif key==b'\x11':
             run=False;kill=True
-            thr.join(); break
+            thr.join()
+            print("\033c", end="")
+            break
     
         elif key==b'\x08': #Delete
             if not wrtptr==lenght:
