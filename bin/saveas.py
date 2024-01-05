@@ -3,6 +3,7 @@
 from msvcrt import getch
 from functions import decode, update_scr, get_size
 from threading import Thread
+from os import sep
 from time import sleep as delay
 from glob import glob
 
@@ -50,6 +51,7 @@ def save_as(args):
 
         if key==b'\t':
             try:
+                if filewrite==sep or len(filewrite)==0: raise ValueError
                 if not complete: content=glob(filewrite+"*",recursive=False)
                 if len(content)>1: complete=True
                 if complete:

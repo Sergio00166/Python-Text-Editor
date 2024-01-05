@@ -4,7 +4,7 @@ from msvcrt import getch
 from functions import decode, update_scr, get_size
 from threading import Thread
 from glob import glob
-from os import getcwd
+from os import getcwd, sep
 from time import sleep as delay
 
 def updscr_thr():
@@ -53,6 +53,7 @@ def open_file(args):
 
         if key==b'\t':
             try:
+                if openfile==sep or len(openfile)==0: raise ValueError
                 if not complete: content=glob(openfile+"*",recursive=False)
                 if len(content)>1: complete=True
                 if complete:
