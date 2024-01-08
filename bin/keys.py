@@ -2,7 +2,7 @@
 
 from special_keys import special_keys
 from functions import *
-from functions1 import *
+from actions import *
 from saveas import save_as
 from openfile import open_file
 

@@ -19,7 +19,7 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
     
-    version="v0.4.1  "
+    version="v0.4.2  "
     
     rows,columns=get_size()
 

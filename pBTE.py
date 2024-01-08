@@ -26,7 +26,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    try:
+    #try:
         if len(arr)==0: arr.append("")
         if pointer==0: pointer=1
         if status_st==0: status=saved_df
@@ -50,4 +50,4 @@ while True:
             ch_T_SP = keys(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
             fixstr,fix,black,reset,saved_txt,ch_T_SP,banner)
-    except: pass
+    #except: pass
