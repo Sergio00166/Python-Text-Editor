@@ -19,7 +19,7 @@ def updscr_thr():
                 out=saveastxt+filewrite
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns,True)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(filewrite)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
@@ -51,13 +51,14 @@ def save_as(args):
 
         if key==b'\t':
             try:
-                if filewrite==sep or len(filewrite)==0: raise ValueError
-                if not complete: content=glob(filewrite+"*",recursive=False)
-                if len(content)>1: complete=True
-                if complete:
-                    filewrite=content[cmp_counter]; cmp_counter+=1
-                    if cmp_counter>=len(content): cmp_counter=0
-                else: filewrite=content[0]
+                if not (filewrite==sep or len(filewrite)==0):
+                    if not complete: content=glob(filewrite+"*",recursive=False)
+                    if len(content)>1: complete=True
+                    if cmp_counter>=len(content): cmp_counter = 0
+                    if complete:
+                        filewrite=content[cmp_counter]
+                        cmp_counter+=1
+                    else: filewrite=content[0]
             except: pass
 
         elif complete and key==b'\r':
@@ -93,7 +94,7 @@ def save_as(args):
             if not wrtptr==lenght:
                 if complete:
                     filewrite=sep.join(filewrite.split(sep)[:-1])+sep
-                    wrtptr-=len(filewrite.split(sep)[:-1])-2
+                    wrtptr-=len(filewrite[-1])-1
                     complete=False
                 else: 
                     p1=list(filewrite); p1.pop(wrtptr-lenght-1)

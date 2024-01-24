@@ -19,7 +19,7 @@ def updscr_thr():
                 out=saveastxt+openfile
                 rows,columns=get_size()
                 full=columns-len(out)+2
-                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns,True)
+                update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(openfile)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
@@ -30,7 +30,7 @@ def open_file(args):
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
     filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st=args
-    openfile=chr(92).join(filename.split(chr(92))[:-1])+chr(92)
+    openfile=sep.join(filename.split(sep)[:-1])+sep
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
 
@@ -53,13 +53,14 @@ def open_file(args):
 
         if key==b'\t':
             try:
-                if openfile==sep or len(openfile)==0: raise ValueError
-                if not complete: content=glob(openfile+"*",recursive=False)
-                if len(content)>1: complete=True
-                if complete:
-                    openfile=content[cmp_counter]; cmp_counter+=1
-                    if cmp_counter>=len(content): cmp_counter=0
-                else: openfile=content[0]
+                if not (openfile==sep or len(openfile)==0):
+                    if not complete: content=glob(openfile+"*",recursive=False)
+                    if len(content)>1: complete=True
+                    if cmp_counter>=len(content): cmp_counter = 0
+                    if complete:
+                        openfile=content[cmp_counter]
+                        cmp_counter+=1
+                    else: openfile=content[0]
             except: pass
 
         elif complete and key==b'\r':
@@ -89,7 +90,7 @@ def open_file(args):
             if not wrtptr==lenght:
                 if complete:
                     openfile=sep.join(openfile.split(sep)[:-1])+sep
-                    wrtptr-=len(openfile.split(sep)[:-1])-2
+                    wrtptr-=len(openfile[-1])-1
                     complete=False
                 else: 
                     p1=list(openfile); p1.pop(wrtptr-lenght-1)
@@ -104,10 +105,9 @@ def open_file(args):
                 if not wrtptr>len(openfile)+lenght-1:
                     wrtptr+=1
 
-        elif key==b'\r' or key==b'\n' or key==b'\t': pass
+        elif key==b'\r' or key==b'\n': pass
         
-        #Ctrl + N
-        elif key==b'\x0e':
+        elif key==b'\x0e': #Ctrl + N
             arr=[""]; filename=getcwd()+"\\NewFile"
             print("\033c", end="")
             run=False;kill=True

@@ -86,15 +86,11 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
 
-def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,fixcs=False):
+def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
     out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
-    if fixcs: cls = "\033c" # ANSII code to clear scr
-    else:
-        cls="\r\033[%d;%dH"%(1, 1)
-        cls+=(" "*(columns+2))*(rows+2)
-        cls+="\r\033[%d;%dH"%(1, 1)  
+    cls="\r\033[%d;%dH"%(1, 1)+(" "*(columns+2))*(rows+2)+"\r\033[%d;%dH"%(1, 1)
     out_arr[line-1]=text 
     all_file="\n".join(out_arr).expandtabs(8)
     outb=position+black+" "+reset+status+banner

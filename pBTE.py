@@ -24,7 +24,7 @@ def updscr_thr():
 
 # Add the folder to import from here
 from sys import path
-path.append(path[0]+"\\bin")
+path.append(path[0]+sep+"bin")
 # Import everything from init.py
 from init import *
 # Run the update Thread

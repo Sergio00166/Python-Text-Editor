@@ -4,9 +4,9 @@
 if not __name__=="__main__":
 
     from msvcrt import getch
-    from os import getcwd
+    from os import getcwd, sep
     from sys import argv, path
-    from os.path import exists
+    from os.path import exists, isabs
     from functions import get_size, update_scr
     from keys import keys
     from subprocess import check_output
@@ -39,8 +39,8 @@ if not __name__=="__main__":
     else: #Create an empty new file
         filename="NewFile"; arr=[""] 
 
-    if not ":\\" in filename: #Fix file path
-        filename=getcwd()+"\\"+filename 
+    if not isabs(filename): #Fix file path
+        filename=getcwd()+sep+filename 
 
     # Creates a list of banned chars code
     values=["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"]
