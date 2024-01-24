@@ -21,7 +21,8 @@ if not __name__=="__main__":
     version="v0.4.2  "
     
     rows,columns=get_size()
-
+    ch_T_SP=False
+    
     if sep==chr(92): #Windows
         from msvcrt import getch
     else: # Unix like OSes
@@ -69,13 +70,24 @@ if not __name__=="__main__":
 
     print("\033c", end=""); end=1; start=0
 
-    keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
-            "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
-            "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
-            "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
-            "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',
-            "end":b'O',"tab":b'\t'}
+    if sep==chr(92):
+        keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
+                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
+                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
+                "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',
+                "end":b'O',"tab":b'\t'}
+    else:
+        keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
+                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
+                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'A',"arr_down":b'B',
+                "arr_right":b'C',"arr_left":b'D',"supr":b'~',"start":b'H',
+                "end":b'F',"tab":b'\t'}
 
     
 
     
+
+    
+

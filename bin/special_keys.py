@@ -1,9 +1,12 @@
 #Code by Sergio1260
 
 from actions import up, down, right, left, supr
+from os import sep
 
 def special_keys(pointer,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st,getch,keys):
-    
+
+    if not sep==chr(92): special_key=getch()
+
     special_key=getch() #Read char
     
     if special_key==b'H': #Up
