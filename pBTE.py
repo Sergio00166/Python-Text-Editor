@@ -34,7 +34,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    try:
+    #try:
         # Fix for the pointer variable
         if pointer==0: pointer=1
         # If detected key to quickly (Ctrl + V)
@@ -50,12 +50,12 @@ while True:
         # Set time after reading key from keyboard and stopping the update Thread
         start=time(); key=getch(); end=time(); run_thread=False
         # If key is Ctrl + Q (quit) exit the program and clear the screen
-        if key==b'\x11':  kill=True; update_thr.join(); print("\033c",end=""); break    
+        if key==keys["ctrl+q"]:  kill=True; update_thr.join(); print("\033c",end=""); break    
         else:
             #Call keys functions (Yeah, its a lot of args and returned values)
             text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
-            ch_T_SP = keys(key,text,pointer,oldptr,line,offset,columns,\
+            ch_T_SP = keys_func(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
-            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner,getch)
-    except: pass
+            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner,getch,keys)
+    #except: pass

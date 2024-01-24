@@ -29,7 +29,7 @@ def open_file(args):
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
     filename,black,reset,rows,banoff,arr,columns,\
-    status,offset,line,banner,status_st,getch = args
+    status,offset,line,banner,status_st,getch,keys = args
     
     openfile=sep.join(filename.split(sep)[:-1])+sep
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
@@ -52,7 +52,7 @@ def open_file(args):
         key=getch() #Map keys
         run=False #Stop update screen thread
 
-        if key==b'\t':
+        if key==keys["tab"]:
             try:
                 if not (openfile==sep or len(openfile)==0):
                     if not complete: content=glob(openfile+"*",recursive=False)
@@ -64,12 +64,11 @@ def open_file(args):
                     else: openfile=content[0]
             except: pass
 
-        elif complete and key==b'\r':
+        elif complete and key==keys[b'return']:
             wrtptr=len(openfile)+len(saveastxt)+2
             complete=False
         
-        #Ctrl + O (open)
-        elif key==b'\x0f':
+        elif key==keys["ctrl+o"]:
             try:
                 openfile=glob(openfile, recursive=False)[0]
                 tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
@@ -80,14 +79,13 @@ def open_file(args):
                 status_st=False; break
             except: pass
             
-        #Ctrl + Q (cancel)
-        elif key==b'\x11':
+        elif key==keys["ctrl+q"]:
             run=False;kill=True
             thr.join()
             print("\033c", end="")
             break
     
-        elif key==b'\x08': #Delete
+        elif key==keys["delete"]:
             if not wrtptr==lenght:
                 if complete:
                     openfile=sep.join(openfile.split(sep)[:-1])+sep
@@ -97,18 +95,18 @@ def open_file(args):
                     p1=list(openfile); p1.pop(wrtptr-lenght-1)
                     openfile="".join(p1); wrtptr-=1
 
-        elif key==b'\xe0': #Arrows
+        elif key==keys["special"]:
             arrow=getch()
-            if arrow==b'K': #Left
+            if arrow==keys["arr_left"]:
                 if not wrtptr==lenght:
                     wrtptr-=1
-            elif arrow==b'M': #Right
+            elif arrow==keys["arr_right"]:
                 if not wrtptr>len(openfile)+lenght-1:
                     wrtptr+=1
 
-        elif key==b'\r' or key==b'\n': pass
+        elif key==keys["return"]: pass
         
-        elif key==b'\x0e': #Ctrl + N
+        elif key==keys["ctrl+n"]:
             arr=[""]; filename=getcwd()+sep+"NewFile"
             print("\033c", end="")
             run=False;kill=True
@@ -116,7 +114,7 @@ def open_file(args):
         
         else: #Rest of keys
             if not wrtptr>columns-1:
-                out=decode(key)
+                out=decode(key,getch)
                 p1=openfile[:wrtptr-lenght]
                 p2=openfile[wrtptr-lenght:]
                 openfile=p1+out+p2

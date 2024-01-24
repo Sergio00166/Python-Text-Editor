@@ -2,7 +2,7 @@
 
 from actions import up, down, right, left, supr
 
-def special_keys(pointer,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st):
+def special_keys(pointer,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st,getch,keys):
     
     special_key=getch() #Read char
     

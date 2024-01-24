@@ -19,15 +19,15 @@ def wrap(text, columns):
     if not buffer=="": out.append(buffer)
     return out
 
-def decode(key):
+def get_size():
+    size=get_terminal_size()
+    return size[1]-3,size[0]-2
+
+def decode(key,getch):
     for x in range(3):
         try: out=key.decode("UTF-8"); break
         except: key+=getch()
     return out
-
-def get_size():
-    size=get_terminal_size()
-    return size[1]-3,size[0]-2
 
 def fix_arr_line_len(arr, columns, black, reset):
     out=[]; fix=0//(columns+2)

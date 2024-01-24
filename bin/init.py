@@ -7,7 +7,7 @@ if not __name__=="__main__":
     from sys import argv, path
     from os.path import exists, isabs
     from functions import get_size, update_scr
-    from keys import keys
+    from keys_func import keys_func
     from subprocess import check_output
     path.append(path[0]+sep+"lib.zip")
     from colorama import init, Fore, Back, Style
@@ -25,13 +25,7 @@ if not __name__=="__main__":
     if sep==chr(92): #Windows
         from msvcrt import getch
     else: # Unix like OSes
-        import termios; from sys import stdin; import tty
-        def getch():
-            fd = stdin.fileno()
-            original_attributes = termios.tcgetattr(fd)
-            try: tty.setraw(fd); char = stdin.read(1)
-            finally: termios.tcsetattr(fd, termios.TCSADRAIN, original_attributes)
-            return char
+        from getch import getch
 
     ch_T_SP=False
     
@@ -68,6 +62,13 @@ if not __name__=="__main__":
     saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
     print("\033c", end=""); end=1; start=0
+
+    keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
+            "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
+            "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
+            "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
+            "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',
+            "end":b'O',"tab":b'\t'}
 
     
 

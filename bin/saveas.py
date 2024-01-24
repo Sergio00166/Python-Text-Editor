@@ -29,7 +29,7 @@ def save_as(args):
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
     filename,black,reset,rows,banoff,arr,columns,status,\
-    offset,line,banner,status_st,saved_txt,getch = args
+    offset,line,banner,status_st,saved_txt,getch,keys = args
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
     filewrite=filename; wrtptr=lenght+len(filewrite)
     thr=Thread(target=updscr_thr); run=False
@@ -50,7 +50,7 @@ def save_as(args):
         key=getch() #Map keys
         run=False #Stop update screen thread
 
-        if key==b'\t':
+        if key==keys["tab"]:
             try:
                 if not (filewrite==sep or len(filewrite)==0):
                     if not complete: content=glob(filewrite+"*",recursive=False)
@@ -62,18 +62,18 @@ def save_as(args):
                     else: filewrite=content[0]
             except: pass
 
-        elif complete and key==b'\r':
+        elif complete and key==keys["return"]:
             wrtptr=len(filewrite)+len(saveastxt)+2
             complete=False
         
         #Ctrl + A (confirms) or Ctrl + B backup
-        elif key==b'\x01' or key==b'\x02':
+        elif key==keys["ctrl+a"] or key==keys["ctrl+b"]:
             try:
-                if key==b'\x02' and filewrite==filename:
-                    filewrite+=".bak" #Ctrl+B and if same name    
+                if key==["ctrl+b"] and filewrite==filename:
+                    filewrite+=".bak"
                 out=open(filewrite,"w",encoding="UTF-8")
                 out.write("\n".join(arr)); out.close(); status_st=True
-                if key==b'\x01': #Ctr + A
+                if key==keys["ctrl+a"]:
                     status=saved_txt; tmp=open(filewrite, "r", encoding="UTF-8").readlines(); arr=[]
                     for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
                     arr.append(""); filename=filewrite
@@ -86,12 +86,11 @@ def save_as(args):
                     print("\033c", end=""); break
             except: pass
             
-        #Ctrl + Q (cancel)
-        elif key==b'\x11':
+        elif key==keys["ctrl+q"]:
             run=False;kill=True; thr.join()
             print("\033c", end=""); break
     
-        elif key==b'\x08': #Delete
+        elif key==keys["delete"]:
             if not wrtptr==lenght:
                 if complete:
                     filewrite=sep.join(filewrite.split(sep)[:-1])+sep
@@ -101,30 +100,30 @@ def save_as(args):
                     p1=list(filewrite); p1.pop(wrtptr-lenght-1)
                     filewrite="".join(p1); wrtptr-=1
 
-        elif key==b'\xe0': #Arrows
+        elif key==keys["special"]:
             arrow=getch()
-            if arrow==b'K': #Left
+            if arrow==keys["arr_left"]:
                 if not wrtptr==lenght:
                     wrtptr-=1
-            elif arrow==b'M': #Right
+            elif arrow==keys["arr_right"]:
                 if not wrtptr>len(filewrite)+lenght-1:
                     wrtptr+=1
      
-        elif key==b'\r' or key==b'\n': pass
+        elif key==keys["return"]: pass
 
-        elif key==b'\x10' or key==b'\x01': #Ctrl + P or Ctrl + A
+        elif key==keys["ctrl+p"] or key==keys["ctrl+a"]:
             try:
                 tmp=open(filewrite, "r", encoding="UTF-8").readlines()
                 status=saved_txt
-                if key==b'\x01': output=list(arr+tmp)
-                elif key==b'\x10': output=list(tmp+arr)
+                if key==keys["ctrl+a"]: output=list(arr+tmp)
+                elif key==keys["ctrl+p"]: output=list(tmp+arr)
                 out=open(filewrite, "w", encoding="UTF-8")
                 out.write("\n".join(output)); break
             except: pass
         
         else: #Rest of keys
             if not wrtptr>columns-1:
-                out=decode(key)
+                out=decode(key,getch)
                 p1=filewrite[:wrtptr-lenght]
                 p2=filewrite[wrtptr-lenght:]
                 filewrite=p1+out+p2
