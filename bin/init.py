@@ -10,18 +10,16 @@ if not __name__=="__main__":
     from keys_func import keys_func
     from subprocess import check_output
     path.append(path[0]+sep+"lib.zip")
-    from colorama import init, Fore, Back, Style
+    from colorama import init, Fore, Back, Style, deinit
     from threading import Thread
     from time import sleep as delay
     from time import time
     
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
-    black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM
+    black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
+    rows,columns=get_size(); ch_T_SP=False
     
     version="v0.4.2  "
-    
-    rows,columns=get_size()
-    ch_T_SP=False
     
     if sep==chr(92): #Windows
         from msvcrt import getch

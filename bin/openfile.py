@@ -64,7 +64,7 @@ def open_file(args):
                     else: openfile=content[0]
             except: pass
 
-        elif complete and key==keys[b'return']:
+        elif complete and key==keys['return']:
             wrtptr=len(openfile)+len(saveastxt)+2
             complete=False
         
