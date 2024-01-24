@@ -25,9 +25,15 @@ if not __name__=="__main__":
     if sep==chr(92): #Windows
         from msvcrt import getch
     else: # Unix like OSes
-        from getch import getch
-
-    ch_T_SP=False
+        import sys; import tty; import termios
+        def getch():
+            fd = sys.stdin.fileno()
+            old_settings = termios.tcgetattr(fd)
+            try:
+                tty.setraw(fd)
+                char = sys.stdin.read(1).encode('utf-8')
+            finally: termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            return char
     
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:
@@ -73,6 +79,3 @@ if not __name__=="__main__":
     
 
     
-
-    
-
