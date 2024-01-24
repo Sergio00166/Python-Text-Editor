@@ -3,7 +3,6 @@
            
 if not __name__=="__main__":
 
-    from msvcrt import getch
     from os import getcwd, sep
     from sys import argv, path
     from os.path import exists, isabs
@@ -22,6 +21,17 @@ if not __name__=="__main__":
     version="v0.4.2  "
     
     rows,columns=get_size()
+
+    if sep==chr(92): #Windows
+        from msvcrt import getch
+    else: # Unix like OSes
+        import termios; from sys import stdin; import tty
+        def getch():
+            fd = stdin.fileno()
+            original_attributes = termios.tcgetattr(fd)
+            try: tty.setraw(fd); char = stdin.read(1)
+            finally: termios.tcsetattr(fd, termios.TCSADRAIN, original_attributes)
+            return char
 
     ch_T_SP=False
     
@@ -58,6 +68,8 @@ if not __name__=="__main__":
     saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
 
     print("\033c", end=""); end=1; start=0
+
+    
 
     
 

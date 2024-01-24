@@ -1,7 +1,6 @@
 #Code by Sergio1260
 
-from msvcrt import getch
-from actions import *
+from actions import up, down, right, left, supr
 
 def special_keys(pointer,text,columns,offset,line,banoff,arr,rows,oldptr,max_len,status_st):
     

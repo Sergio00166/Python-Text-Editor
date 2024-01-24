@@ -1,6 +1,5 @@
 #Code by Sergio1260
 
-from msvcrt import getch
 from functions import decode, update_scr, get_size
 from threading import Thread
 from os import sep
@@ -29,10 +28,12 @@ def save_as(args):
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
-    filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt=args
-    saveastxt=" Save as: "; lenght=len(saveastxt)+2; filewrite=filename; wrtptr=lenght+len(filewrite)
-    thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
-    complete=False; cmp_counter=0
+    filename,black,reset,rows,banoff,arr,columns,status,\
+    offset,line,banner,status_st,saved_txt,getch = args
+    saveastxt=" Save as: "; lenght=len(saveastxt)+2
+    filewrite=filename; wrtptr=lenght+len(filewrite)
+    thr=Thread(target=updscr_thr); run=False
+    kill=False; thr.start(); complete=False; cmp_counter=0
     
     while True:
         out=saveastxt+filewrite

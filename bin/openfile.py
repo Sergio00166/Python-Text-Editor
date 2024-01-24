@@ -1,6 +1,5 @@
 #Code by Sergio1260
 
-from msvcrt import getch
 from functions import decode, update_scr, get_size
 from threading import Thread
 from glob import glob
@@ -29,7 +28,9 @@ def open_file(args):
     global saveastxt,openfile,rows,columns,black,reset,status,banoff,lenght
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
-    filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st=args
+    filename,black,reset,rows,banoff,arr,columns,\
+    status,offset,line,banner,status_st,getch = args
+    
     openfile=sep.join(filename.split(sep)[:-1])+sep
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()

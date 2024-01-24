@@ -24,6 +24,7 @@ def updscr_thr():
 
 # Add the folder to import from here
 from sys import path
+from os import sep
 path.append(path[0]+sep+"bin")
 # Import everything from init.py
 from init import *
@@ -56,5 +57,5 @@ while True:
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
             ch_T_SP = keys(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
-            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner)
+            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner,getch)
     except: pass
