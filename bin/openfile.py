@@ -109,7 +109,7 @@ def open_file(args):
         elif key==b'\r' or key==b'\n': pass
         
         elif key==b'\x0e': #Ctrl + N
-            arr=[""]; filename=getcwd()+"\\NewFile"
+            arr=[""]; filename=getcwd()+sep+"NewFile"
             print("\033c", end="")
             run=False;kill=True
             thr.join(); break

@@ -9,7 +9,7 @@ if not __name__=="__main__":
     from functions import get_size, update_scr
     from keys import keys
     from subprocess import check_output
-    path.append(path[0]+"\\lib.zip")
+    path.append(path[0]+sep+"lib.zip")
     from colorama import init, Fore, Back, Style
     from threading import Thread
     from time import sleep as delay

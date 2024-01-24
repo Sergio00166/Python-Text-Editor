@@ -1,8 +1,8 @@
 #Code by Sergio1260
 
-from os import get_terminal_size
+from os import get_terminal_size,sep
 from sys import path
-path.append(path[0]+"\\lib.zip")
+path.append(path[0]+sep+"lib.zip")
 from wcwidth import wcwidth
 
 
@@ -95,7 +95,7 @@ def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename
     outb=position+black+" "+reset+status+banner
     outb=outb+black+"    "+reset
     if len(filename)+31>columns: #If filename overflows
-        flfix=filename.split("\\")
+        flfix=filename.split(sep)
         filename=flfix[len(flfix)-1]
         if len(filename)+31>columns: #If still not fiting
             filename=filename[:5]+"*"+filename[len(filename)-4:]    
