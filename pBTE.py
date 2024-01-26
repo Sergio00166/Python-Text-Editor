@@ -41,7 +41,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    #try:
+    try:
         # Fix for the pointer variable
         if pointer==0: pointer=1
         # If detected key to quickly (Ctrl + V)
@@ -64,4 +64,4 @@ while True:
             ch_T_SP = keys_func(key,text,pointer,oldptr,line,offset,columns,\
             banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
             fixstr,fix,black,reset,saved_txt,ch_T_SP,banner,getch,keys)
-    #except: pass
+    except: pass
