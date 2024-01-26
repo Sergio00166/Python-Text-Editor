@@ -9,6 +9,11 @@ from glob import glob
 def updscr_thr():
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
+    if not sep==chr(92): #If OS is LINUX
+        #Get default values for TTY
+        import sys; import termios; import tty
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
     while not kill:
         delay(0.01)
         if run:
@@ -18,11 +23,16 @@ def updscr_thr():
                 out=saveastxt+filewrite
                 rows,columns=get_size()
                 full=columns-len(out)+2
+                print("\r\033c",end="") #Clear screen
+                # If OS is LINUX restore TTY to it default values
+                if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
                 update_scr(black,reset,status,banoff,offset,line,0,arr,banner,filename,rows,columns)
                 print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
                 print("\r"+" "*(len(filewrite)+lenght), end="")
                 print("\r"+black+out+(" "*full)+reset,end="")
                 print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
+                # If OS is LINUX set TTY to raw mode
+                if not sep==chr(92): tty.setraw(fd)
 
 def save_as(args):
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
