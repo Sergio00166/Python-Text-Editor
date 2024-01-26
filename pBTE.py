@@ -21,8 +21,10 @@ def updscr_thr():
             # Save old vars and get new values
             old_rows=rows; old_columns=columns
             rows,columns=get_size()
+            # Check if terminal is too small
+            if rows<4: print("\r\033cTerminal too small")
             # Compare the old values with the new ones
-            if not (old_rows==rows and old_columns==columns):
+            elif not (old_rows==rows and old_columns==columns):
                 # Set some values
                 max_len=len(text); arr[line+offset-banoff]=text
                 # Increment the offset if line is geeter than rows

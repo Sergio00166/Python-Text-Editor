@@ -19,7 +19,8 @@ def updscr_thr():
         if run:
             old_rows=rows; old_columns=columns
             rows,columns=get_size()
-            if not (old_rows==rows and old_columns==columns):
+            if rows<4: print("\r\033cTerminal too small")
+            elif not (old_rows==rows and old_columns==columns):
                 out=saveastxt+openfile
                 rows,columns=get_size()
                 full=columns-len(out)+2

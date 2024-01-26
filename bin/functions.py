@@ -98,7 +98,8 @@ def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename
         flfix=filename.split(sep)
         filename=flfix[len(flfix)-1]
         if len(filename)+31>columns: #If still not fiting
-            filename=filename[:5]+"*"+filename[len(filename)-4:]    
+            middle = len(filename) // 2
+            filename=filename[:middle-1]+'*'+filename[middle+2:]    
     print(cls+outb+black+" "*(columns-31-len(filename))+reset, end="")
     print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
     print(("\r\033[%d;%dH"%(line+1, pointer)), end="")
