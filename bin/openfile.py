@@ -40,7 +40,7 @@ def open_file(args):
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
     filename,black,reset,rows,banoff,arr,columns,\
-    status,offset,line,banner,status_st,getch,keys = args
+    status,offset,line,banner,status_st,getch,keys,pointer = args
     
     openfile=sep.join(filename.split(sep)[:-1])+sep
     saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
@@ -87,7 +87,9 @@ def open_file(args):
                 arr.append(""); filename=openfile
                 run=False;kill=True;thr.join()
                 print("\033c", end="")
-                status_st=False; break
+                status_st=False
+                pointer=offset=0
+                line=1; break
             except: pass
             
         elif key==keys["ctrl+q"]:
@@ -131,4 +133,4 @@ def open_file(args):
                 openfile=p1+out+p2
                 wrtptr+=1
 
-    return arr, filename, status_st
+    return arr,filename,status_st,pointer,line,offset

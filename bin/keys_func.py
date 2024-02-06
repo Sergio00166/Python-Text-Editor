@@ -61,16 +61,15 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
         status_st, filename, status = save_as(args)
 
     elif key==keys["ctrl+o"]:
-        args=(filename,black,reset,rows,banoff,arr,columns,\
-              status,offset,line,banner,status_st,getch,keys)
-        arr,filename,status_st = open_file(args)
-        line=1; offset=0; text=arr[0]
-
+        args = (filename,black,reset,rows,banoff,arr,columns,\
+        status,offset,line,banner,status_st,getch,keys,pointer)
+        arr,filename,status_st,pointer,line,offset = open_file(args)
+        text=arr[line+offset-1]
+        
     elif key==keys["ctrl+t"]:
         if ch_T_SP: ch_T_SP=False
         else: ch_T_SP=True
 
-        
     else: #All the other keys
         if not str(key)[4:6] in fixstr:
             out=decode(key,getch)
