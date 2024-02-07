@@ -1,15 +1,15 @@
 #Code by Sergio1260
 
 from functions import decode, get_size
-from upd_scr import update_scr
+from upd_scr import update_scr, updscr
 from threading import Thread
 from glob import glob
 from os import getcwd, sep
 from time import sleep as delay
 
 def updscr_thr():
-    global black,reset,status,banoff,offset,line,pointer,arr
-    global banner,filename,rows,columns,run_thread,kill,p_offset
+    global opentxt,openfile,rows,columns,black,reset,status,banoff,lenght
+    global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
         import sys; import termios; import tty
@@ -17,26 +17,26 @@ def updscr_thr():
         old_settings = termios.tcgetattr(fd)
     while not kill:
         delay(0.01)
-        if run_thread:
+        if run:
             arg=(black,reset,status,banoff,offset,line,\
-            pointer,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg)
+            wrtptr,arr,banner,filename,rows,columns)
+            rows,columns = updscr(arg,(opentxt,openfile,lenght))
 
 def open_file(args):
-    global saveastxt,openfile,rows,columns,black,reset,status,banoff,lenght
+    global opentxt,openfile,rows,columns,black,reset,status,banoff,lenght
     global wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
 
     filename,black,reset,rows,banoff,arr,columns,\
     status,offset,line,banner,status_st,getch,keys,pointer = args
     
     openfile=sep.join(filename.split(sep)[:-1])+sep
-    saveastxt=" Open: "; lenght=len(saveastxt)+2; wrtptr=lenght+len(openfile)
+    opentxt=" Open: "; lenght=len(opentxt)+2; wrtptr=lenght+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
 
     complete=False; cmp_counter=0
     
     while True:
-        out=saveastxt+openfile
+        out=opentxt+openfile
         rows,columns=get_size()
         full=columns-len(out)+2
         update_scr(black,reset,status,banoff,\
@@ -63,7 +63,7 @@ def open_file(args):
             except: pass
 
         elif complete and key==keys['return']:
-            wrtptr=len(openfile)+len(saveastxt)+2
+            wrtptr=len(openfile)+len(opentxt)+2
             complete=False
         
         elif key==keys["ctrl+o"]:

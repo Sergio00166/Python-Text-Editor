@@ -1,7 +1,7 @@
 #Code by Sergio1260
 
 from functions import decode, get_size
-from upd_scr import update_scr
+from upd_scr import update_scr, updscr
 from threading import Thread
 from os import sep
 from time import sleep as delay
@@ -17,10 +17,10 @@ def updscr_thr():
         old_settings = termios.tcgetattr(fd)
     while not kill:
         delay(0.01)
-        if run_thread:
+        if run:
             arg=(black,reset,status,banoff,offset,line,\
-            pointer,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg)
+            wrtptr,arr,banner,filename,rows,columns)
+            rows,columns = updscr(arg,(saveastxt,filewrite,lenght))
 
 def save_as(args):
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff

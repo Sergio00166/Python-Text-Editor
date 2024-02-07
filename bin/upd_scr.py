@@ -3,8 +3,6 @@
 from functions import fix_cursor_pos, get_size, fix_arr_line_len
 from os import sep
 
-if not sep==chr(92): import termios; import tty
-
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
@@ -25,7 +23,7 @@ def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename
     print(("\r\033[%d;%dH"%(line+1, pointer)), end="")
     
 
-def updscr(arg):
+def updscr(arg,external=None):
     black,reset,status,banoff,offset,line,\
     pointer,arr,banner,filename,rows,columns=arg
     # Save old vars and get new values
@@ -42,6 +40,16 @@ def updscr(arg):
         if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         # Call screen updater function
         update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns)
+        if not external==None:
+            out=external[0]+external[1]
+            lenght=external[2]
+            full=columns-len(out)+2
+            print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
+            print("\r"+" "*(len(out)+lenght), end="")
+            print("\r"+black+out+(" "*full)+reset,end="")
+            print("\r\033[%d;%dH"%(rows+banoff+2, pointer-1),end="")
         # If OS is LINUX set TTY to raw mode
         if not sep==chr(92): tty.setraw(fd)
     return rows,columns
+
+

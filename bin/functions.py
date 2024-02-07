@@ -84,3 +84,5 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     if fix>0: text=black+"<"+reset+text
     if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
+
+
