@@ -67,7 +67,7 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
             else: offset=p1-rows; line=rows+banoff
     except: pass
     text=arr[line+offset-banoff]
-    return line, offset, text
+    return line, offset
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
     len_arr=[]; ptr=pointer; pos=0
