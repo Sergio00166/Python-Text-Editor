@@ -84,22 +84,3 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     if fix>0: text=black+"<"+reset+text
     if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
-
-def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
-    position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
-    text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
-    out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
-    cls="\r\033[%d;%dH"%(1, 1)+(" "*(columns+2))*(rows+2)+"\r\033[%d;%dH"%(1, 1)
-    out_arr[line-1]=text 
-    all_file="\n".join(out_arr).expandtabs(8)
-    outb=position+black+" "+reset+status+banner
-    outb=outb+black+"    "+reset
-    if len(filename)+31>columns: #If filename overflows
-        flfix=filename.split(sep)
-        filename=flfix[len(flfix)-1]
-        if len(filename)+31>columns: #If still not fiting
-            middle = len(filename) // 2
-            filename=filename[:middle-1]+'*'+filename[middle+2:]    
-    print(cls+outb+black+" "*(columns-31-len(filename))+reset, end="")
-    print(black+filename+reset+black+" "+reset+"\n"+all_file, end="")
-    print(("\r\033[%d;%dH"%(line+1, pointer)), end="")
