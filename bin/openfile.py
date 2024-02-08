@@ -18,9 +18,10 @@ def updscr_thr():
     while not kill:
         delay(0.01)
         if run:
+            mode=(openfile,opentxt,wrtptr,lenght)
             arg=(black,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg,(opentxt,openfile,lenght))
+            rows,columns = updscr(arg,mode)
 
 def open_file(args):
     global opentxt,openfile,rows,columns,black,reset,status,banoff,lenght
@@ -36,8 +37,8 @@ def open_file(args):
     complete=False; cmp_counter=0
     
     while True:
-        out=opentxt+openfile
         rows,columns=get_size()
+        out=opentxt+openfile
         full=columns-len(out)+2
         update_scr(black,reset,status,banoff,\
         offset,line,0,arr,banner,filename,rows,columns)
@@ -63,7 +64,7 @@ def open_file(args):
             except: pass
 
         elif complete and key==keys['return']:
-            wrtptr=len(openfile)+len(opentxt)+2
+            wrtptr=len(openfile)+len(saveastxt)+2
             complete=False
         
         elif key==keys["ctrl+o"]:

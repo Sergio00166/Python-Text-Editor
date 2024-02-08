@@ -8,8 +8,9 @@ from time import sleep as delay
 from glob import glob
 
 def updscr_thr():
-    global black,reset,status,banoff,offset,line,pointer,arr
-    global banner,filename,rows,columns,run_thread,kill,p_offset
+    global saveastxt,filewrite,rows,columns,black,reset,status,banoff
+    global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns,run,kill
+    
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
         import sys; import termios; import tty
@@ -18,9 +19,10 @@ def updscr_thr():
     while not kill:
         delay(0.01)
         if run:
+            mode=(filewrite,saveastxt,wrtptr,lenght)
             arg=(black,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg,(saveastxt,filewrite,lenght))
+            rows,columns = updscr(arg,mode)
 
 def save_as(args):
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
