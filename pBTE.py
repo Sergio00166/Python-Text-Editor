@@ -9,7 +9,7 @@ from init import *
 
 def updscr_thr():
     global black,reset,status,banoff,offset,line,pointer,arr
-    global banner,filename,rows,columns,run_thread,kill,p_offset
+    global banner,filename,rows,columns,run_thread,text,kill,p_offset
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
         import sys; import termios; import tty
@@ -18,9 +18,24 @@ def updscr_thr():
     while not kill:
         delay(0.01)
         if run_thread:
-            arg=(black,reset,status,banoff,offset,line,\
-            pointer,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg)
+            # Save old vars and get new values
+            old_rows=rows; old_columns=columns
+            rows,columns=get_size()
+            # Check if terminal is too small
+            if rows<4: print("\r\033cTerminal too small")
+            # Compare the old values with the new ones
+            elif not (old_rows==rows and old_columns==columns):
+                # Set some values
+                max_len=len(text); arr[line+offset-banoff]=text
+                # Increment the offset if line is geeter than rows
+                if line>rows: offset=offset+(line-rows); line=rows	
+                # Call screen updater function
+                print("\r\033c",end="") #Clear screen
+                # If OS is LINUX restore TTY to it default values
+                if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+                update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns)
+                # If OS is LINUX set TTY to raw mode
+                if not sep==chr(92): tty.setraw(fd)
 
 # Run the update Thread
 update_thr=Thread(target=updscr_thr)

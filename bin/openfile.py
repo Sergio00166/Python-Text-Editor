@@ -66,7 +66,7 @@ def open_file(args):
             except: pass
 
         elif complete and key==keys['return']:
-            wrtptr=len(openfile)+len(saveastxt)+2
+            wrtptr=len(openfile)+len(opentxt)+2
             complete=False
         
         elif key==keys["ctrl+o"]:
