@@ -43,12 +43,17 @@ def updscr(arg,mode=None):
         # Call screen updater function
         update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns)
         if not mode==None:
-            modefile,modetxt,wrtptr,lenght = mode
-            out=modetxt+modefile; full=columns-len(out)+2
+            filetext,opentxt,wrtptr,lenght = mode
+            out=opentxt+filetext
+            full=columns-len(out)+2
+            fix=len(out)//(columns+2)
+            update_scr(black,reset,status,banoff,\
+            offset,line,0,arr,banner,filename,rows,columns)
             print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
-            print("\r"+" "*(len(modefile)+lenght), end="")
+            print("\r"+black+" "*(columns+2)+reset, end="")
+            print("\r\033[%d;%dH"%(rows+banoff+2-fix, 1),end="")
             print("\r"+black+out+(" "*full)+reset,end="")
-            print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
+            print("\r\033[%d;%dH"%(rows+banoff+2-fix, wrtptr-1),end="")
         # If OS is LINUX set TTY to raw mode
         if not sep==chr(92): tty.setraw(fd)
     return rows,columns

@@ -36,15 +36,17 @@ def save_as(args):
     kill=False; thr.start(); complete=False; cmp_counter=0
     
     while True:
-        out=saveastxt+filewrite
         rows,columns=get_size()
+        out=saveastxt+filewrite
         full=columns-len(out)+2
+        fix=len(out)//(columns+2)
         update_scr(black,reset,status,banoff,\
         offset,line,0,arr,banner,filename,rows,columns)
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
-        print("\r"+" "*(len(filewrite)+lenght), end="")
+        print("\r"+black+" "*(columns+2)+reset, end="")
+        print("\r\033[%d;%dH"%(rows+banoff+2-fix, 1),end="")
         print("\r"+black+out+(" "*full)+reset,end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
+        print("\r\033[%d;%dH"%(rows+banoff+2-fix, wrtptr-1),end="")
         
         run=True #Start update screen thread
         key=getch() #Map keys
@@ -122,11 +124,10 @@ def save_as(args):
             except: pass
         
         else: #Rest of keys
-            if not wrtptr>columns-1:
-                out=decode(key,getch)
-                p1=filewrite[:wrtptr-lenght]
-                p2=filewrite[wrtptr-lenght:]
-                filewrite=p1+out+p2
-                wrtptr+=1
+            out=decode(key,getch)
+            p1=filewrite[:wrtptr-lenght]
+            p2=filewrite[wrtptr-lenght:]
+            filewrite=p1+out+p2
+            wrtptr+=1
 
     return status_st, filename, status

@@ -40,12 +40,14 @@ def open_file(args):
         rows,columns=get_size()
         out=opentxt+openfile
         full=columns-len(out)+2
+        fix=len(out)//(columns+2)
         update_scr(black,reset,status,banoff,\
         offset,line,0,arr,banner,filename,rows,columns)
         print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
-        print("\r"+" "*(len(openfile)+lenght), end="")
+        print("\r"+black+" "*(columns+2)+reset, end="")
+        print("\r\033[%d;%dH"%(rows+banoff+2-fix, 1),end="")
         print("\r"+black+out+(" "*full)+reset,end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2, wrtptr-1),end="")
+        print("\r\033[%d;%dH"%(rows+banoff+2-fix, wrtptr-1),end="")
 
         run=True #Start update screen thread
         key=getch() #Map keys
@@ -114,11 +116,10 @@ def open_file(args):
             thr.join(); break
         
         else: #Rest of keys
-            if not wrtptr>columns-1:
-                out=decode(key,getch)
-                p1=openfile[:wrtptr-lenght]
-                p2=openfile[wrtptr-lenght:]
-                openfile=p1+out+p2
-                wrtptr+=1
+            out=decode(key,getch)
+            p1=openfile[:wrtptr-lenght]
+            p2=openfile[wrtptr-lenght:]
+            openfile=p1+out+p2
+            wrtptr+=1
 
     return arr,filename,status_st,pointer,line,offset
