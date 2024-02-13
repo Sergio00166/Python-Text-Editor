@@ -40,12 +40,14 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
         elif special_key==keys["end"]:
             pointer=len(text)+1; oldptr=pointer
             
-        elif special_key==keys["repag"] and not offset-rows<0:
-            offset-=rows; text=arr[line+offset-1]
+        elif special_key==keys["repag"]:
+            if not offset-rows<0:
+                offset-=rows; text=arr[line+offset-1]
             if not sep==chr(92): getch()
             
-        elif special_key==keys["avpag"] and not pointer+offset+rows>len(arr):
-            offset+=rows; text=arr[line+offset-1]
+        elif special_key==keys["avpag"] and:
+            if not pointer+offset+rows>len(arr):
+                offset+=rows; text=arr[line+offset-1]
             if not sep==chr(92): getch()
 
         
