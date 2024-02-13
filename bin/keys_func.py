@@ -12,23 +12,58 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
     if key==keys["special"]:
         if not sep==chr(92): special_key=getch()
         special_key=getch() #Read char
-        if special_key==keys["arr_up"]: pointer,oldptr,text,offset,line = up(line,offset,arr,text,banoff,oldptr,rows,pointer)
-        elif special_key==keys["arr_down"]: pointer,oldptr,text,offset,line = down(line,offset,arr,text,banoff,oldptr,rows,pointer)
-        elif special_key==keys["arr_right"]: text,pointer,oldptr,line,offset = right(pointer,text,columns,offset,line,banoff,arr,rows,oldptr)               
-        elif special_key==keys["arr_left"]: pointer,oldptr,text,line,offset = left(pointer,oldptr,line,offset,banoff,text,arr)           
-        elif special_key==keys["supr"]: text,arr = supr(pointer,max_len,text,offset,banoff,arr,line); status_st=False
-        elif special_key==keys["start"]: pointer=1; p_offset=0; oldptr=pointer       
-        elif special_key==keys["end"]: pointer=len(text)+1; oldptr=pointer
-        elif special_key==keys["repag"] and not offset-rows<0: offset-=rows; text=arr[line+offset-1]
-        elif special_key==keys["avpag"] and not pointer+offset+rows>len(arr): offset+=rows; text=arr[line+offset-1]
         
-    elif key==keys["delete"]: line,offset,text,arr,pointer = backspace(pointer,text,offset,line,arr,banoff); status_st=False
+        if special_key==keys["arr_up"]:
+            pointer, oldptr, text, offset, line =\
+            up(line,offset,arr,text,banoff,oldptr,rows,pointer)
+            
+        elif special_key==keys["arr_down"]:
+            pointer, oldptr, text, offset, line =\
+            down(line,offset,arr,text,banoff,oldptr,rows,pointer)
+            
+        elif special_key==keys["arr_right"]:
+            text, pointer, oldptr, line, offset =\
+            right(pointer,text,columns,offset,line,banoff,arr,rows,oldptr)
+            
+        elif special_key==keys["arr_left"]:
+            pointer, oldptr, text, line, offset =\
+            left(pointer,oldptr,line,offset,banoff,text,arr)
+            
+        elif special_key==keys["supr"]:
+            text,arr = supr(pointer,max_len,text,offset,banoff,arr,line)
+            if not sep==chr(92): getch()
+            status_st=False
+            
+        elif special_key==keys["start"]:
+            pointer=1; p_offset=0; oldptr=pointer
+            
+        elif special_key==keys["end"]:
+            pointer=len(text)+1; oldptr=pointer
+            
+        elif special_key==keys["repag"] and not offset-rows<0:
+            offset-=rows; text=arr[line+offset-1]
+            if not sep==chr(92): getch()
+            
+        elif special_key==keys["avpag"] and not pointer+offset+rows>len(arr):
+            offset+=rows; text=arr[line+offset-1]
+            if not sep==chr(92): getch()
 
-    elif key==keys["return"]: line,offset,arr,pointer,text = newline(text,pointer,offset,banoff,line,arr,rows); status_st=False
+        
+    elif key==keys["delete"]:
+         line,offset, text, arr, pointer =\
+         backspace(pointer,text,offset,line,arr,banoff)
+         status_st=False
+
+    elif key==keys["return"]:
+        line,offset,arr,pointer,text =\
+        newline(text,pointer,offset,banoff,line,arr,rows)
+        status_st=False
 
     elif key==keys["ctrl+s"]:
-        out=open(filename,"w",encoding="UTF-8"); out.write("\n".join(arr)); out.close()
-        status=saved_txt; status_st=True; out=open(filename,"r",encoding="UTF-8")
+        out=open(filename,"w",encoding="UTF-8")
+        out.write("\n".join(arr)); out.close()
+        status=saved_txt; status_st=True
+        out=open(filename,"r",encoding="UTF-8")
         
     elif key==keys["ctrl+x"]:
         if line+offset>len(arr)-1:
@@ -39,7 +74,8 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             text=arr[line+offset-banoff]
         status_st=False
         
-    elif key==keys["ctrl+c"]: copy_buffer=arr[line+offset-banoff][pointer-1:]
+    elif key==keys["ctrl+c"]:
+        copy_buffer=arr[line+offset-banoff][pointer-1:]
         
     elif key==keys["ctrl+p"]:
         if not len(copy_buffer)==0:
@@ -48,7 +84,9 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             out=fix1+copy_buffer+fix2; arr=p1+[out]+p2; text=out
             pointer=len(fix1+copy_buffer); status_st=False
 
-    elif key==keys["ctrl+g"]: line,offset,text = goto(rows,banoff,line,arr,offset,black,reset)
+    elif key==keys["ctrl+g"]:
+        line, offset ,text =\
+        goto(rows,banoff,line,arr,offset,black,reset)
 
     elif key==keys["ctrl+a"]:
         args=(filename,black,reset,rows,banoff,arr,columns,\
@@ -70,4 +108,3 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             text=(p1+out+p2); pointer+=1; status_st=False
 
     return text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP
-
