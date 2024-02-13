@@ -45,7 +45,7 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
                 offset-=rows; text=arr[line+offset-1]
             if not sep==chr(92): getch()
             
-        elif special_key==keys["avpag"] and:
+        elif special_key==keys["avpag"]:
             if not pointer+offset+rows>len(arr):
                 offset+=rows; text=arr[line+offset-1]
             if not sep==chr(92): getch()
