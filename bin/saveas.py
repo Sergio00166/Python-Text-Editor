@@ -95,14 +95,18 @@ def save_as(args):
         elif key==keys["delete"]:
             if not wrtptr==lenght:
                 if complete:
-                    filewrite=sep.join(filewrite.split(sep)[:-1])+sep
+                    filewrite=filewrite.split(sep)[:-1]
+                    filewrite=sep.join(filewrite)+sep
                     wrtptr-=len(filewrite[-1])-1
                     complete=False
                 else: 
-                    p1=list(filewrite); p1.pop(wrtptr-lenght-1)
-                    filewrite="".join(p1); wrtptr-=1
+                    p1=list(filewrite)
+                    p1.pop(wrtptr-lenght-1)
+                    filewrite="".join(p1)
+                    wrtptr-=1
 
         elif key==keys["special"]:
+            if not sep==chr(92): special_key=getch()
             arrow=getch()
             if arrow==keys["arr_left"]:
                 if not wrtptr==lenght:
@@ -110,6 +114,16 @@ def save_as(args):
             elif arrow==keys["arr_right"]:
                 if not wrtptr>len(filewrite)+lenght-1:
                     wrtptr+=1
+            elif arrow==keys["supr"]:
+                if not wrtptr==lenght:
+                    if complete:
+                        filewrite=sep.join(filewrite.split(sep)[:-1])+sep
+                        wrtptr-=len(filewrite[-1])-1
+                        complete=False
+                    else: 
+                        p1=list(filewrite)
+                        p1.pop(wrtptr-lenght)
+                        filewrite="".join(p1)       
      
         elif key==keys["return"]: pass
 

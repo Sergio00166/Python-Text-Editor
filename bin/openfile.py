@@ -91,14 +91,18 @@ def open_file(args):
         elif key==keys["delete"]:
             if not wrtptr==lenght:
                 if complete:
-                    openfile=sep.join(openfile.split(sep)[:-1])+sep
+                    openfile=openfile.split(sep)[:-1]
+                    openfile=sep.join(openfile)+sep
                     wrtptr-=len(openfile[-1])-1
                     complete=False
                 else: 
-                    p1=list(openfile); p1.pop(wrtptr-lenght-1)
-                    openfile="".join(p1); wrtptr-=1
+                    p1=list(openfile)
+                    p1.pop(wrtptr-lenght-1)
+                    openfile="".join(p1)
+                    wrtptr-=1
 
         elif key==keys["special"]:
+            if not sep==chr(92): special_key=getch()
             arrow=getch()
             if arrow==keys["arr_left"]:
                 if not wrtptr==lenght:
@@ -106,7 +110,18 @@ def open_file(args):
             elif arrow==keys["arr_right"]:
                 if not wrtptr>len(openfile)+lenght-1:
                     wrtptr+=1
-
+            elif arrow==keys["supr"]:
+                if not wrtptr==lenght:
+                    if complete:
+                        openfile=openfile.split(sep)[:-1]
+                        openfile=sep.join(openfile)+sep
+                        wrtptr-=len(openfile[-1])-1
+                        complete=False
+                    else: 
+                        p1=list(openfile)
+                        p1.pop(wrtptr-lenght)
+                        openfile="".join(p1)
+             
         elif key==keys["return"]: pass
         
         elif key==keys["ctrl+n"]:
@@ -121,5 +136,6 @@ def open_file(args):
             p2=openfile[wrtptr-lenght:]
             openfile=p1+out+p2
             wrtptr+=1
+            complete=False
 
     return arr,filename,status_st,pointer,line,offset
