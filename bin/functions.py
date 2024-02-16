@@ -85,3 +85,21 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
     if (len(wrapped_text)-fix)>1: text+=black+">"+reset
     return pointer+1, text
 
+def fixfilename(filename, columns):
+    if len(filename)+31>columns: #If filename overflows
+        flfix=filename.split(sep)
+        filename=flfix[len(flfix)-1]
+        if len(filename)+31>columns: #If still not fiting
+            middle = len(filename) // 2
+            filename=filename[:middle-1]+'*'+filename[middle+2:]
+    return filename
+
+def arr2str(arr,columns,rows,line,offset,text,black,reset):
+    arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
+    arr[line-1]=text; out_arr=[]
+    for x in arr:
+        ln=str_len(x)
+        if ln<columns:
+            x=x+(" "*(columns-ln+2))
+        out_arr.append(x)
+    return "\n".join(out_arr).expandtabs(8)

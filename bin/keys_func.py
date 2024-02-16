@@ -110,3 +110,4 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             text=(p1+out+p2); pointer+=1; status_st=False
 
     return text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP
+
