@@ -1,24 +1,22 @@
 # Code by Sergio1260
 
-from functions import fix_cursor_pos, get_size, fixfilename, arr2str
+from functions import fix_cursor_pos, get_size, fixfilename, arr2str, fix_arr_line_len, str_len
 from os import sep
 
 if not sep==chr(92): import termios; import tty
 
 
-def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):  
-    position = black + "  " + str(line + offset - banoff) + " " * (4 - len(str(line + offset - banoff)))
-    text = arr[line + offset - 1];  cls = "\r\033[%d;%dH"%(1, 1)
-    pointer, text = fix_cursor_pos(text, pointer, columns, black, reset)
+def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns):
+    position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
+    all_file,pointer = arr2str(arr,columns,rows,line,offset,black,reset,pointer)
+    cls="\r\033[%d;%dH"%(1, 1); gpos="\r\033[%d;%dH"%(line+1, pointer)
     filename = fixfilename(filename, columns)
-    all_file = arr2str(arr, columns, rows, line, offset, text, black, reset)
-    outb = position + black + " " + reset + status + banner + black + "    " + reset
-    banner = outb+black+" "*(columns-31-len(filename))+reset
-    banner += black + filename + reset + black + " " + reset + "\n"
-    reset_pos = "\r\033[%d;%dH"%(line+1, pointer)
-    print(cls+banner+all_file+reset_pos, end="", flush=True)
+    banner=position+black+" "+reset+status+banner+black+"    "
+    banner+=" "*(columns-31-len(filename))+filename+" "+reset+"\n"
     
-
+    print(cls+banner+all_file+gpos, end="", flush=True)
+    
+    
 def updscr(arg,mode=None):
     black,reset,status,banoff,offset,line,\
     pointer,arr,banner,filename,rows,columns=arg

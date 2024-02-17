@@ -94,12 +94,17 @@ def fixfilename(filename, columns):
             filename=filename[:middle-1]+'*'+filename[middle+2:]
     return filename
 
-def arr2str(arr,columns,rows,line,offset,text,black,reset):
-    arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
+def arr2str(arr,columns,rows,line,offset,black,reset,pointer):
+    text=arr[line+offset-1]; uptr=pointer
+    pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
+    arr=arr[offset : rows+offset+1]
+    arr = fix_arr_line_len(arr,columns,black,reset)
     arr[line-1]=text; out_arr=[]
     for x in arr:
         ln=str_len(x)
-        if ln<columns:
-            x=x+(" "*(columns-ln+2))
+        if uptr>columns and arr.index(x)==line-1: ln-=12
+        if ln<columns: x=x+(" "*(columns-ln+2))
         out_arr.append(x)
-    return "\n".join(out_arr).expandtabs(8)
+        
+    return "\n".join(out_arr).expandtabs(8), pointer
+
