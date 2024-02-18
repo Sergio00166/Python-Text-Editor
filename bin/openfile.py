@@ -1,7 +1,7 @@
 #Code by Sergio1260
 
 from functions import decode, get_size
-from upd_scr import update_scr, updscr
+from upd_scr import menu_updsrc
 from threading import Thread
 from glob import glob
 from os import getcwd, sep
@@ -21,7 +21,7 @@ def updscr_thr():
             mode=(openfile,opentxt,wrtptr,lenght)
             arg=(black,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns)
-            rows,columns = updscr(arg,mode)
+            rows,columns = menu_updsrc(arg,mode)
 
 def open_file(args):
     global opentxt,openfile,rows,columns,black,reset,status,banoff,lenght
@@ -37,17 +37,10 @@ def open_file(args):
     complete=False; cmp_counter=0
     
     while True:
-        rows,columns=get_size()
-        out=opentxt+openfile
-        full=columns-len(out)+2
-        fix=len(out)//(columns+2)
-        update_scr(black,reset,status,banoff,\
-        offset,line,0,arr,banner,filename,rows,columns)
-        print("\r\033[%d;%dH"%(rows+banoff+2, 1),end="")
-        print("\r"+black+" "*(columns+2)+reset, end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2-fix, 1),end="")
-        print("\r"+black+out+(" "*full)+reset,end="")
-        print("\r\033[%d;%dH"%(rows+banoff+2-fix, wrtptr-1),end="")
+        mode=(openfile,opentxt,wrtptr,lenght)
+        arg=(black,reset,status,banoff,offset,line,\
+        wrtptr,arr,banner,filename,rows,columns)
+        rows,columns = menu_updsrc(arg,mode,True)
 
         run=True #Start update screen thread
         key=getch() #Map keys

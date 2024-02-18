@@ -7,7 +7,7 @@ if not __name__=="__main__":
     from sys import argv, path
     from os.path import exists, isabs
     from functions import get_size
-    from upd_scr import update_scr, updscr
+    from upd_scr import update_scr
     from keys_func import keys_func
     from subprocess import check_output
     path.append(path[0]+sep+"lib.zip")
@@ -20,7 +20,7 @@ if not __name__=="__main__":
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
     rows,columns=get_size(); ch_T_SP=False
     
-    version="v0.4.9  "
+    version="v0.4.9.5"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
