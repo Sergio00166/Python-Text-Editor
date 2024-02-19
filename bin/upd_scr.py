@@ -9,14 +9,15 @@ if not sep==chr(92): import termios; import tty
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,rrw=False):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
     all_file,pointer = arr2str(arr,columns,rows,line,offset,black,reset,pointer)
+    if len(arr)<columns: all_file+=" "*(columns+2)
     cls="\r\033[%d;%dH"%(1, 1); gpos="\r\033[%d;%dH"%(line+1, pointer)
     filename = fixfilename(filename, columns)
     banner=position+black+" "+reset+status+banner+black+"    "
     banner+=" "*(columns-31-len(filename))+filename+" "+reset+"\n"
     if rrw: return cls+banner+all_file+gpos
     else: print(cls+banner+all_file+gpos, end="", flush=True)
-    
-    
+
+
 def menu_updsrc(arg,mode=None,updo=False):
     black,reset,status,banoff,offset,line,\
     pointer,arr,banner,filename,rows,columns=arg
