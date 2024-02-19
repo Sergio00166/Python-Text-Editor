@@ -33,20 +33,32 @@ def menu_updsrc(arg,mode=None,updo=False):
         # If OS is LINUX restore TTY to it default values
         if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         if not mode==None or updo:
+            # Set vars
             filetext,opentxt,wrtptr,lenght = mode
             out=opentxt+filetext
             full=columns-len(out)+2
             fix=len(out)//(columns+2)
+            # Get raw screen updated
             menu = update_scr(black,reset,status,banoff,\
             offset,line,0,arr,banner,filename,rows,columns,True)
+            # Add menu to it
             menu+="\r\033[%d;%dH"%(rows+banoff+2, 1)
             menu+="\r"+black+" "*(columns+2)+reset
             menu+="\r\033[%d;%dH"%(rows+banoff+2-fix, 1)
             menu+="\r"+black+out+(" "*full)+reset
-            fix_wrtptr = (columns+2)*fix
-            if fix_wrtptr>(wrtptr-1): fix_wrtptr=0
+            # Calculate pointer y displacement
             fix_lip = rows+banoff+2-fix+((wrtptr-1)//(columns+2))
+            # Calculate pointer x displacement
+            fix_wrtptr = (columns+2)*fix
+            # Some pointer x displacement fix
+            while True:
+                if wrtptr-1-fix_wrtptr<0:
+                    fix-=1
+                    fix_wrtptr=(columns+2)*fix
+                else: break
+            # Add scape secuence to move cursor
             menu+="\r\033[%d;%dH"%(fix_lip, wrtptr-1-fix_wrtptr)
+            # Print the whole screen
             print(menu, end="")
         # If OS is LINUX set TTY to raw mode
         if not sep==chr(92): tty.setraw(fd)

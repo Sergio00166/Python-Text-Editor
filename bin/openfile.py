@@ -114,6 +114,12 @@ def open_file(args):
                         p1=list(openfile)
                         p1.pop(wrtptr-lenght)
                         openfile="".join(p1)
+        
+            elif arrow==keys["start"]:
+                wrtptr=lenght
+                
+            elif arrow==keys["end"]:
+                wrtptr=len(openfile)+lenght
              
         elif key==keys["return"]: pass
         
