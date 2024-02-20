@@ -1,9 +1,6 @@
 # Code by Sergio1260
 
-from functions import fix_cursor_pos, get_size, fixfilename, fix_arr_line_len, scr_arr2str
-from os import sep
-
-if not sep==chr(92): import termios; import tty
+from functions import get_size, fixfilename, scr_arr2str
 
 
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,rrw=False):
@@ -34,8 +31,6 @@ def menu_updsrc(arg,mode=None,updo=False):
         # Increment the offset if line is geeter than rows
         if line>rows: offset=offset+(line-rows); line=rows
         if not updo: print("\r\033c",end="")
-        # If OS is LINUX restore TTY to it default values
-        if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
         if not mode==None or updo:
             # Set vars
             filetext,opentxt,wrtptr,lenght = mode
@@ -58,13 +53,11 @@ def menu_updsrc(arg,mode=None,updo=False):
             # Some pointer x displacement fix
             while True:
                 if wrtptr-1-fix_wrtptr<0:
-                    fix-=1
-                    fix_wrtptr=(columns+2)*fix
+                    fix-=1; fix_wrtptr=(columns+2)*fix
                 else: break
             # Add scape secuence to move cursor
             menu+="\r\033[%d;%dH"%(fix_lip, wrtptr-1-fix_wrtptr)
             # Print the whole screen
             print(menu, end="")
-        # If OS is LINUX set TTY to raw mode
-        if not sep==chr(92): tty.setraw(fd)
+            
     return rows,columns
