@@ -1,6 +1,6 @@
 # Code by Sergio1260
 
-from functions import fix_cursor_pos, get_size, fixfilename, fix_arr_line_len
+from functions import fix_cursor_pos, get_size, fixfilename, fix_arr_line_len, scr_arr2str
 from os import sep
 
 if not sep==chr(92): import termios; import tty
@@ -8,20 +8,19 @@ if not sep==chr(92): import termios; import tty
 
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,rrw=False):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
-    text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
-    out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
-    cls="\r\033[%d;%dH"%(1, 1)+(" "*(columns+2))*(rows+2)+"\r\033[%d;%dH"%(1, 1)
-    out_arr[line-1]=text 
-    all_file="\n".join(out_arr).expandtabs(8)
-    outb=position+black+" "+reset+status+banner
-    outb=outb+black+"    "+reset
-    filename = fixfilename(filename, columns)   
+    cls="\r\033[%d;%dH"%(1, 1)
+    outb=position+black+" "+reset+status+banner+black+"    "+reset
+    filename = fixfilename(filename, columns)
+    all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows)
     menu=cls+outb+black+" "*(columns-31-len(filename))
     menu+=filename+" "+reset+"\n"+all_file
-    menu+=("\r\033[%d;%dH"%(line+1, pointer))
-    if rrw: return menu
-    else: print(menu, end="")
     
+    if rrw: return menu
+    else:
+        menu+=("\r\033[%d;%dH"%(line+1, pointer))
+        print(menu, end="")
+
+
 def menu_updsrc(arg,mode=None,updo=False):
     black,reset,status,banoff,offset,line,\
     pointer,arr,banner,filename,rows,columns=arg
@@ -41,16 +40,17 @@ def menu_updsrc(arg,mode=None,updo=False):
             # Set vars
             filetext,opentxt,wrtptr,lenght = mode
             out=opentxt+filetext
-            full=columns-len(out)+2
+            # Calculate in what line it is
             fix=len(out)//(columns+2)
+            # Calculate blank spaces
+            full=((columns+2)*(fix+1))-len(out)
             # Get raw screen updated
             menu = update_scr(black,reset,status,banoff,\
             offset,line,0,arr,banner,filename,rows,columns,True)
+            # Cut menu to add the menu bar
+            menu="\n".join(menu.split("\n")[:rows+banoff+2-fix-1])
             # Add menu to it
-            menu+="\r\033[%d;%dH"%(rows+banoff+2, 1)
-            menu+="\r"+black+" "*(columns+2)+reset
-            menu+="\r\033[%d;%dH"%(rows+banoff+2-fix, 1)
-            menu+="\r"+black+out+(" "*full)+reset
+            menu+=black+out+(" "*full)
             # Calculate pointer y displacement
             fix_lip = rows+banoff+2-fix+((wrtptr-1)//(columns+2))
             # Calculate pointer x displacement
