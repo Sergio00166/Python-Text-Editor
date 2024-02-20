@@ -99,16 +99,16 @@ def fixfilename(filename, columns):
             filename=filename[:middle-1]+'*'+filename[middle+2:]
     return filename
 
-def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows):
-    text=arr[line+offset-1]; uptr=pointer
+def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
+    text=arr[line+offset-banoff]; uptr=pointer
     pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
     arr=arr[offset : rows+offset+1]
     arr = fix_arr_line_len(arr,columns,black,reset)
     arr[line-1]=text; out_arr=[]
     for x in arr:
         ln=str_len(x)
-        if uptr>columns and arr.index(x)==line-1: ln-=12
-        if ln<columns: x=x+(" "*(columns-ln+2))
+        if uptr>(columns+2) and arr.index(x)==line-1: ln-=12
+        if ln<(columns+2): x=x+(" "*(columns-ln+2))
         out_arr.append(x)
     if not len(arr)==rows:
         out_arr+=[" "*(columns+2)]*(rows-len(arr)+1)

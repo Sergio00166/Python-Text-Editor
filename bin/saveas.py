@@ -48,8 +48,8 @@ def save_as(args):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
 
-    filename,black,reset,rows,banoff,arr,columns,status,\
-    offset,line,banner,status_st,saved_txt,getch,keys = args
+    filename,black,reset,rows,banoff,arr,columns,status,offset,\
+    line,banner,status_st,saved_txt,getch,keys,fixstr = args
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
     filewrite=filename; wrtptr=lenght+len(filewrite)
     thr=Thread(target=updscr_thr); run=False
@@ -159,10 +159,13 @@ def save_as(args):
             except: pass
         
         else: #Rest of keys
-            out=decode(key,getch)
-            p1=filewrite[:wrtptr-lenght]
-            p2=filewrite[wrtptr-lenght:]
-            filewrite=p1+out+p2
-            wrtptr+=1
+            cond1=wrtptr<((columns+2)*rows+1)
+            cond2=str(key)[4:6] in fixstr
+            if cond1 and not cond2:
+                out=decode(key,getch)
+                p1=filewrite[:wrtptr-lenght]
+                p2=filewrite[wrtptr-lenght:]
+                filewrite=p1+out+p2
+                wrtptr+=1
 
     return status_st, filename, status

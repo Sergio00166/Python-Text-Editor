@@ -46,8 +46,8 @@ def open_file(args):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
 
-    filename,black,reset,rows,banoff,arr,columns,\
-    status,offset,line,banner,status_st,getch,keys,pointer = args
+    filename,black,reset,rows,banoff,arr,columns,status,\
+    offset,line,banner,status_st,getch,keys,pointer,fixstr = args
     openfile=sep.join(filename.split(sep)[:-1])+sep
     opentxt=" Open: "; lenght=len(opentxt)+2; wrtptr=lenght+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
@@ -145,11 +145,14 @@ def open_file(args):
             status_st=False; exit(); break
         
         else: #Rest of keys
-            out=decode(key,getch)
-            p1=openfile[:wrtptr-lenght]
-            p2=openfile[wrtptr-lenght:]
-            openfile=p1+out+p2
-            wrtptr+=1
-            complete=False
-
+            cond1=wrtptr<((columns+2)*rows+1)
+            cond2=str(key)[4:6] in fixstr
+            if cond1 and not cond2:
+                out=decode(key,getch)
+                p1=openfile[:wrtptr-lenght]
+                p2=openfile[wrtptr-lenght:]
+                openfile=p1+out+p2
+                wrtptr+=1
+                complete=False
+    
     return arr,filename,status_st,pointer,line,offset
