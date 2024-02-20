@@ -1,6 +1,6 @@
 # Code by Sergio1260
 
-from functions import fix_cursor_pos, get_size, fixfilename, arr2str, fix_arr_line_len, str_len
+from functions import fix_cursor_pos, get_size, fixfilename, fix_arr_line_len
 from os import sep
 
 if not sep==chr(92): import termios; import tty
@@ -8,16 +8,20 @@ if not sep==chr(92): import termios; import tty
 
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,rrw=False):
     position=black+"  "+str(line+offset-banoff)+" "*(4-len(str(line+offset-banoff)))
-    all_file,pointer = arr2str(arr,columns,rows,line,offset,black,reset,pointer)
-    if len(arr)<columns: all_file+=" "*(columns+2)
-    cls="\r\033[%d;%dH"%(1, 1); gpos="\r\033[%d;%dH"%(line+1, pointer)
-    filename = fixfilename(filename, columns)
-    banner=position+black+" "+reset+status+banner+black+"    "
-    banner+=" "*(columns-31-len(filename))+filename+" "+reset+"\n"
-    if rrw: return cls+banner+all_file+gpos
-    else: print(cls+banner+all_file+gpos, end="", flush=True)
-
-
+    text=arr[line+offset-1]; pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
+    out_arr=fix_arr_line_len(arr[offset:rows+offset+1], columns, black, reset)
+    cls="\r\033[%d;%dH"%(1, 1)+(" "*(columns+2))*(rows+2)+"\r\033[%d;%dH"%(1, 1)
+    out_arr[line-1]=text 
+    all_file="\n".join(out_arr).expandtabs(8)
+    outb=position+black+" "+reset+status+banner
+    outb=outb+black+"    "+reset
+    filename = fixfilename(filename, columns)   
+    menu=cls+outb+black+" "*(columns-31-len(filename))
+    menu+=filename+" "+reset+"\n"+all_file
+    menu+=("\r\033[%d;%dH"%(line+1, pointer))
+    if rrw: return menu
+    else: print(menu, end="")
+    
 def menu_updsrc(arg,mode=None,updo=False):
     black,reset,status,banoff,offset,line,\
     pointer,arr,banner,filename,rows,columns=arg
