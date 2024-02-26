@@ -112,7 +112,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
         out_arr.append(x)
     if not len(arr)==rows:
         out_arr+=[" "*(columns+2)]*(rows-len(arr)+1)
-        
+    
     return "\n".join(out_arr).expandtabs(8), pointer
 
     
