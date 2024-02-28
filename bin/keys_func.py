@@ -97,6 +97,7 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             out=decode(key,getch);p1=text[:pointer-1]; p2=text[pointer-1:]
             if out=="\t" and ch_T_SP: out=" "*4; pointer+=3
             text=(p1+out+p2); pointer+=1; status_st=False
+            select=[]
 
     return text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,\
            filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,select
