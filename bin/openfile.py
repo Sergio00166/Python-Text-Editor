@@ -141,8 +141,10 @@ def open_file(args):
         elif key==keys["return"]: pass
         
         elif key==keys["ctrl+n"]:
-            arr=[""]; filename=getcwd()+sep+"NewFile"
-            status_st=False; exit(); break
+            arr=[""]; text=""; offset=0
+            filename=getcwd()+sep+"NewFile"
+            status_st=False; line=1; offset=0
+            break
         
         else: #Rest of keys
             cond1=wrtptr<((columns+2)*rows+1)
