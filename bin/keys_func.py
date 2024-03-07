@@ -11,7 +11,8 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
               black,reset,saved_txt,ch_T_SP,banner,getch,keys,select):
         
     if key==keys["special"]:
-        if not sep==chr(92): special_key=getch()
+        if not sep==chr(92):
+            special_key=getch()
         special_key=getch() #Read char
         
         if special_key==keys["arr_up"] or special_key==keys["ctrl+arr_up"]:
@@ -31,8 +32,8 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             left(pointer,oldptr,line,offset,banoff,text,arr)
             
         elif special_key==keys["supr"]:
-            text, arr, select, status_st =\
-            supr(pointer,max_len,text,offset,banoff,arr,line,select,status_st)
+            text, arr, line, offset, status_st, select =\
+            supr(pointer,max_len,text,offset,banoff,arr,line,status_st,select)
             
         elif special_key==keys["start"]:
             pointer=1; p_offset=0; oldptr=pointer
@@ -54,9 +55,9 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
         backspace(pointer,text,offset,line,arr,banoff,select)
 
     elif key==keys["return"]:
-        line, offset, arr, pointer, text, staus =\
-        newline(text,pointer,offset,banoff,line,arr,rows,status)
-        
+        line, offset, arr, pointer, text, staus, select =\
+        newline(text,pointer,offset,banoff,line,arr,rows,status,select)
+
     elif key==keys["ctrl+s"]:
         out=open(filename,"w",encoding="UTF-8")
         out.write("\n".join(arr)); out.close()
@@ -67,16 +68,14 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
         copy_buffer, arr, text, line, offset, select =\
         cut(select,arr,line,offset,banoff,text,status_st,copy_buffer,pointer)
         
-    elif key==keys["ctrl+c"]:
-        copy_buffer, select =\
+    elif key==keys["ctrl+c"]: copy_buffer, select =\
         copy(select,arr,line,offset,banoff,pointer)
         
     elif key==keys["ctrl+p"]:
         pointer, arr, text, status_st, copy_buffer =\
         paste(copy_buffer,arr,line,offset,banoff,pointer,text,status_st)                                              
             
-    elif key==keys["ctrl+g"]:
-        line, offset ,text =\
+    elif key==keys["ctrl+g"]: line, offset ,text =\
         goto(rows,banoff,line,arr,offset,black,reset)
 
     elif key==keys["ctrl+a"]:
@@ -94,10 +93,12 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
 
     else: #All the other keys
         if not str(key)[4:6] in fixstr:
+            if not len(select)==0:
+                select,arr,text,line,offset =\
+                del_sel(select, arr, banoff)
             out=decode(key,getch);p1=text[:pointer-1]; p2=text[pointer-1:]
             if out=="\t" and ch_T_SP: out=" "*4; pointer+=3
             text=(p1+out+p2); pointer+=1; status_st=False
-            select=[]
 
     return text,pointer,oldptr,line,offset,columns,banoff,arr,rows,max_len,\
            filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,select
