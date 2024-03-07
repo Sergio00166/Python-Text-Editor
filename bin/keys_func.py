@@ -14,21 +14,24 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
         if not sep==chr(92):
             special_key=getch()
         special_key=getch() #Read char
+        fix=(sep==chr(92) or special_key==b'1')
+        if not sep==chr(92) and special_key==b'1':
+            getch();getch(); special_key=getch()
         
         if special_key==keys["arr_up"] or special_key==keys["ctrl+arr_up"]:
             pointer, oldptr, text, offset, line, select =\
-            up(line,offset,arr,text,banoff,oldptr,rows,pointer,special_key,keys,select)
+            up(line,offset,arr,text,banoff,oldptr,rows,pointer,special_key,keys,select,fix)
             
         elif special_key==keys["arr_down"] or special_key==keys["ctrl+arr_down"]:
             pointer, oldptr, text, offset, line, select =\
-            down(line,offset,arr,text,banoff,oldptr,rows,pointer,special_key,keys,select)
+            down(line,offset,arr,text,banoff,oldptr,rows,pointer,special_key,keys,select,fix)
 
-        elif special_key==keys["arr_right"]:          
-            text, pointer, oldptr, line, offset =\
+        elif special_key==keys["arr_right"] or special_key==keys["ctrl+arr_right"]:          
+            select=[]; text, pointer, oldptr, line, offset =\
             right(pointer,text,columns,offset,line,banoff,arr,rows,oldptr)
             
-        elif special_key==keys["arr_left"]:
-            pointer, oldptr, text, line, offset =\
+        elif special_key==keys["arr_left"] or special_key==keys["ctrl+arr_left"]:
+            select=[]; pointer, oldptr, text, line, offset =\
             left(pointer,oldptr,line,offset,banoff,text,arr)
             
         elif special_key==keys["supr"]:
