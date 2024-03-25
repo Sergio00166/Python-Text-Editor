@@ -32,9 +32,10 @@ def updscr_thr():
 def exit():
     global fd, old_settings, run, kill, thr
     run=False; kill=True; thr.join()
-    if not sep==chr(92):
+    if not sep == chr(92):
         termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-    print("\033c", end="")
+    print(reset+"\r\033c", end="")
+
 
             
 def save_as(args):
