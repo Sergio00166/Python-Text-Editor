@@ -120,6 +120,7 @@ def open_file(args):
                     if not wrtptr>len(openfile)+lenght-1:
                         wrtptr+=1
                 elif arrow==keys["supr"]:
+                    if not sep==chr(92): getch()
                     if not wrtptr==lenght:
                         if complete:
                             openfile=openfile.split(sep)[:-1]
