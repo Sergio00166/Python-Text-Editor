@@ -3,7 +3,7 @@
 from functions import *
 
 
-def supr(pointer,max_len,text,offset,banoff,arr,line,status_st,select):
+def supr(pointer,max_len,text,offset,banoff,arr,line,select):
     if len(select)==0:
         try:
             if not pointer==max_len+1:
@@ -15,9 +15,8 @@ def supr(pointer,max_len,text,offset,banoff,arr,line,status_st,select):
                 arr.pop(line+offset-banoff+1)
                 text=text+seltext
         except: pass
-        status_st=False
     else: select,arr,text,line,offset = del_sel(select,arr,banoff)
-    return text, arr, line, offset, status_st, select
+    return text, arr, line, offset, select
 
 def goto(rows, banoff, line, arr, offset, black, reset):
     print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
