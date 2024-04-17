@@ -23,6 +23,9 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             if not sep==chr(92): getch()
             status_st = False
             
+        # Not implemented yet
+        elif special_key==keys["insert"] and (not sep==chr(92)): getch()
+
         elif special_key==keys["arr_up"] or special_key==keys["ctrl+arr_up"]:
             pointer, oldptr, text, offset, line, select =\
             up(line,offset,arr,text,banoff,oldptr,rows,pointer,special_key,keys,select,fix)
