@@ -89,7 +89,7 @@ if not __name__=="__main__":
                 "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'A',"arr_down":b'B',
                 "arr_right":b'C',"arr_left":b'D',"supr":b'3',"start":b'H',
                 "end":b'F',"repag":b'5',"avpag":b'6',"tab":b'\t',"ctrl+arr_up":b'A',
-                "ctrl+arr_down":b'B',"ctrl+arr_left":b'D',"ctrl+arr_right":b'D'}
+                "ctrl+arr_down":b'B',"ctrl+arr_left":b'D',"ctrl+arr_right":b'C'}
 
 
     
