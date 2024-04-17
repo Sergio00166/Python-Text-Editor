@@ -5,16 +5,14 @@ from functions import *
 
 def supr(pointer,max_len,text,offset,banoff,arr,line,select):
     if len(select)==0:
-        try:
-            if not pointer==max_len+1:
-                p1=list(text); p1.pop(pointer-1)
-                text="".join(p1)
-            elif not line+offset==1: #move all to previous line
-                seltext=arr[line+offset-banoff+1]
-                arr[line+offset-banoff+1]=text+seltext
-                arr.pop(line+offset-banoff+1)
-                text=text+seltext
-        except: pass
+        if not pointer==max_len+1:
+            p1=list(text); p1.pop(pointer-1)
+            text="".join(p1)
+        elif not line+offset==len(arr): #move all to previous line
+            seltext=arr[line+offset-banoff+1]
+            arr[line+offset-banoff+1]=text+seltext
+            arr.pop(line+offset-banoff+1)
+            text=text+seltext
     else: select,arr,text,line,offset = del_sel(select,arr,banoff)
     return text, arr, line, offset, select
 
