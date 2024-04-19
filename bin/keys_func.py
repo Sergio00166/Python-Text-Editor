@@ -40,7 +40,7 @@ def keys_func(key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,
             select=[]
             
         elif special_key==keys["arr_left"] or special_key==keys["ctrl+arr_left"]:
-            args=(pointer,text,columns,offset,line,banoff,arr,rows,oldptr)
+            args=(pointer,oldptr,line,offset,banoff,text,arr)
             pointer,oldptr,text,line,offset = left(*args)
             select=[]
             
