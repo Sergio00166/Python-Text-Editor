@@ -70,9 +70,12 @@ while True:
 
             else: kill=True; update_thr.join(); print("\033c",end=""); break    
         else: #Call keys functions (Yeah, its a lot of args and returned values)
+            args = (key,text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
+                    max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
+                    black,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
+            
             text,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
-            ch_T_SP,select = keys_func(key,text,pointer,oldptr,line,offset,\
-            columns,banoff,arr,rows,max_len,filename,status,status_st,copy_buffer,\
-            fixstr,fix,black,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
+            ch_T_SP,select = keys_func(*args)
+            
     except: pass
