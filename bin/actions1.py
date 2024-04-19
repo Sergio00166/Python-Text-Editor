@@ -51,16 +51,17 @@ def cut(select,arr,line,offset,banoff,text,status_st,copy_buffer,pointer):
         if not start==0: copy_buffer=copy_buffer[1:]
         line=select[0][0]+banoff; offset=select[0][1]
         select = []; arr = p1 + p2
-    elif line+offset-banoff==len(arr)-1:
-        copy_buffer=text[pointer-1:]
-        text=text[:pointer-1]
-    else:
-        copy_buffer=arr[line+offset-banoff]
-        arr.pop(line+offset-banoff)
-        text=arr[line+offset-banoff]
-    status_st=False
+    else: copy_buffer=text[pointer-1:]; text=text[:pointer-1]
+    status_st=False; return copy_buffer,arr,text,line,offset,select
 
-    return copy_buffer,arr,text,line,offset,select
+def copy(select,arr,line,offset,banoff,pointer):
+    if not len(select)==0:
+        start=sum(select[0])-1
+        if start<0: start=0
+        copy_buffer=arr[start:sum(select[1])]
+        if not start==0: copy_buffer=copy_buffer[1:]
+    else: copy_buffer=arr[line+offset-banoff][pointer-1:]
+    select=[]; return copy_buffer, select
 
 def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
     p1=line+offset-banoff-rows
@@ -77,16 +78,6 @@ def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
     CalcRelLine(p1,arr,offset,line,banoff,rows)
     pointer,oldptr = fixlenline(text,pointer,oldptr)
     return line, offset, text, pointer, oldptr
-
-def copy(select,arr,line,offset,banoff,pointer):
-    if not len(select)==0:
-        start=sum(select[0])-1
-        if start<0: start=0
-        copy_buffer=arr[start:sum(select[1])]
-        if not start==0: copy_buffer=copy_buffer[1:]
-    else: copy_buffer=arr[line+offset-banoff][pointer-1:]
-    select=[]
-    return copy_buffer, select
 
 
     
