@@ -92,8 +92,8 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
 # Replaces ascii control chars to the highlighted visual version
 def sscp(arg,color):
     global ascii_map
-    b, r = color
-    ext = []
+    b, r = color; ext = []
+    arg=arg.expandtabs(8)
     for x in arg:
         if ord(x) in ascii_map:
             ext.append(b+ascii_map[ord(x)]+r)
