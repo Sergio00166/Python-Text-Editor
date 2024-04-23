@@ -7,7 +7,8 @@ if not __name__=="__main__":
     from sys import argv, path
     from os.path import isabs, isdir
     from glob import glob
-    from functions import get_size
+    from functions1 import get_size, read_UTF8
+    from functions import str_len, fscp
     from upd_scr import update_scr
     from keys_func import keys_func
     from subprocess import check_output
@@ -16,12 +17,13 @@ if not __name__=="__main__":
     from threading import Thread
     from time import sleep as delay
     from time import time
+
     
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
     rows,columns=get_size(); ch_T_SP=False
     
-    version="v0.5.3.8"
+    version="v0.5.4.0"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
@@ -44,13 +46,13 @@ if not __name__=="__main__":
         files = []
         for x in out:
             try:
-                for i in open(x, "r", encoding="UTF-8").readlines():
-                    if '\x00' in i: raise ValueError
+                #for i in open(x, "r", encoding="UTF-8").readlines():
+                #    if '\x00' in i: raise ValueError
                 files.append(x)
             except: pass
         if len(files)>0: 
-            tmp=open(files[0], "r", encoding="UTF-8").readlines(); arr=[]
-            for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
+            tmp=read_UTF8(files[0]); arr=[]
+            for x in tmp: arr.append(x.replace("\n",""))
             arr.append(""); filename=files[0]; files=files[1:]
         else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[]    
     else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[] 
@@ -75,7 +77,6 @@ if not __name__=="__main__":
     print("\033c", end="") # Clear the screen
 
 
-
     # Here we have all the mapped scape codes for the keys and for Windows and Linux
     
     if sep==chr(92):
@@ -95,8 +96,4 @@ if not __name__=="__main__":
                 "repag":b'5',"avpag":b'6',"tab":b'\t',"insert":b'2',"ctrl+arr_up":b'A',
                 "ctrl+arr_down":b'B',"ctrl+arr_left":b'D',"ctrl+arr_right":b'C'}
 
-
-    
-
-    
-
+ 

@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-from functions import *
+from functions1 import *
 
 
 def down(line,offset,arr,text,banoff,oldptr,rows,pointer,key,keys,select,fix):

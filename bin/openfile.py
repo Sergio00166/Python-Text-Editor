@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-from functions import decode, get_size
+from functions1 import decode, get_size, read_UTF8
 from upd_scr import menu_updsrc
 from threading import Thread
 from glob import glob
@@ -91,11 +91,7 @@ def open_file(arg):
             
             elif key==keys["ctrl+o"]:
                 openfile=glob(openfile, recursive=False)[0]
-                for i in open(openfile, "r", encoding="UTF-8").readlines():
-                    if '\x00' in i: raise ValueError
-                tmp=open(openfile, "r", encoding="UTF-8").readlines(); arr=[]
-                for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
-                arr.append(""); filename=openfile
+                arr=read_UTF8(openfile); filename=openfile
                 exit(); status_st=False
                 pointer=offset=0; line=1
                 break

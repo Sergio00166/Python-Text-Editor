@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-from functions import *
+from functions1 import *
 
 
 def supr(pointer,max_len,text,offset,banoff,arr,line,select):

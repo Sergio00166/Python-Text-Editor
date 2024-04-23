@@ -1,6 +1,7 @@
 # Code by Sergio1260
 
-from functions import get_size, fixfilename, scr_arr2str
+from functions import scr_arr2str, rscp
+from functions1 import get_size, fixfilename
 
 
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,rrw=False,select=[]):
@@ -36,6 +37,7 @@ def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename
         lenght=len(black+"*"+reset)
         # For each line of p1
         for x in p1:
+            x=rscp(x,[black,reset])
             # Checks if the line rendered continues to the right
             # (having the flag that marks that)
             if x.endswith(black+">"+reset):

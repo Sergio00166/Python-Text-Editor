@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-from functions import decode, get_size
+from functions1 import decode, get_size
 from upd_scr import menu_updsrc
 from threading import Thread
 from os import sep
