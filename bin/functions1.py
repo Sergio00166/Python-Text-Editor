@@ -5,7 +5,7 @@ from os import get_terminal_size,sep
 
 def get_size():
     size=get_terminal_size()
-    return size[1]-3,size[0]-2
+    return size[1]-2,size[0]-2
 
 def decode(key,getch):
     for x in range(3):

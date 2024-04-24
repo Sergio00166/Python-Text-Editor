@@ -89,7 +89,7 @@ def menu_updsrc(arg,mode=None,updo=False):
             menu = update_scr(black,reset,status,banoff,\
             offset,line,0,arr,banner,filename,rows,columns,True)
             # Cut menu to add the menu bar
-            menu = "\n".join(menu.split("\n")[:rows+banoff+1-fix])
+            menu = "\n".join(menu.split("\n")[:rows+banoff-fix])
             # Add menu to it
             menu+="\n"+black+out+(" "*(full))
             # Calculate pointer y displacement
