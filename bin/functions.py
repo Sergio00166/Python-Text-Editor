@@ -13,6 +13,7 @@ ascii_map = { 0x00: '␀',  0x01: '␁',  0x02: '␂', 0x03: '␃', 0x04: '␄',
 
 def wrap(text, columns):
     out=[]; counter=-1; buffer=""
+    text=text.expandtabs(8)
     for x in text:
         if counter>=columns-1:
             lenght=str_len(fscp(x,True))
@@ -75,7 +76,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     uptr=pointer; out_arr=[]; sp=black+"<"+reset
     text = arr[line+offset-banoff]
     pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
-    arr = arr[offset:rows+offset+1]
+    arr = arr[offset:rows+offset+banoff+1]
     arr = fix_arr_line_len(arr,columns,black,reset)
     arr[line-1] = text
     
@@ -98,7 +99,7 @@ def sscp(arg,color):
         if ord(x) in ascii_map:
             ext.append(b+ascii_map[ord(x)]+r)
         elif str_len(x)>0: ext.append(x)
-        else: ext.append("�")   
+        else: ext.append(b+"�"+r)   
     return "".join(ext)
 
 # Changes visual ascii chars to space (to read the real screen len
@@ -115,7 +116,7 @@ def fscp(arg,null=False):
 # Inverts the highlight (for the highlight selector)
 def rscp(arg,color,mode=False):
     table=[ascii_map[x] for x in ascii_map]
-    table += [">","<"]; b, r = color
+    table += [">","<","�"]; b, r = color
     for x in table:
         arg=arg.replace(b+x+r, " " if mode else r+x+b)
     return arg
