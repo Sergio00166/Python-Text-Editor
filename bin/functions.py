@@ -76,7 +76,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     uptr=pointer; out_arr=[]; sp=black+"<"+reset
     text = arr[line+offset-banoff]
     pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
-    arr = arr[offset:rows+offset+banoff+1]
+    arr = arr[offset:rows+offset+banoff]
     arr = fix_arr_line_len(arr,columns,black,reset)
     arr[line-1] = text
     
