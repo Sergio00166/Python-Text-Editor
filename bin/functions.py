@@ -10,6 +10,8 @@ ascii_map = { 0x00: '␀',  0x01: '␁',  0x02: '␂', 0x03: '␃', 0x04: '␄',
               0x11: '␑',  0x12: '␒',  0x13: '␓', 0x14: '␔', 0x15: '␕', 0x16: '␖', 0x17: '␗', 0x18: '␘',
               0x19: '␙',  0x1A: '␚',  0x1B: '␛', 0x1C: '␜', 0x1D: '␝', 0x1E: '␞', 0x1F: '␟', 0x7F: '␡'
             }
+ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
+
 
 def wrap(text, columns):
     out=[]; counter=-1; buffer=""
@@ -102,7 +104,7 @@ def sscp(arg,color):
         else: ext.append(b+"�"+r)   
     return "".join(ext)
 
-# Changes visual ascii chars to space (to read the real screen len
+# Changes visual ascii chars to space (to read the real screen len)
 def fscp(arg,null=False):
     global ascii_map
     r = "" if null else " "
@@ -115,13 +117,9 @@ def fscp(arg,null=False):
 
 # Inverts the highlight (for the highlight selector)
 def rscp(arg,color,mode=False):
-    table=[ascii_map[x] for x in ascii_map]
-    table += [">","<","�"]; b, r = color
-    for x in table:
+    global ascii_replaced
+    b, r = color
+    for x in ascii_replaced:
         arg=arg.replace(b+x+r, " " if mode else r+x+b)
     return arg
-
-
-
-
 
