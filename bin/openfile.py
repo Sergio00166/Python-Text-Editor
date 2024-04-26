@@ -127,7 +127,7 @@ def open_file(arg):
                         openfile=sep.join(openfile)+sep
                         wrtptr-=len(openfile[-1])-1
                         complete=False
-                    else
+                    else:
                         p1=list(openfile)
                         p1.pop(wrtptr-lenght)
                         openfile="".join(p1)
