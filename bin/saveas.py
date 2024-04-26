@@ -130,15 +130,14 @@ def save_as(arg):
                         wrtptr+=1
                 elif arrow==keys["supr"]:
                     if not sep==chr(92): getch()
-                    if not wrtptr==lenght:
-                        if complete:
-                            filewrite=sep.join(filewrite.split(sep)[:-1])+sep
-                            wrtptr-=len(filewrite[-1])-1
-                            complete=False
-                        else: 
-                            p1=list(filewrite)
-                            p1.pop(wrtptr-lenght)
-                            filewrite="".join(p1)                   
+                    if complete:
+                        filewrite=sep.join(filewrite.split(sep)[:-1])+sep
+                        wrtptr-=len(filewrite[-1])-1
+                        complete=False
+                    else: 
+                        p1=list(filewrite)
+                        p1.pop(wrtptr-lenght)
+                        filewrite="".join(p1)                   
 
                 elif arrow==keys["start"]:
                     wrtptr=lenght

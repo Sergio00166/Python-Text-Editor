@@ -122,17 +122,16 @@ def open_file(arg):
                         wrtptr+=1
                 elif arrow==keys["supr"]:
                     if not sep==chr(92): getch()
-                    if not wrtptr==lenght:
-                        if complete:
-                            openfile=openfile.split(sep)[:-1]
-                            openfile=sep.join(openfile)+sep
-                            wrtptr-=len(openfile[-1])-1
-                            complete=False
-                        else: 
-                            p1=list(openfile)
-                            p1.pop(wrtptr-lenght)
-                            openfile="".join(p1)
-            
+                    if complete:
+                        openfile=openfile.split(sep)[:-1]
+                        openfile=sep.join(openfile)+sep
+                        wrtptr-=len(openfile[-1])-1
+                        complete=False
+                    else
+                        p1=list(openfile)
+                        p1.pop(wrtptr-lenght)
+                        openfile="".join(p1)
+    
                 elif arrow==keys["start"]:
                     wrtptr=lenght
                     
