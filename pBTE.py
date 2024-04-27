@@ -35,7 +35,7 @@ def updscr_thr():
                 print("\r\033c",end="") #Clear screen
                 # If OS is LINUX restore TTY to it default values
                 if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,False,select)
+                update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
                 if not sep==chr(92): tty.setraw(fd)
 
@@ -45,7 +45,7 @@ run_thread=True; kill=False
 update_thr.start()
 
 while True:
-    try:
+    #try:
         # Fix for the pointer variable
         if pointer==0: pointer=1
         # If detected key to quickly (Ctrl + V)
@@ -56,7 +56,7 @@ while True:
             # Get the terminal size and set some values
             rows,columns=get_size(); max_len=len(text); arr[line+offset-banoff]=text
             # Call screen updater function
-            update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,False,select)
+            update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,False,select)
         if not key_fast: run_thread=True #Start update Thread
         # Set time after reading key from keyboard and stopping the update Thread
         start=time(); key=getch(); end=time(); run_thread=False
@@ -78,4 +78,4 @@ while True:
             max_len,filename,status,status_st,copy_buffer,fixstr,fix,\
             ch_T_SP,select = keys_func(*args)
             
-    except: pass
+    #except: pass

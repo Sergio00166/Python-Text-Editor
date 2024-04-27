@@ -23,7 +23,7 @@ if not __name__=="__main__":
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
     rows,columns=get_size(); ch_T_SP=False
     
-    version="v0.5.4.1"
+    version="v0.5.4.3"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
@@ -67,12 +67,12 @@ if not __name__=="__main__":
     
     #Define a lot of stuff
     text=arr[0]; pointer=offset=0; line=banoff=1
-    banner=black+" "*3+"pBTE "+version+reset
+    banner=["pBTE",version]
     copy_buffer=""; fix=False; oldptr=p_offset=0
     select=[]; end=1; start=0
 
     #Flag to show after saving the file
-    saved_txt=black+"SAVED"+reset; status=saved_df=black+" "*5+reset; status_st=0
+    saved_txt="SAVED"; status=saved_df=" "*5; status_st=False
     
     print("\033c", end="") # Clear the screen
 
