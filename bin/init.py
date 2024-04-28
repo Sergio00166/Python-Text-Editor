@@ -22,8 +22,9 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
     rows,columns=get_size(); ch_T_SP=False
+    del init, Fore, Back, Style, deinit
     
-    version="v0.5.4.5"
+    version="v0.5.4.6"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
