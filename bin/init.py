@@ -39,25 +39,15 @@ if not __name__=="__main__":
             finally: termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
             return char
 
-    
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:
-        out=[glob(x,recursive=False) for x in argv[1:]]
-        out=[i for x in out for i in x if not isdir(i)]
-        files = []
-        for x in out:
-            try:
-                #for i in open(x, "r", encoding="UTF-8").readlines():
-                #    if '\x00' in i: raise ValueError
-                files.append(x)
-            except: pass
+        files=[glob(x,recursive=False) for x in argv[1:]]
+        files=[i for x in files for i in x if not isdir(i)]
         if len(files)>0: 
-            tmp=read_UTF8(files[0]); arr=[]
-            for x in tmp: arr.append(x.replace("\n",""))
-            arr.append(""); filename=files[0]; files=files[1:]
+            arr=read_UTF8(files[0])
+            filename=files[0]; files=files[1:]
         else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[]    
     else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[] 
-
 
     # Creates a list of banned chars code
     values=["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"]
