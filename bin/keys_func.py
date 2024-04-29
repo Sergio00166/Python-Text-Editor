@@ -89,8 +89,8 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         copy_buffer = copy(*args)
         
     elif key==keys["ctrl+p"]:
-        args=(copy_buffer,arr,line,offset,banoff,pointer,status_st)
-        pointer,arr,status_st,copy_buffer = paste(*args)                                              
+        args=(copy_buffer,arr,line,offset,banoff,pointer,status_st,select)
+        pointer,arr,status_st,copy_buffer,select = paste(*args)                                              
             
     elif key==keys["ctrl+g"]:
         args=(columns,rows,banoff,line,arr,offset,black)

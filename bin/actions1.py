@@ -35,20 +35,25 @@ def goto(columns, rows, banoff, line, arr, offset, black):
     arr[line+offset-banoff]=text
     return line, offset, text 
 
-def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st):
+def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
+    if len(select)==0: start=end = line+offset-banoff
+    else: start,end = sum(select[0]),sum(select[1])
     if not len(copy_buffer)==0:
+        p1=arr[:start]; p2=arr[end:]
         if isinstance(copy_buffer, list):
-            p1=arr[:line+offset-banoff]
-            p2=arr[line+offset-banoff:]
             arr=p1+copy_buffer+p2
-            text=copy_buffer[0]        
-        else:
-            p1=arr[:line+offset-banoff]; p2=arr[line+offset-banoff+1:]
-            fix1=text[:pointer-1]; fix2=text[+pointer-1:]
-            out=fix1+copy_buffer+fix2; arr=p1+[out]+p2; text=out
-            pointer=len(fix1+copy_buffer)+1; status_st=False
-        arr[line+offset-banoff]=text
-    return pointer,arr,status_st,copy_buffer
+        else: arr=p1+[copy_buffer]+p2
+    else:
+        p1,p2 = arr[:start],arr[end+1:]
+        text=arr[start] 
+        fix1,fix2 = text[:pointer-1],text[pointer-1:]
+        out=fix1+copy_buffer+fix2
+        arr=p1+[out]+p2
+        arr[start]=out
+        pointer=len(fix1+copy_buffer)+1
+        status_st=False
+    return pointer,arr,status_st,copy_buffer,[]
+
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
     text=arr[line+offset-banoff]
