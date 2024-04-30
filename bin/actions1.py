@@ -36,23 +36,16 @@ def goto(columns, rows, banoff, line, arr, offset, black):
     return line, offset, text 
 
 def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
-    if len(select)==0: start=end = line+offset-banoff
-    else: start,end = sum(select[0]),sum(select[1])
     if not len(copy_buffer)==0:
+        if len(select)==0: start=end = line+offset-banoff
+        else: start,end = sum(select[0]),sum(select[1])
         p1=arr[:start]; p2=arr[end:]
         if isinstance(copy_buffer, list):
             arr=p1+copy_buffer+p2
+            line, offset = select[0]
         else: arr=p1+[copy_buffer]+p2
-    else:
-        p1,p2 = arr[:start],arr[end+1:]
-        text=arr[start] 
-        fix1,fix2 = text[:pointer-1],text[pointer-1:]
-        out=fix1+copy_buffer+fix2
-        arr=p1+[out]+p2
-        arr[start]=out
-        pointer=len(fix1+copy_buffer)+1
-        status_st=False
-    return pointer,arr,status_st,copy_buffer,[]
+
+    return pointer,arr,status_st,copy_buffer,line,offset,[]
 
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
