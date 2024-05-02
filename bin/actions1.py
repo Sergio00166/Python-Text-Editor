@@ -42,10 +42,11 @@ def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
         p1=arr[:start]; p2=arr[end:]
         if isinstance(copy_buffer, list):
             arr=p1+copy_buffer+p2
-            line, offset = select[0]
+            if len(select)>0: line, offset = select[0]
         else: arr=p1+[copy_buffer]+p2
+        select = []; 
 
-    return pointer,arr,status_st,copy_buffer,line,offset,[]
+    return pointer,arr,status_st,copy_buffer,line,offset,select
 
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):

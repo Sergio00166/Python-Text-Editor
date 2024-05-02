@@ -18,13 +18,12 @@ if not __name__=="__main__":
     from time import sleep as delay
     from time import time
 
-    
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
     black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
     rows,columns=get_size(); ch_T_SP=False
     del init, Fore, Back, Style, deinit
     
-    version="v0.5.4.7"
+    version="v0.5.4.8"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
