@@ -79,11 +79,11 @@ def newline(pointer,offset,banoff,line,arr,rows,status,select):
     return line, offset, arr, pointer, status, select
 
 def left(pointer,oldptr,line,offset,banoff,arr):
-    text=arr[line+offset-banoff]
     if not pointer==1: pointer-=1; oldptr=pointer
     elif not line+offset==1:
         if offset==0: line-=1
         else: offset-=1
+        text=arr[line+offset-banoff]
         pointer=len(text)+1
     return pointer, oldptr, line, offset
 
