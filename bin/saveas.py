@@ -59,8 +59,8 @@ def save_as(arg):
     
     while True:
         # Fix when the pointer is out
-        if len(openfile)<wrtptr-lenght:
-            wrtptr = len(openfile)+lenght
+        if len(filewrite)<wrtptr-lenght:
+            wrtptr = len(filewrite)+lenght
         try:
             # If OS is LINUX restore TTY to it default values
             if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
