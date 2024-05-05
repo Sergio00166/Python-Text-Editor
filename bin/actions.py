@@ -101,13 +101,9 @@ def right(pointer,columns,offset,line,banoff,arr,rows,oldptr):
 
 def mng_tab_select(arr,line,offset,select,ch_T_SP):
     # Get the values from select
-    start=select[0][0]; end=select[1][0]
-    end+=select[1][1]-select[0][1]
-    start-=select[1][1]-select[0][1]
-    # Get the text that is upper the selected region
-    p0=arr[:start]
-    # Get the text that is below the selected region
-    p2=arr[end:]
+    start=sum(select[0]); end=sum(select[1])
+    # Get the text that is upper and below the selected region
+    p0=arr[:start]; p2=arr[end:]
     # Get the text that is selected
     p1=arr[start:end]
     # Add a tab at the start of each element
