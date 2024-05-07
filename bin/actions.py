@@ -4,7 +4,6 @@ from functions1 import *
 
 
 def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
-    text=arr[line+offset-banoff]
     selected=key==keys["ctrl+arr_down"] and fix
     if selected:
         selst=[line-banoff,offset]
@@ -12,6 +11,7 @@ def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
     if not line+offset==len(arr)+banoff-1:
         if not line==rows+banoff: line+=1
         elif not line+offset==len(arr)+1: offset+=1
+        text=arr[line+offset-banoff]
         pointer,oldptrt=fixlenline(text,pointer,oldptr)
     if selected:
         seled=[line-banoff,offset]
@@ -22,11 +22,11 @@ def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
     return pointer, oldptr, offset, line, select
 
 def up(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
-    text=arr[line+offset-banoff]
     selected=key==keys["ctrl+arr_up"] and fix
     if selected: seled=[line-banoff,offset]
     if not line==banoff: line-=1
     elif offset>0: offset-=1
+    text=arr[line+offset-banoff]
     pointer,oldptr=fixlenline(text,pointer,oldptr)
     if selected:
         selst=[line-banoff,offset]
