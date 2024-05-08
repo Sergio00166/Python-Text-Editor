@@ -21,7 +21,7 @@ def wrap(text, columns):
     for x in text:
         if counter>=columns-1:
             lenght=str_len(fscp(x,True))
-            if lenght>1: ext=buffer; buffer=x
+            if lenght>0: ext=buffer; buffer=x
             else: ext=buffer+x; buffer=""    
             out.append(ext); counter=0
         else: buffer+=x; counter+=str_len(fscp(x))
