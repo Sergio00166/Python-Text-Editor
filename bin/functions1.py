@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from os import get_terminal_size,sep
+from multiprocessing import cpu_count, Pool
 
 
 def get_size():
@@ -47,15 +48,13 @@ def del_sel(select, arr, banoff):
     select=[]; arr=p1+p2 
     return select, arr, line, offset
 
-
 # Reads with UTF8 but the shit it cant decode it threats it like ASCII
+# Each line is ejecuted on a separate CPU core
 def read_UTF8(file):
-    out = []
-    for x in open(file,"rb").readlines():
-        x=decode_until_error(x)
-        if x.endswith("\n"): x=x[:-1]
-        if x.endswith("\r"): x=x[:-1]
-        out.append(x)
+    file=open(file,"rb").readlines()
+    pool=Pool(processes=cpu_count())
+    out=pool.map_async(decode_until_error,file)
+    out=out.get(); pool.close()
     return out
 
 def decode_until_error(data):
@@ -80,4 +79,8 @@ def decode_until_error(data):
             except UnicodeDecodeError:
                 for byte in byte_sequence:
                     decoded += chr(byte)
+
+    if decoded.endswith("\n"): decoded=decoded[:-1]
+    if decoded.endswith("\r"): decoded=decoded[:-1]
     return decoded
+
