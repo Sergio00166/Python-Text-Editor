@@ -48,7 +48,6 @@ def del_sel(select, arr, banoff):
     select=[]; arr=p1+p2 
     return select, arr, line, offset
 
-# Reads with UTF8 but the shit it cant decode it threats it like ASCII
 # Each line is ejecuted on a separate CPU core
 def read_UTF8(file):
     file=open(file,"rb").readlines()
@@ -57,6 +56,7 @@ def read_UTF8(file):
     out=out.get(); pool.close()
     return out
 
+# Decodes the UTF8 and if it cant decode a byte it decodes it as ASCII
 def decode_until_error(data):
     decoded = ""; index = 0
     while index < len(data):
