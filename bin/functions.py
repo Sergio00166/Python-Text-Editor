@@ -4,6 +4,7 @@ from os import sep
 from sys import path
 path.append(path[0]+sep+"lib.zip")
 from wcwidth import wcwidth
+from functions1 import CalcRelLine
 
 ascii_map = { 0x00: '␀',  0x01: '␁',  0x02: '␂', 0x03: '␃', 0x04: '␄', 0x05: '␅', 0x06: '␆', 0x07: '␇',
               0x08: '␈',  0x0A: '␊',  0x0B: '␋', 0x0C: '␌', 0x0D: '␍', 0x0E: '␎', 0x0F: '␏', 0x10: '␐',
@@ -13,7 +14,7 @@ ascii_map = { 0x00: '␀',  0x01: '␁',  0x02: '␂', 0x03: '␃', 0x04: '␄',
 
 ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
-
+# Redo, sometimes appears one extra char
 def wrap(text, columns):
     out=[]; counter=-1; buffer=""
     text=text.expandtabs(8)
@@ -51,7 +52,6 @@ def str_len(text,pointer=None):
     for x in fix: lenght+=wcwidth(x)
     return lenght
 
-
 def fix_cursor_pos(text,pointer,columns,black,reset):
     len_arr=[]; ptr=pointer; pos=0
     pointer=str_len(fscp(text),pointer)   
@@ -81,8 +81,8 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
     arr = arr[offset:rows+offset+banoff]
     arr = fix_arr_line_len(arr,columns,black,reset)
-    arr[line-1] = text
-    
+    arr[line-banoff] = text
+
     for x in arr:
         ln=str_len(rscp(x,[black,reset],True))
         if ln<(columns+2): x=x+(" "*(columns-ln+2))
@@ -123,4 +123,3 @@ def rscp(arg,color,mode=False):
     for x in ascii_replaced:
         arg=arg.replace(b+x+r, " " if mode else r+x+b)
     return arg
-

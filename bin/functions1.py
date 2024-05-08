@@ -83,4 +83,3 @@ def decode_until_error(data):
     if decoded.endswith("\n"): decoded=decoded[:-1]
     if decoded.endswith("\r"): decoded=decoded[:-1]
     return decoded
-
