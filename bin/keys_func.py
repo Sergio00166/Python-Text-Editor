@@ -94,7 +94,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
             
     elif key==keys["ctrl+g"]:
         args=(columns,rows,banoff,line,arr,offset,black)
-        line,offset, = goto(*args)
+        line,offset = goto(*args)
 
     elif key==keys["ctrl+a"]:
         args = (filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt,getch,keys,fixstr)

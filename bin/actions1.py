@@ -32,8 +32,7 @@ def goto(columns, rows, banoff, line, arr, offset, black):
         line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     except: pass
     print("\033c", end="")
-    arr[line+offset-banoff]=text
-    return line, offset, text 
+    return line, offset
 
 def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
     if not len(copy_buffer)==0:
