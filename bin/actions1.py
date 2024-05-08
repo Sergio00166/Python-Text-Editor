@@ -15,11 +15,11 @@ def supr(pointer,offset,banoff,arr,line,select):
             arr[line+offset-banoff+1]=text+seltext
             arr.pop(line+offset-banoff+1)
             text=text+seltext
+        arr[line+offset-banoff]=text
     else:
-        select,arr,text,line,offset =\
+        select,arr,line,offset =\
         del_sel(select,arr,banoff)
-        
-    arr[line+offset-banoff]=text
+
     return arr, line, offset, select
 
 
@@ -29,7 +29,7 @@ def goto(columns, rows, banoff, line, arr, offset, black):
         print(black+(" "*(columns+2))+"\r", end="")
         print(" Go to line: ", end=""); p1=input()
         print("\r\033[%d;%dH"%(line, 1),end="")
-        line,offset,text = CalcRelLine(p1,arr,offset,line,banoff,rows)
+        line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     except: pass
     print("\033c", end="")
     arr[line+offset-banoff]=text
@@ -88,7 +88,7 @@ def copy(select,arr,line,offset,banoff,pointer):
 def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
     p1=line+offset-banoff-rows
     if p1<0: p1=0
-    line, offset, text =\
+    line, offset =\
     CalcRelLine(p1,arr,offset,line,banoff,rows)
     pointer,oldptr = fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text

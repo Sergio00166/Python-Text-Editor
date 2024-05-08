@@ -28,8 +28,7 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
             if p1<rows: offset=0; line=p1+banoff
             else: offset=p1-rows; line=rows+banoff
     except: pass
-    text=arr[line+offset-banoff]
-    return line, offset, text
+    return line, offset
 
 def fixfilename(filename, columns):
     if len(filename)+32>columns: #If filename overflows
@@ -45,8 +44,8 @@ def fixfilename(filename, columns):
 def del_sel(select, arr, banoff):
     p1=arr[:sum(select[0])]; p2=arr[sum(select[1]):]
     line=select[0][0]+banoff; offset=select[0][1]
-    select=[]; arr=p1+p2; text=arr[line+offset-banoff]
-    return select, arr, text, line, offset
+    select=[]; arr=p1+p2 
+    return select, arr, line, offset
 
 
 # Reads with UTF8 but the shit it cant decode it threats it like ASCII

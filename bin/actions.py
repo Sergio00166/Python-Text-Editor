@@ -56,8 +56,8 @@ def backspace(pointer,offset,line,arr,banoff,select):
                 if not offset==0: offset-=1
                 else: line-=1
                 status_st=False
-    else: select,arr,text,line,offset = del_sel(select,arr,banoff)
-    arr[line+offset-banoff]=text
+        arr[line+offset-banoff]=text
+    else: select,arr,line,offset = del_sel(select,arr,banoff)
     return line, offset, arr, pointer, select
 
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
