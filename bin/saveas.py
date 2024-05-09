@@ -94,13 +94,12 @@ def save_as(arg):
             elif key==keys["ctrl+s"] or key==keys["ctrl+b"]:
                 if key==["ctrl+b"] and filewrite==filename:
                     filewrite+=".bak"
-                out=open(filewrite,"w",encoding="UTF-8")
+                out=open(filewrite,"w",encoding="UTF-8",newline='')
                 out.write("\n".join(arr)); out.close(); status_st=True
                 if key==keys["ctrl+s"]:
-                    status=saved_txt; tmp=open(filewrite, "r", encoding="UTF-8").readlines(); arr=[]
-                    for x in tmp: arr.append(x.replace("\r","").replace("\n","").replace("\f",""))
-                    arr.append(""); filename=filewrite
-                    out=open(filewrite,"r",encoding="UTF-8")
+                    status=saved_txt
+                    arr=read_UTF8(filewrite)
+                    filename=filewrite
                     exit(); break
                 else:
                     status=black+"BkUPd"+reset
@@ -151,12 +150,13 @@ def save_as(arg):
 
             elif key==keys["ctrl+p"] or key==keys["ctrl+a"]:
                 try:
-                    tmp=open(filewrite, "r", encoding="UTF-8").readlines()
-                    status=saved_txt
+                    tmp=open(filewrite,"r",encoding="UTF-8",newline='')
+                    tmp=tmp.readlines(); status=saved_txt
                     if key==keys["ctrl+a"]: output=list(arr+tmp)
                     elif key==keys["ctrl+p"]: output=list(tmp+arr)
-                    out=open(filewrite, "w", encoding="UTF-8")
+                    out=open(filewrite,"w",encoding="UTF-8",newline='')
                     out.write("\n".join(output))
+                    out.close(); tmp.close()
                     exit(); break
                 except: pass
             

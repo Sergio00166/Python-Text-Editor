@@ -75,7 +75,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         status_st = False
 
     elif key==keys["ctrl+s"]:
-        out=open(filename,"w",encoding="UTF-8")
+        out=open(filename,"w",encoding="UTF-8",newline='')
         out.write("\n".join(arr)); out.close()
         status=saved_txt; status_st=True
         out=open(filename,"r",encoding="UTF-8")
