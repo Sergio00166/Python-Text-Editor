@@ -2,7 +2,11 @@
 
 from functions import scr_arr2str, rscp
 from functions1 import get_size, fixfilename
+from sys import stdout
 
+def print(text):
+    stdout.write(text)
+    stdout.flush()
 
 def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[]):
     # Create the string that represents on which line we are
@@ -67,7 +71,7 @@ def update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename
         # cursor where it is stored in line and
         # pointer vars and prints it
         menu+=("\r\033[%d;%dH"%(line+1, pointer))
-        print(menu, end="")
+        print(menu)
 
 
 def menu_updsrc(arg,mode=None,updo=False):
@@ -109,6 +113,6 @@ def menu_updsrc(arg,mode=None,updo=False):
             # Add scape secuence to move cursor
             menu+="\r\033[%d;%dH"%(fix_lip, wrtptr-1-fix_wrtptr)
             # Print the whole screen
-            print(menu, end="")
+            print(menu)
             
     return rows,columns

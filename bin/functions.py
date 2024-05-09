@@ -14,20 +14,20 @@ ascii_map = { 0x00: '␀',  0x01: '␁',  0x02: '␂', 0x03: '␃', 0x04: '␄',
 
 ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
-# Redo, sometimes appears one extra char
+# Now it seems to work
 def wrap(text, columns):
-    out=[]; counter=-1; buffer=""
+    out,buffer,counter = [],"",-1
     text=text.expandtabs(8)
     for x in text:
-        if counter>=columns-1:
-            lenght=str_len(fscp(x,True))
-            if lenght>0: ext=buffer; buffer=x
-            else: ext=buffer+x; buffer=""    
-            out.append(ext); counter=0
-        else: buffer+=x; counter+=str_len(fscp(x))
-    if not buffer=="": out.append(buffer)
+        lenght=str_len(fscp(x))
+        if counter+lenght>columns:
+            out.append(buffer)
+            buffer,counter = x,lenght
+        else:
+            buffer+=x
+            counter+=lenght
+    out.append(buffer)
     return out
-
 
 def fix_arr_line_len(arr, columns, black, reset):
     out=[]; fix=0//(columns+2)
@@ -94,6 +94,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
 
 
 # Replaces ascii control chars to the highlighted visual version
+optimiza este codigo
 def sscp(arg,color):
     global ascii_map
     b, r = color; ext = []
