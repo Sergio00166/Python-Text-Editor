@@ -23,7 +23,7 @@ if not __name__=="__main__":
     rows,columns=get_size(); ch_T_SP=False
     del init, Fore, Back, Style, deinit
     
-    version="v0.5.5.0"
+    version="v0.5.5.1"
     
     if sep==chr(92): #Windows
         from msvcrt import getch

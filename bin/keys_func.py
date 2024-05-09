@@ -109,18 +109,19 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
     else: #All the other keys
         if not str(key)[4:6] in fixstr:
             out=decode(key,getch); skip=False
+            inc=(4 if out=="\t" and ch_T_SP else 1)
             if len(select)>0:
                 if out=="\t":
-                    arr=mng_tab_select(arr,line,offset,select,ch_T_SP)
-                    skip = True
-                else:
-                    select,arr,line,offset = del_sel(select,arr,banoff)
-            if out=="\t" and ch_T_SP: out=" "*4; pointer+=3
+                    args=arr,line,offset,select,ch_T_SP
+                    arr,skip = mng_tab_select(*args), True
+                else: select,arr,line,offset = del_sel(select,arr,banoff)
+                
+            if out=="\t" and ch_T_SP: out=" "*4
             if not skip:
                 text=arr[line+offset-banoff]
                 p1,p2=text[:pointer-1],text[pointer-1:]
-                text=(p1+out+p2); pointer+=1
-                arr[line+offset-banoff]=text
+                pointer+=inc # Increment the char pos
+                arr[line+offset-banoff]=(p1+out+p2)
             status_st=False
 
     return pointer,oldptr,line,offset,columns,banoff,arr,rows,\
