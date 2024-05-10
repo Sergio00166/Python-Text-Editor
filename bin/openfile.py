@@ -49,7 +49,7 @@ def open_file(arg):
         old_settings = termios.tcgetattr(fd)
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,getch,keys,pointer,fixstr = arg
+    line,banner,status_st,getch,keys,pointer,fixstr,select = arg
 
     openfile=sep.join(filename.split(sep)[:-1])+sep
     opentxt=" Open: "; lenght=len(opentxt)+2; wrtptr=lenght+len(openfile)
@@ -94,9 +94,8 @@ def open_file(arg):
             elif key==keys["ctrl+o"]:
                 openfile=glob(openfile, recursive=False)[0]
                 arr=read_UTF8(openfile); filename=openfile
-                exit(); status_st=False
-                pointer=offset=0; line=1
-                break
+                status_st,line,select = False,1,[]
+                pointer=offset=0; exit(); break
                 
             elif key==keys["ctrl+q"]: exit(); break
         
@@ -160,4 +159,4 @@ def open_file(arg):
                     complete=False
         except: pass
     
-    return arr,filename,status_st,pointer,line,offset
+    return arr,filename,status_st,pointer,line,offset,select

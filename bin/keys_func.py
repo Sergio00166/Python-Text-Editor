@@ -97,12 +97,14 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         line,offset = goto(*args)
 
     elif key==keys["ctrl+a"]:
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt,getch,keys,fixstr)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
+                offset,line,banner,status_st,saved_txt,getch,keys,fixstr)
         status_st,filename,status = save_as(args)
 
     elif key==keys["ctrl+o"]:
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,getch,keys,pointer,fixstr)
-        arr,filename,status_st,pointer,line,offset = open_file(args)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
+                offset,line,banner,status_st,getch,keys,pointer,fixstr,select)
+        arr,filename,status_st,pointer,line,offset,select = open_file(args)
         
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
 

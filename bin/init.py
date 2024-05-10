@@ -23,7 +23,13 @@ if not __name__=="__main__":
     bnc=Back.LIGHTYELLOW_EX+Style.DIM+Fore.BLACK+Style.DIM
     slc=Back.LIGHTWHITE_EX+Style.DIM+Fore.BLACK+Style.DIM
     deinit(); del init, Fore, Back, Style, deinit
-    
+
+    if not sep==chr(92): #If OS is LINUX
+        #Get default values for TTY
+        import sys; import termios; import tty
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+  
     version="v0.5.6.0"
     
     if sep==chr(92): #Windows

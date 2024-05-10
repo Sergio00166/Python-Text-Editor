@@ -97,9 +97,8 @@ def save_as(arg):
                 out=open(filewrite,"w",encoding="UTF-8",newline='')
                 out.write("\n".join(arr)); out.close(); status_st=True
                 if key==keys["ctrl+s"]:
-                    status=saved_txt
-                    arr=read_UTF8(filewrite)
-                    filename=filewrite
+                    status,filename = saved_txt,filewrite
+                    arr = read_UTF8(filewrite)
                     exit(); break
                 else:
                     status=black+"BkUPd"+reset
