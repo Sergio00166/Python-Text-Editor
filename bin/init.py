@@ -18,10 +18,12 @@ if not __name__=="__main__":
     from time import sleep as delay
     from time import time
 
-    init(autoreset=False,convert=True); reset=Style.RESET_ALL
-    black=Back.LIGHTCYAN_EX+Style.DIM+Fore.BLACK+Style.DIM
-    bnc=Back.LIGHTYELLOW_EX+Style.DIM+Fore.BLACK+Style.DIM
-    slc=Back.LIGHTWHITE_EX+Style.DIM+Fore.BLACK+Style.DIM
+    # Define colors
+    init(autoreset=False,convert=True)
+    reset=Style.RESET_ALL
+    bnc=Back.LIGHTGREEN_EX+Fore.BLACK
+    black=Back.LIGHTCYAN_EX+Fore.BLACK
+    slc=Back.LIGHTWHITE_EX+Fore.BLUE
     deinit(); del init, Fore, Back, Style, deinit
 
     if not sep==chr(92): #If OS is LINUX
