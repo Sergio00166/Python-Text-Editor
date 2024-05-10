@@ -21,7 +21,7 @@ if not __name__=="__main__":
     # Define colors
     init(autoreset=False,convert=True)
     reset=Style.RESET_ALL
-    bnc=Back.LIGHTGREEN_EX+Fore.BLACK
+    bnc=Back.LIGHTGREEN_EX+Fore.BLUE+Style.DIM
     black=Back.LIGHTCYAN_EX+Fore.BLACK
     slc=Back.LIGHTWHITE_EX+Fore.BLUE
     deinit(); del init, Fore, Back, Style, deinit
