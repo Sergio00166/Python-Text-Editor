@@ -6,11 +6,6 @@ def updscr_thr():
     global banner,filename,rows,columns,run_thread,text
     global kill,p_offset,arr,select
     
-    if not sep==chr(92): #If OS is LINUX
-        #Get default values for TTY
-        import sys; import termios; import tty
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
     while not kill:
         delay(0.01)
         if run_thread:
