@@ -62,7 +62,7 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
         pointer-=str_len(fscp(x))
     if pos>0: pointer+=1
     if not len(wrapped_text)==0:
-      if pos>len(wrapped_text)-1: pos=-1
+        if pos>len(wrapped_text)-1: pos=-1
         text=wrapped_text[pos]
         text=sscp(text,[black,reset])
         if pos>0:
