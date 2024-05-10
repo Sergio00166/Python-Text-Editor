@@ -22,8 +22,8 @@ if not __name__=="__main__":
     init(autoreset=False,convert=True)
     reset=Style.RESET_ALL
     bnc=Back.LIGHTGREEN_EX+Fore.BLUE+Style.DIM
-    black=Back.LIGHTCYAN_EX+Fore.BLACK
-    slc=Back.LIGHTWHITE_EX+Fore.BLUE
+    black=Back.LIGHTCYAN_EX+Fore.BLACK+Style.DIM
+    slc=Back.LIGHTWHITE_EX+Fore.BLUE+Style.BRIGHT
     deinit(); del init, Fore, Back, Style, deinit
 
     if not sep==chr(92): #If OS is LINUX
