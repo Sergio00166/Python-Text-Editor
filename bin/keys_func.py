@@ -93,7 +93,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         pointer,arr,status_st,copy_buffer,line,offset,select = paste(*args)                                              
             
     elif key==keys["ctrl+g"]:
-        args=(columns,rows,banoff,line,arr,offset,black)
+        args=(columns,rows,banoff,line,arr,offset,bnc)
         line,offset = goto(*args)
 
     elif key==keys["ctrl+a"]:
