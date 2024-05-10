@@ -19,11 +19,12 @@ if not __name__=="__main__":
     from time import time
 
     init(autoreset=False,convert=True); reset=Style.RESET_ALL
-    black=Back.WHITE+Style.DIM+Fore.BLACK+Style.DIM; deinit()
-    rows,columns=get_size(); ch_T_SP=False
-    del init, Fore, Back, Style, deinit
+    black=Back.LIGHTCYAN_EX+Style.DIM+Fore.BLACK+Style.DIM
+    bnc=Back.LIGHTYELLOW_EX+Style.DIM+Fore.BLACK+Style.DIM
+    slc=Back.LIGHTWHITE_EX+Style.DIM+Fore.BLACK+Style.DIM
+    deinit(); del init, Fore, Back, Style, deinit
     
-    version="v0.5.5.2"
+    version="v0.5.6.0"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
@@ -56,10 +57,12 @@ if not __name__=="__main__":
             fixstr.append(str(x)+y)
     
     #Define a lot of stuff
-    text=arr[0]; pointer=offset=0; line=banoff=1
+    pointer=offset=0; line=banoff=1
     banner=["pBTE",version]
-    copy_buffer=""; fix=False; oldptr=p_offset=0
-    select=[]; end=1; start=0
+    copy_buffer,fix = "",False
+    oldptr=p_offset=0
+    select,end,start,ch_T_SP = [],1,0,False
+    rows,columns=get_size()
 
     #Flag to show after saving the file
     saved_txt="SAVED"; status=saved_df=" "*5; status_st=False

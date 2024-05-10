@@ -119,7 +119,13 @@ def fscp(arg,null=False):
 # Inverts the highlight (for the highlight selector)
 def rscp(arg,color,mode=False):
     global ascii_replaced
-    b, r = color
+    if len(color)==3:
+        b,r,c = color
+        b1 = r+b
+        r1 = r+c
+    else:
+        b,r = color
+        b1,r1 = b,r
     for x in ascii_replaced:
-        arg=arg.replace(b+x+r, " " if mode else r+x+b)
+        arg=arg.replace(b+x+r, " " if mode else r1+x+b1)
     return arg

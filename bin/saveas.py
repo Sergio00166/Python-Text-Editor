@@ -13,7 +13,7 @@ if not sep==chr(92): import tty; import termios
 def updscr_thr():
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
-    global run, kill, fd, old_settings, status_st
+    global run, kill, fd, old_settings, status_st, bnc, slc
     
     while not kill:
         delay(0.01)
@@ -23,7 +23,7 @@ def updscr_thr():
                 termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
             # Call Screen updater
             mode=(filewrite,saveastxt,wrtptr,lenght)
-            arg=(black,reset,status,banoff,offset,line,\
+            arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode)
             # If OS is LINUX set TTY to raw mode
@@ -41,7 +41,7 @@ def exit():
 def save_as(arg):
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
-    global run, kill, fd, thr, old_settings, status_st
+    global run, kill, fd, thr, old_settings, status_st, bnc, slc
 
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
@@ -49,7 +49,7 @@ def save_as(arg):
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
 
-    filename,black,reset,rows,banoff,arr,columns,status,offset,\
+    filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
     line,banner,status_st,saved_txt,getch,keys,fixstr = arg
 
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
@@ -66,7 +66,7 @@ def save_as(arg):
             if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
             # Call Screen updater
             mode=(filewrite,saveastxt,wrtptr,lenght)
-            arg=(black,reset,status,banoff,offset,line,\
+            arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode,True)
             # If OS is LINUX set TTY to raw mode

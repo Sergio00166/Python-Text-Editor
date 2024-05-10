@@ -27,7 +27,7 @@ def updscr_thr():
                 print("\r\033c",end="") #Clear screen
                 # If OS is LINUX restore TTY to it default values
                 if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-                update_scr(black,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,False,select)
+                update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
                 if not sep==chr(92): tty.setraw(fd)
 
@@ -58,7 +58,7 @@ if __name__=="__main__":
                 # Get the terminal size
                 rows,columns=get_size()
                 # Call screen updater function
-                update_scr(black,reset,status,banoff,offset,line,pointer,arr,\
+                update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,\
                            banner,filename,rows,columns,status_st,False,select)
             if not key_fast: run_thread=True #Start update Thread
             # Set time after reading key from keyboard and stopping the update Thread
@@ -72,7 +72,7 @@ if __name__=="__main__":
             else: #Call keys functions (Yeah, its a lot of args and returned values)
                 args = (key,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
                         filename,status,status_st,copy_buffer,fixstr,fix,\
-                        black,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
+                        black,bnc,slc,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
                 
                 pointer,oldptr,line,offset,columns,banoff,arr,rows,\
                 filename,status,status_st,copy_buffer,fixstr,fix,\

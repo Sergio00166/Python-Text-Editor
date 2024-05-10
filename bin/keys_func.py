@@ -8,7 +8,7 @@ from openfile import open_file
 
 def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
               filename,status,status_st,copy_buffer,fixstr,fix,\
-              black,reset,saved_txt,ch_T_SP,banner,getch,keys,select):
+              black,bnc,slc,reset,saved_txt,ch_T_SP,banner,getch,keys,select):
         
     if key==keys["special"]:
         if not sep==chr(92): getch()
@@ -97,11 +97,11 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         line,offset = goto(*args)
 
     elif key==keys["ctrl+a"]:
-        args = (filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt,getch,keys,fixstr)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,saved_txt,getch,keys,fixstr)
         status_st,filename,status = save_as(args)
 
     elif key==keys["ctrl+o"]:
-        args = (filename,black,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,getch,keys,pointer,fixstr)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,banner,status_st,getch,keys,pointer,fixstr)
         arr,filename,status_st,pointer,line,offset = open_file(args)
         
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
