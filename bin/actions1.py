@@ -22,7 +22,6 @@ def supr(pointer,offset,banoff,arr,line,select):
 
     return arr, line, offset, select
 
-
 def goto(columns, rows, banoff, line, arr, offset, black):
     try:
         print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
@@ -101,6 +100,3 @@ def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
     pointer,oldptr = fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
     return line, offset, pointer, oldptr
-
-
-    

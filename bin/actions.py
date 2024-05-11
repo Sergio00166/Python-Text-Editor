@@ -98,18 +98,3 @@ def right(pointer,columns,offset,line,banoff,arr,rows,oldptr):
             else: offset+=1
             pointer=1
     return pointer, oldptr, line, offset
-
-def mng_tab_select(arr,line,offset,select,ch_T_SP):
-    # Get the values from select
-    start=sum(select[0]); end=sum(select[1])
-    # Get the text that is upper and below the selected region
-    p0=arr[:start]; p2=arr[end:]
-    # Get the text that is selected
-    p1=arr[start:end]
-    # Add a tab at the start of each element
-    tab=" "*4 if ch_T_SP else "\t"
-    p1=[tab+x for x in p1]
-    # Now reconstruct all arr
-    return p0+p1+p2
-
-        
