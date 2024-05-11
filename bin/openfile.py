@@ -142,8 +142,8 @@ def open_file(arg):
             elif key==keys["return"]: pass
             
             elif key==keys["ctrl+n"]:
-                arr=[""]; text=""
-                pointer=1; offset=0; line=1
+                pointer,offset,line = 1,0,1
+                arr,select = [""],[]
                 filename=getcwd()+sep+"NewFile"
                 exit(); break
             
