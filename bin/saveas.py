@@ -92,17 +92,12 @@ def save_as(arg):
             
             #Ctrl + A (confirms) or Ctrl + B backup
             elif key==keys["ctrl+s"] or key==keys["ctrl+b"]:
-                if key==["ctrl+b"] and filewrite==filename:
-                    filewrite+=".bak"
+                if key==["ctrl+b"] and filewrite==filename: filewrite+=".bak"
                 out=open(filewrite,"w",encoding="UTF-8",newline='')
                 out.write("\n".join(arr)); out.close(); status_st=True
-                if key==keys["ctrl+s"]:
-                    status,filename = saved_txt,filewrite
-                    arr = read_UTF8(filewrite)
-                    exit(); break
-                else:
-                    status=black+"BkUPd"+reset
-                    exit(); break
+                if key==keys["ctrl+b"]: status=black+"BkUPd"+reset
+                else: status,filename = saved_txt,filewrite
+                exit(); break
                 
             elif key==keys["ctrl+q"]: exit(); break
         
