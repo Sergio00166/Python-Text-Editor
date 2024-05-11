@@ -95,7 +95,7 @@ def save_as(arg):
                 if key==["ctrl+b"] and filewrite==filename: filewrite+=".bak"
                 out=open(filewrite,"w",encoding="UTF-8",newline='')
                 out.write("\n".join(arr)); out.close(); status_st=True
-                if key==keys["ctrl+b"]: status=black+"BkUPd"+reset
+                if key==keys["ctrl+b"]: status=bnc+"BCKPd"
                 else: status,filename = saved_txt,filewrite
                 exit(); break
                 
@@ -143,16 +143,13 @@ def save_as(arg):
             elif key==keys["return"]: pass
 
             elif key==keys["ctrl+p"] or key==keys["ctrl+a"]:
-                try:
-                    tmp=open(filewrite,"r",encoding="UTF-8",newline='')
-                    tmp=tmp.readlines(); status=saved_txt
-                    if key==keys["ctrl+a"]: output=list(arr+tmp)
-                    elif key==keys["ctrl+p"]: output=list(tmp+arr)
-                    out=open(filewrite,"w",encoding="UTF-8",newline='')
-                    out.write("\n".join(output))
-                    out.close(); tmp.close()
-                    exit(); break
-                except: pass
+                tmp=open(filewrite,"r",encoding="UTF-8",newline='').readlines()
+                if key==keys["ctrl+a"]: output=list(arr+tmp)
+                elif key==keys["ctrl+p"]: output=list(tmp+arr)
+                out=open(filewrite,"w",encoding="UTF-8",newline='')
+                out.write("\n".join(output)); out.close()
+                status,status_st = bnc+"ADDED",True
+                exit(); break
             
             else: #Rest of keys
                 cond1=wrtptr<((columns+2)*rows+1)
