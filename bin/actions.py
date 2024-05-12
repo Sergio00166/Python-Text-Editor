@@ -15,9 +15,11 @@ def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
         pointer,oldptrt=fixlenline(text,pointer,oldptr)
     if selected:
         seled=[line-banoff,offset]
-        if not len(select)==0:
-            select[1]=seled
-        else: select=[selst,seled]
+        if sum(seled)<fix:
+            seled[0]=seled[0]+1
+        if len(select)==0:
+            select=[selst,seled]
+        else: select[1]=seled
     else: select=[]
     return pointer, oldptr, offset, line, select
 
@@ -30,9 +32,9 @@ def up(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
     pointer,oldptr=fixlenline(text,pointer,oldptr)
     if selected:
         selst=[line-banoff,offset]
-        if not len(select)==0:
-            select[0]=selst
-        else: select=[selst,seled]
+        if len(select)==0:
+            select=[selst,seled]
+        else: select[0]=selst
     else: select=[]
     return pointer, oldptr, offset, line, select
 

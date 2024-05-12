@@ -45,6 +45,8 @@ if __name__=="__main__":
         try:
             # Fix for the pointer variable
             if pointer==0: pointer=1
+            # Fix arr when empty
+            if len(arr)==0: arr=[""]
             # If detected key to quickly (Ctrl + V)
             key_fast=end-start<0.01
             if not key_fast:
@@ -74,4 +76,5 @@ if __name__=="__main__":
                 ch_T_SP,select = keys_func(*args)
                 
         except: pass
+            
 
