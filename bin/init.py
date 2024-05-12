@@ -32,7 +32,7 @@ if not __name__=="__main__":
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
   
-    version="v0.5.6.0"
+    version="v0.5.6.1"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
