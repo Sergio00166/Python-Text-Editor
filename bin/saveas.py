@@ -7,7 +7,9 @@ from os import sep
 from time import sleep as delay
 from glob import glob
 
-if not sep==chr(92): import tty; import termios
+if not sep==chr(92):
+    from termios import TCSADRAIN, tcsetattr, tcgetattr
+    from tty import setraw
 
 
 def updscr_thr():
@@ -19,22 +21,20 @@ def updscr_thr():
         delay(0.01)
         if run:
             # If OS is LINUX restore TTY to it default values
-            if not sep==chr(92):
-                termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+            if not sep==chr(92): tcsetattr(fd,TCSADRAIN,old_settings)
             # Call Screen updater
             mode=(filewrite,saveastxt,wrtptr,lenght)
             arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode)
             # If OS is LINUX set TTY to raw mode
-            if not sep==chr(92): tty.setraw(fd)
+            if not sep==chr(92): setraw(fd)
 
 
 def exit():
     global fd, old_settings, run, kill, thr
     run=False; kill=True; thr.join()
-    if not sep == chr(92):
-        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    if not sep == chr(92): tcsetattr(fd,TCSADRAIN,old_settings)
     print(reset+"\r\033c", end="")
 
 
@@ -50,7 +50,7 @@ def save_as(arg):
         old_settings = termios.tcgetattr(fd)
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,saved_txt,getch,keys,fixstr = arg
+    line,banner,status_st,saved_txt,keys,fixstr,read_key = arg
 
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
     filewrite=filename; wrtptr=lenght+len(filewrite)
@@ -73,7 +73,7 @@ def save_as(arg):
             if not sep==chr(92): tty.setraw(fd)
             
             run=True #Start update screen thread
-            key=getch() #Map keys
+            key=read_key() #Map keys
             run=False #Stop update screen thread
 
             if key==keys["tab"]:
@@ -155,7 +155,7 @@ def save_as(arg):
                 cond1=wrtptr<((columns+2)*rows+1)
                 cond2=str(key)[4:6] in fixstr
                 if cond1 and not cond2:
-                    out=decode(key,getch)
+                    out=decode(key)
                     p1=filewrite[:wrtptr-lenght]
                     p2=filewrite[wrtptr-lenght:]
                     filewrite=p1+out+p2

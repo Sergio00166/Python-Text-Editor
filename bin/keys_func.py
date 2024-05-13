@@ -8,60 +8,47 @@ from openfile import open_file
 
 def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
               filename,status,status_st,copy_buffer,fixstr,fix,\
-              black,bnc,slc,reset,saved_txt,ch_T_SP,banner,getch,keys,select):
+              black,bnc,slc,reset,saved_txt,ch_T_SP,banner,read_key,keys,select):
+
+    if key==keys["supr"]:
+        args=(pointer,offset,banoff,arr,line,select)
+        arr, line, offset, select = supr(*args)
+        status_st = False
+
+    elif key==keys["arr_up"] or key==keys["ctrl+arr_up"]:
+        fix = key==keys["ctrl+arr_up"]
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
+        pointer,oldptr,offset,line,select = up(*args)
         
-    if key==keys["special"]:
-        if not sep==chr(92): getch()
-        special_key=getch() #Read char
-        fix=(sep==chr(92) or special_key==b'1')
-        if not sep==chr(92) and special_key==b'1':
-            getch(); getch(); special_key=getch()
+    elif key==keys["arr_down"] or key==keys["ctrl+arr_down"]:
+        fix = key==keys["ctrl+arr_down"]
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
+        pointer, oldptr, offset, line, select = down(*args)
 
-        if special_key==keys["supr"]:
-            args=(pointer,offset,banoff,arr,line,select)
-            arr, line, offset, select = supr(*args)
-            if not sep==chr(92): getch()
-            status_st = False
-            
-        # Not implemented yet
-        elif special_key==keys["insert"] and (not sep==chr(92)): getch()
-
-        elif special_key==keys["arr_up"] or special_key==keys["ctrl+arr_up"]:
-            fix = special_key==keys["ctrl+arr_up"] and fix
-            args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
-            pointer,oldptr,offset,line,select = up(*args)
-            
-        elif special_key==keys["arr_down"] or special_key==keys["ctrl+arr_down"]:
-            fix = special_key==keys["ctrl+arr_down"] and fix
-            args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
-            pointer, oldptr, offset, line, select = down(*args)
-
-        elif special_key==keys["arr_right"] or special_key==keys["ctrl+arr_right"]:
-            args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
-            pointer,oldptr,line,offset = right(*args); select=[]
-            
-        elif special_key==keys["arr_left"] or special_key==keys["ctrl+arr_left"]:
-            args=(pointer,oldptr,line,offset,banoff,arr)
-            pointer,oldptr,line,offset = left(*args); select=[]
-            
-        elif special_key==keys["start"]:
-            pointer,oldptr,select = 1,1,[]
-            
-        elif special_key==keys["end"]:
-            text=arr[line+offset-banoff]
-            pointer = len(text)+1
-            oldptr,select = pointer,[]
-            
-        elif special_key==keys["repag"] or special_key==keys["ctrl+repag"]:
-            fix = special_key==keys["ctrl+repag"] and fix
-            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
-            line,offset,pointer,oldptr,select = repag(*args)
-            
-        elif special_key==keys["avpag"] or special_key==keys["ctrl+avpag"]:
-            fix = special_key==keys["ctrl+avpag"] and fix
-            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
-            line,offset,pointer,oldptr,select = avpag(*args)
-            if not sep==chr(92): getch()
+    elif key==keys["arr_right"] or key==keys["ctrl+arr_right"]:
+        args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
+        pointer,oldptr,line,offset = right(*args); select=[]
+        
+    elif key==keys["arr_left"] or key==keys["ctrl+arr_left"]:
+        args=(pointer,oldptr,line,offset,banoff,arr)
+        pointer,oldptr,line,offset = left(*args); select=[]
+        
+    elif key==keys["start"]: pointer,oldptr,select = 1,1,[]
+        
+    elif key==keys["end"]:
+        text=arr[line+offset-banoff]
+        pointer = len(text)+1
+        oldptr,select = pointer,[]
+        
+    elif key==keys["repag"] or key==keys["ctrl+repag"]:
+        fix = key==keys["ctrl+repag"]
+        args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
+        line,offset,pointer,oldptr,select = repag(*args)
+        
+    elif key==keys["avpag"] or key==keys["ctrl+avpag"]:
+        fix = key==keys["ctrl+avpag"]
+        args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
+        line,offset,pointer,oldptr,select = avpag(*args)
             
 
     elif key==keys["delete"]:
@@ -98,34 +85,20 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
 
     elif key==keys["ctrl+a"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
-                offset,line,banner,status_st,saved_txt,getch,keys,fixstr)
+                offset,line,banner,status_st,saved_txt,keys,fixstr,read_key)
         status_st,filename,status = save_as(args)
 
     elif key==keys["ctrl+o"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
-                offset,line,banner,status_st,getch,keys,pointer,fixstr,select)
+                offset,line,banner,status_st,keys,pointer,fixstr,select,read_key)
         arr,filename,status_st,pointer,line,offset,select = open_file(args)
         
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
 
     else: #All the other keys
-        if not str(key)[4:6] in fixstr:
-            out=decode(key,getch); skip=False
-            inc=(4 if out=="\t" and ch_T_SP else 1)
-            if len(select)>0:
-                if out=="\t":
-                    args=arr,line,offset,select,ch_T_SP
-                    arr,skip = mng_tab_select(*args), True
-                else: select,arr,line,offset = del_sel(select,arr,banoff)
+        args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows)
+        arr, pointer, line, offset = get_str(*args)
                 
-            if out=="\t" and ch_T_SP: out=" "*4
-            if not skip:
-                text=arr[line+offset-banoff]
-                p1,p2=text[:pointer-1],text[pointer-1:]
-                pointer+=inc # Increment the char pos
-                arr[line+offset-banoff]=(p1+out+p2)
-            status_st=False
-
     return pointer,oldptr,line,offset,columns,banoff,arr,rows,\
            filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,select
 

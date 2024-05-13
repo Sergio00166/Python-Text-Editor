@@ -60,6 +60,17 @@ def backspace(pointer,offset,line,arr,banoff,select):
     else: select,arr,line,offset = del_sel(select,arr,banoff)
     return line, offset, arr, pointer, select
 
+def goto(columns, rows, banoff, line, arr, offset, black):
+    try:
+        print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
+        print(black+(" "*(columns+2))+"\r", end="")
+        print(" Go to line: ", end=""); p1=input()
+        print("\r\033[%d;%dH"%(line, 1),end="")
+        line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
+    except: pass
+    print("\033c", end="")
+    return line, offset
+
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
     text=arr[line+offset-banoff]
     p1=arr[:line+offset-banoff]

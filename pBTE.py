@@ -21,10 +21,10 @@ def updscr_thr():
                 # Call screen updater function
                 print("\r\033c",end="") #Clear screen
                 # If OS is LINUX restore TTY to it default values
-                if not sep==chr(92): termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+                if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
                 update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
-                if not sep==chr(92): tty.setraw(fd)
+                if not sep==chr(92): setraw(fd)
 
 
 if __name__=="__main__":

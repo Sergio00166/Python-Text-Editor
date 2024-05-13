@@ -3,7 +3,7 @@
            
 if not __name__=="__main__":
 
-    from os import getcwd, sep
+    from os import getcwd, sep, read
     from sys import argv, path
     from os.path import isabs, isdir
     from glob import glob
@@ -28,24 +28,34 @@ if not __name__=="__main__":
 
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
-        import sys; import termios; import tty
-        fd = sys.stdin.fileno()
-        old_settings = termios.tcgetattr(fd)
+        from termios import TCSADRAIN, tcsetattr, tcgetattr
+        from tty import setraw; from sys import stdin
+        fd = stdin.fileno()
+        old_settings = tcgetattr(fd)
   
-    version="v0.5.6.3"
+    version="v0.5.7.0"
     
-    if sep==chr(92): #Windows
-        from msvcrt import getch
-    else: # Unix like OSes
-        import sys; import tty; import termios
+    if sep==chr(92):
+        from msvcrt import getch as getchar, kbhit
+        
         def getch():
-            fd = sys.stdin.fileno()
-            old_settings = termios.tcgetattr(fd)
-            try:
-                tty.setraw(fd)
-                char = sys.stdin.read(1).encode('utf-8')
-            finally: termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-            return char
+            out=[getchar()]
+            count=0
+            while kbhit():
+                out.append(getchar())
+                count+=1
+                if count==8: break
+            return b''.join(out)
+        
+    else: # Linux
+        
+        def getch():
+            setraw(fd)
+            old=(fd,TCSADRAIN,old_settings)
+            try: out=read(fd,8)
+            finally: tcsetattr(*old)
+            return out
+
 
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:
@@ -81,23 +91,21 @@ if not __name__=="__main__":
     # Here we have all the mapped scape codes for the keys and for Windows and Linux
     
     if sep==chr(92):
-
         keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
                 "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
-                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
-                "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',"end":b'O',
-                "repag":b'I',"avpag":b'Q',"tab":b'\t',"insert":b'\R',"ctrl+arr_up":b'\x8d',
-                "ctrl+arr_down":b'\x91',"ctrl+arr_left":b's',"ctrl+arr_right":b't',
-                "ctrl+repag":b'\x86', "ctrl+avpag":b'v'}
-
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'\xe0H',"arr_down":b'\xe0P',
+                "arr_right":b'\xe0M',"arr_left":b'\xe0K',"supr":b'\xe0S',"start":b'\xe0G',
+                "end":b'\xe0O',"repag":b'\xe0I',"avpag":b'\xe0Q',"tab":b'\t',"insert":b'\xe0R',
+                "ctrl+arr_up":b'\xe0\x8d',"ctrl+arr_down":b'\xe0\x91',"ctrl+arr_left":b'\xe0s',
+                "ctrl+arr_right":b'\xe0t',"ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v'}
+        
     else:
-
         keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
                 "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
-                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'A',"arr_down":b'B',
-                "arr_right":b'C',"arr_left":b'D',"supr":b'3',"start":b'H',"end":b'F',
-                "repag":b'5',"avpag":b'6',"tab":b'\t',"insert":b'2',"ctrl+arr_up":b'A',
-                "ctrl+arr_down":b'B',"ctrl+arr_left":b'D',"ctrl+arr_right":b'C',
-                "ctrl+repag":b'5', "ctrl+avpag":b'6'}
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'\x1b[A',"arr_down":b'\x1b[B',
+                "arr_right":b'\x1b[C',"arr_left":b'\x1b[D',"supr":b'\x1b[3~',"start":b'\x1b[H',
+                "end":b'\x1b[F',"repag":b'\x1b[5~',"avpag":b'\x1b[6~',"tab":b'\t',"insert":b'2',
+                "ctrl+arr_up":b'\x1b[1;5A',"ctrl+arr_down":b'\x1b[1;5B',"ctrl+arr_left":b'\x1b[1;5D',
+                "ctrl+arr_right":b'\x1b[1;5C',"ctrl+repag":b'\x1b[5;5~',"ctrl+avpag":b'\x1b[6;5~'}
