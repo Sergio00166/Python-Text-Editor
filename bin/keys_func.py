@@ -45,7 +45,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
             pointer,oldptr,line,offset = left(*args); select=[]
             
         elif special_key==keys["start"]:
-            pointer,p_offset,oldptr,select = 1,0,pointer,[]
+            pointer,oldptr,select = 1,1,[]
             
         elif special_key==keys["end"]:
             text=arr[line+offset-banoff]
