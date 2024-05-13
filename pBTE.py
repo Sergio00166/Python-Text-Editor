@@ -27,7 +27,6 @@ def updscr_thr():
                 if not sep==chr(92): tty.setraw(fd)
 
 
-
 if __name__=="__main__":
     
     from sys import path
@@ -45,6 +44,11 @@ if __name__=="__main__":
         try:
             # Fix for the pointer variable
             if pointer==0: pointer=1
+            # Fix when line or offset is out of range
+            lenght=len(arr)-1
+            if lenght<0: lenght=0
+            if line+offset-offset>lenght:
+                line,offset = CalcRelLine(lenght,arr,offset,line,banoff,rows)              
             # Fix arr when empty
             if len(arr)==0: arr=[""]
             # If detected key to quickly (Ctrl + V)
@@ -76,5 +80,3 @@ if __name__=="__main__":
                 ch_T_SP,select = keys_func(*args)
                 
         except: pass
-            
-

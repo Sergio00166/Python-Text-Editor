@@ -7,7 +7,7 @@ if not __name__=="__main__":
     from sys import argv, path
     from os.path import isabs, isdir
     from glob import glob
-    from functions1 import get_size, read_UTF8
+    from functions1 import get_size, read_UTF8, CalcRelLine
     from functions import str_len, fscp
     from upd_scr import update_scr
     from keys_func import keys_func
@@ -32,7 +32,7 @@ if not __name__=="__main__":
         fd = sys.stdin.fileno()
         old_settings = termios.tcgetattr(fd)
   
-    version="v0.5.6.1"
+    version="v0.5.6.2"
     
     if sep==chr(92): #Windows
         from msvcrt import getch
