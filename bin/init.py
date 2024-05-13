@@ -80,21 +80,24 @@ if not __name__=="__main__":
 
     # Here we have all the mapped scape codes for the keys and for Windows and Linux
     
-    if sep==chr(92):
-        keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
-                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
-                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
-                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
-                "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',"end":b'O',
-                "repag":b'I',"avpag":b'Q',"tab":b'\t',"insert":b'\R',"ctrl+arr_up":b'\x8d',
-                "ctrl+arr_down":b'\x91',"ctrl+arr_left":b's',"ctrl+arr_right":b't',
-                "ctrl+repag":b'\x86', "ctrl+avpag":b'v'}
-    else:
-        keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
-                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
-                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
-                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'A',"arr_down":b'B',
-                "arr_right":b'C',"arr_left":b'D',"supr":b'3',"start":b'H',"end":b'F',
-                "repag":b'5',"avpag":b'6',"tab":b'\t',"insert":b'2',"ctrl+arr_up":b'A',
+    if sep==chr(92):
+
+        keys = {"special":b'\xe0',"delete":b'\x08',"return":b'\r',"ctrl+s":b'\x13',
+                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
+                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'H',"arr_down":b'P',
+                "arr_right":b'M',"arr_left":b'K',"supr":b'S',"start":b'G',"end":b'O',
+                "repag":b'I',"avpag":b'Q',"tab":b'\t',"insert":b'\R',"ctrl+arr_up":b'\x8d',
+                "ctrl+arr_down":b'\x91',"ctrl+arr_left":b's',"ctrl+arr_right":b't',
+                "ctrl+repag":b'\x86', "ctrl+avpag":b'v'}
+
+    else:
+
+        keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
+                "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
+                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
+                "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'A',"arr_down":b'B',
+                "arr_right":b'C',"arr_left":b'D',"supr":b'3',"start":b'H',"end":b'F',
+                "repag":b'5',"avpag":b'6',"tab":b'\t',"insert":b'2',"ctrl+arr_up":b'A',
                 "ctrl+arr_down":b'B',"ctrl+arr_left":b'D',"ctrl+arr_right":b'C',
                 "ctrl+repag":b'5', "ctrl+avpag":b'6'}
