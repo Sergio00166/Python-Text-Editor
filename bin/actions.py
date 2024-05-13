@@ -3,8 +3,7 @@
 from functions1 import *
 
 
-def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
-    selected=key==keys["ctrl+arr_down"] and fix
+def down(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
     if selected:
         selst=[line-banoff,offset]
         fix=line+offset
@@ -23,8 +22,7 @@ def down(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
     else: select=[]
     return pointer, oldptr, offset, line, select
 
-def up(line,offset,arr,banoff,oldptr,rows,pointer,key,keys,select,fix):
-    selected=key==keys["ctrl+arr_up"] and fix
+def up(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
     if selected: seled=[line-banoff,offset]
     if not line==banoff: line-=1
     elif offset>0: offset-=1

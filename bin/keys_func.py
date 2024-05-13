@@ -27,42 +27,42 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         elif special_key==keys["insert"] and (not sep==chr(92)): getch()
 
         elif special_key==keys["arr_up"] or special_key==keys["ctrl+arr_up"]:
-            args=(line,offset,arr,banoff,oldptr,rows,pointer,special_key,keys,select,fix)
+            fix = special_key==keys["ctrl+arr_up"] and fix
+            args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
             pointer,oldptr,offset,line,select = up(*args)
             
         elif special_key==keys["arr_down"] or special_key==keys["ctrl+arr_down"]:
-            args=(line,offset,arr,banoff,oldptr,rows,pointer,special_key,keys,select,fix)
+            fix = special_key==keys["ctrl+arr_down"] and fix
+            args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
             pointer, oldptr, offset, line, select = down(*args)
 
         elif special_key==keys["arr_right"] or special_key==keys["ctrl+arr_right"]:
             args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
-            pointer,oldptr,line,offset = right(*args)
-            select=[]
+            pointer,oldptr,line,offset = right(*args); select=[]
             
         elif special_key==keys["arr_left"] or special_key==keys["ctrl+arr_left"]:
             args=(pointer,oldptr,line,offset,banoff,arr)
-            pointer,oldptr,line,offset = left(*args)
-            select=[]
+            pointer,oldptr,line,offset = left(*args); select=[]
             
         elif special_key==keys["start"]:
-            pointer=1; p_offset=0; oldptr=pointer; select=[]
+            pointer,p_offset,oldptr,select = 1,0,pointer,[]
             
         elif special_key==keys["end"]:
             text=arr[line+offset-banoff]
             pointer = len(text)+1
-            oldptr=pointer; select=[]
+            oldptr,select = pointer,[]
             
-        elif special_key==keys["repag"]:
-            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr)
-            line,offset,pointer,oldptr = repag(*args)
-            if not sep==chr(92): getch()
-            select=[]
+        elif special_key==keys["repag"] or special_key==keys["ctrl+repag"]:
+            fix = special_key==keys["ctrl+repag"] and fix
+            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
+            line,offset,pointer,oldptr,select = repag(*args)
             
-        elif special_key==keys["avpag"]:
-            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr)
-            line,offset,pointer,oldptr = avpag(*args)
+        elif special_key==keys["avpag"] or special_key==keys["ctrl+avpag"]:
+            fix = special_key==keys["ctrl+avpag"] and fix
+            args=(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,fix)
+            line,offset,pointer,oldptr,select = avpag(*args)
             if not sep==chr(92): getch()
-            select=[]
+            
 
     elif key==keys["delete"]:
         args=(pointer,offset,line,arr,banoff,select)

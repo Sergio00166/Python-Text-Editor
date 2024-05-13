@@ -83,20 +83,43 @@ def copy(select,arr,line,offset,banoff,pointer):
     else: copy_buffer=arr[line+offset-banoff][pointer-1:]
     return copy_buffer
 
-def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
+def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
+    if selected: seled=[line-banoff,offset]
     p1=line+offset-banoff-rows
     if p1<0: p1=0
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     text=arr[line+offset-banoff]
     pointer,oldptr = fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
-    return line, offset, pointer, oldptr
+    
+    if selected:
+        selst=[line-banoff,offset]
+        if len(select)==0:
+            select=[selst,seled]
+        else: select[0]=selst
+    else: select=[]
+    
+    return line, offset, pointer, oldptr, select
 
-def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr):
+
+def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
+    if selected:
+        selst=[line-banoff,offset]
+        fix=line+offset
     p1=line+offset-banoff+rows
     if p1>=len(arr): p1="-"
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     text=arr[line+offset-banoff]
     pointer,oldptr = fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
-    return line, offset, pointer, oldptr
+
+    if selected:
+        seled=[line-banoff,offset]
+        if sum(seled)<fix:
+            seled[0]=seled[0]+1
+        if len(select)==0:
+            select=[selst,seled]
+        else: select[1]=seled
+    else: select=[]
+    
+    return line, offset, pointer, oldptr, select
