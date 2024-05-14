@@ -67,7 +67,7 @@ if __name__=="__main__":
             # Set time after reading key from keyboard and stopping the update Thread
             run_thread=True; key=getch(); run_thread=False
             # If key is Ctrl + Q (quit) exit the program and clear the screen
-            if key==keys["exit"]:
+            if key==keys["ctrl+e"]:
                 if len(files)>0:
                     filename=files[0]; files=files[1:]; arr=read_UTF8(filename)
                     pointer=1; line=1; offset=0; status_st=False; print("\033c",end="")

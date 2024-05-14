@@ -104,7 +104,7 @@ def open_file(arg):
                 status_st,line,select = False,1,[]
                 pointer=offset=0; exit(); break
                 
-            elif key==keys["exit"]: exit(); break
+            elif key==keys["ctrl+c"]: exit(); break
         
             elif key==keys["delete"]:
                 if not wrtptr==lenght:
