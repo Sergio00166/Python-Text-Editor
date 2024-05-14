@@ -96,7 +96,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
 
     else: #All the other keys
-        args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows)
+        args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys)
         arr, pointer, line, offset = get_str(*args)
                 
     return pointer,oldptr,line,offset,columns,banoff,arr,rows,\

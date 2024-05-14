@@ -57,25 +57,28 @@ def mng_tab_select(arr,line,offset,select,ch_T_SP):
     # Now reconstruct all arr
     return p0+p1+p2
 
-def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows):
-    out,skip,status_st = decode(key),False,False
-    if len(select)>0:
-        if out=="\t":
-            args=arr,line,offset,select,ch_T_SP
-            arr,skip = mng_tab_select(*args), True
-        else: select,arr,line,offset = del_sel(select,arr,banoff) 
-    if out=="\t" and ch_T_SP: out = " "*4
+def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
+    out,skip = decode(key),False
+    if out=="\t" and ch_T_SP: out=" "*4
+    
+    if select:
+        if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)
+        else: arr,skip = mng_tab_select(arr,line, offset,select,ch_T_SP),True
+        
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
-        p1,p2 = text[:pointer-1],text[pointer-1:]
-        out=out.splitlines()
-        arr[pos]=p1+out[0]+p2
-        if len(out)>1:
-            p1,p2 = arr[:pos+1],arr[pos+1:]; arr = p1+out[1:]+p2
-            line, offset = CalcRelLine(pos+len(out)-1,arr,offset,line,banoff,rows)
-            pointer += len(out[-1])
-        else: pointer+=len(out[0])
+        p1,p2 = text[:pointer-1], text[pointer-1:]
+        out_lines = out.split(keys["return"].decode("utf-8"))
+        arr[pos] = p1+out_lines[0]+p2
+
+        if len(out_lines) > 1:
+            arr[pos+1:pos+1] = out_lines[1:]
+            line,offset = CalcRelLine(pos+len(out_lines)-1,arr,offset,line,banoff,rows)
+            pointer += len(out_lines[-1])
+        else: pointer += len(out_lines[0])
+
     return arr, pointer, line, offset
+
 
 # Each line is ejecuted on a separate CPU core
 def read_UTF8(file):
