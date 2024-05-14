@@ -19,7 +19,7 @@ Also now "works" under linux (tested under FEDORA and UBUNTU)
 <br>*NORMAL*<br>
 ^E EXIT | ^S SAVE | ^A Save as | ^O OPEN | ^C COPY | ^X CUT | ^P PASTE | ^G GOTO | ^T T/SP <br>
 <br>*Open file menu*<br>
-^E EXIT | ^O OPEN  | ^N NEW FILE <br>
+^C CANCEL | ^O OPEN  | ^N NEW FILE <br>
 <br>*Save as menu*<br>
-^E EXIT | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
+^C CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br>
