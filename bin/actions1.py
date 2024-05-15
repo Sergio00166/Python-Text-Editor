@@ -78,7 +78,7 @@ def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
     if p1<0: p1=0
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     text=arr[line+offset-banoff]
-    pointer,oldptr = fixlenline(text,pointer,oldptr)
+    pointer=fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
     
     if selected:
@@ -99,7 +99,7 @@ def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
     if p1>=len(arr): p1="-"
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     text=arr[line+offset-banoff]
-    pointer,oldptr = fixlenline(text,pointer,oldptr)
+    pointer=fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
 
     if selected:
