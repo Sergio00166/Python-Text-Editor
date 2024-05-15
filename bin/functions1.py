@@ -64,8 +64,6 @@ def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
     if select:
         if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)     
         else: arr,skip = mng_tab_select(arr,line,offset,select,ch_T_SP),True
-
-    if out=="\t" and ch_T_SP: out=" "*4
         
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
