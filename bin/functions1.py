@@ -10,12 +10,12 @@ def get_size():
 
 def decode(key): return key.decode("UTF-8")
 
-def fixlenline(text, pointer, oldptr):
+def fixlenline(text,pointer,oldptr):
     length=len(text)+1
     if pointer>length or oldptr>length:
-        return length,oldptr
-    elif oldptr>pointer: return oldptr,oldptr
-    else: return pointer,oldptr
+        return length
+    elif oldptr>pointer: return oldptr
+    else: return pointer
 
 def CalcRelLine(p1,arr,offset,line,banoff,rows):
     if p1=="-": p1=len(arr)-1
@@ -64,7 +64,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
     if select:
         if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)     
         else: arr,skip = mng_tab_select(arr,line,offset,select,ch_T_SP),True
-        
+       
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]

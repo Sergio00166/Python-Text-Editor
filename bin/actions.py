@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from functions1 import *
+from functions import str_len
 
 
 def down(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
@@ -11,7 +12,7 @@ def down(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
         if not line==rows+banoff: line+=1
         elif not line+offset==len(arr)+1: offset+=1
         text=arr[line+offset-banoff]
-        pointer,oldptrt=fixlenline(text,pointer,oldptr)
+        pointer=fixlenline(text,pointer,oldptr)
     if selected:
         seled=[line-banoff,offset]
         if sum(seled)<fix:
@@ -27,7 +28,7 @@ def up(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
     if not line==banoff: line-=1
     elif offset>0: offset-=1
     text=arr[line+offset-banoff]
-    pointer,oldptr=fixlenline(text,pointer,oldptr)
+    pointer=fixlenline(text,pointer,oldptr)
     if selected:
         selst=[line-banoff,offset]
         if len(select)==0:
