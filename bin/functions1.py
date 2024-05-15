@@ -70,6 +70,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]
+        if ch_T_SP: out=out.replace("\t"," "*4)
         out_lines = out.split(keys["return"].decode("utf-8"))
         arr[pos] = p1+out_lines[0]+p2
         
