@@ -58,21 +58,20 @@ def mng_tab_select(arr,line,offset,select,ch_T_SP):
     return p0+p1+p2
 
 def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
+    
     out,skip = decode(key),False
+    if out=="\t" and ch_T_SP: out=" "*4
     
     if select:
-        if out=="\t": 
-            if out=="\t" and ch_T_SP: out=" "*4
-            arr=mng_tab_select(arr,line, offset,select,ch_T_SP)
-            skip = True
-        else: select,arr,line,offset = del_sel(select,arr,banoff)
+        if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)     
+        else: arr,skip = mng_tab_select(arr,line,offset,select,ch_T_SP),True
         
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]
         out_lines = out.split(keys["return"].decode("utf-8"))
         arr[pos] = p1+out_lines[0]+p2
-
+        
         if len(out_lines) > 1:
             arr[pos+1:pos+1] = out_lines[1:]
             line,offset = CalcRelLine(pos+len(out_lines)-1,arr,offset,line,banoff,rows)
