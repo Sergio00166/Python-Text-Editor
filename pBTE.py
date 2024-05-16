@@ -73,12 +73,12 @@ if __name__=="__main__":
                     pointer=1; line=1; offset=0; status_st=False; print("\033c",end="")
                 else: kill=True; update_thr.join(); print("\033c",end=""); break    
                 #Call keys functions (Yeah, its a lot of args and returned values)
-            args = (key,pointer,oldptr,line,offset,columns,banoff,arr,rows,\
-                    filename,status,status_st,copy_buffer,fixstr,fix,\
-                    black,bnc,slc,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
+            args = (key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
+                    filename,status,status_st,copy_buffer,fixstr,black,bnc,
+                    slc,reset,saved_txt,ch_T_SP,banner,getch,keys,select)
                 
-            pointer,oldptr,line,offset,columns,banoff,arr,rows,\
-            filename,status,status_st,copy_buffer,fixstr,fix,\
-            ch_T_SP,select = keys_func(*args)
+            pointer,oldptr,line,offset,columns,banoff,arr,\
+            rows,filename,status,status_st,copy_buffer,\
+            fixstr,ch_T_SP,select = keys_func(*args)
                          
         except: pass

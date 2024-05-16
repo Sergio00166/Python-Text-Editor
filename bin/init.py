@@ -79,11 +79,12 @@ if not __name__=="__main__":
             fixstr.append(str(x)+y)
 
     #Define a lot of stuff
-    pointer=offset=0; line=banoff=1
+    pointer=offset=oldptr=0
+    line=banoff=1
     banner=["pBTE",version]
-    copy_buffer,fix = "",False
-    oldptr=p_offset=0
-    select,end,start,ch_T_SP = [],1,0,False
+    copy_buffer,select = "",[]
+    end,start,ch_T_SP = 1,0,False
+
     rows,columns=get_size()
 
     #Flag to show after saving the file

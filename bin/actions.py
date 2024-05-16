@@ -37,6 +37,27 @@ def up(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):
     else: select=[]
     return pointer, oldptr, offset, line, select
 
+def left(pointer,oldptr,line,offset,banoff,arr):
+    if not pointer==1: pointer-=1; oldptr=pointer
+    elif not line+offset==1:
+        if offset==0: line-=1
+        else: offset-=1
+        text=arr[line+offset-banoff]
+        pointer=len(text)+1
+    return pointer, oldptr, line, offset
+
+def right(pointer,columns,offset,line,banoff,arr,rows,oldptr):
+    text=arr[line+offset-banoff]
+    if not pointer>len(text):
+        pointer+=1
+        oldptr=pointer
+    else:
+        if not offset+line>len(arr)-1:
+            if not line>rows-2: line+=1
+            else: offset+=1
+            pointer=1
+    return pointer, oldptr, line, offset
+
 def backspace(pointer,offset,line,arr,banoff,select):
     text=arr[line+offset-banoff]
     if len(select)==0:
@@ -90,23 +111,3 @@ def newline(pointer,offset,banoff,line,arr,rows,status,select):
     arr[line+offset-banoff]=text
     return line, offset, arr, pointer, status, select
 
-def left(pointer,oldptr,line,offset,banoff,arr):
-    if not pointer==1: pointer-=1; oldptr=pointer
-    elif not line+offset==1:
-        if offset==0: line-=1
-        else: offset-=1
-        text=arr[line+offset-banoff]
-        pointer=len(text)+1
-    return pointer, oldptr, line, offset
-
-def right(pointer,columns,offset,line,banoff,arr,rows,oldptr):
-    text=arr[line+offset-banoff]
-    if not pointer>len(text):
-        pointer+=1
-        oldptr=pointer
-    else:
-        if not offset+line>len(arr)-1:
-            if not line>rows-2: line+=1
-            else: offset+=1
-            pointer=1
-    return pointer, oldptr, line, offset

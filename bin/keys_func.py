@@ -1,14 +1,14 @@
 #Code by Sergio1260
 
-from functions import *
 from actions import *
 from actions1 import *
 from saveas import save_as
 from openfile import open_file
 
+
 def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
-              filename,status,status_st,copy_buffer,fixstr,fix,\
-              black,bnc,slc,reset,saved_txt,ch_T_SP,banner,read_key,keys,select):
+              filename,status,status_st,copy_buffer,fixstr,black,bnc,
+              slc,reset,saved_txt,ch_T_SP,banner,read_key,keys,select):
 
     if key==keys["supr"]:
         args=(pointer,offset,banoff,arr,line,select)
@@ -17,17 +17,17 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
 
     elif key==keys["arr_up"] or key==keys["ctrl+arr_up"]:
         fix = key==keys["ctrl+arr_up"]
-        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
-        pointer,oldptr,offset,line,select = up(*args)
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,select)
+        pointer, oldptr, offset, line, select = up(*args)
         
     elif key==keys["arr_down"] or key==keys["ctrl+arr_down"]:
         fix = key==keys["ctrl+arr_down"]
-        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,fix)
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,select)
         pointer, oldptr, offset, line, select = down(*args)
 
     elif key==keys["arr_right"] or key==keys["ctrl+arr_right"]:
         args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
-        pointer,oldptr,line,offset = right(*args); select=[]
+        pointer, oldptr, line, offset = right(*args); select=[]
         
     elif key==keys["arr_left"] or key==keys["ctrl+arr_left"]:
         args=(pointer,oldptr,line,offset,banoff,arr)
@@ -99,6 +99,6 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys)
         arr, pointer, line, offset = get_str(*args)
                 
-    return pointer,oldptr,line,offset,columns,banoff,arr,rows,\
-           filename,status,status_st,copy_buffer,fixstr,fix,ch_T_SP,select
+    return pointer,oldptr,line,offset,columns,banoff,arr,rows,filename,\
+           status,status_st,copy_buffer,fixstr,ch_T_SP,select
 
