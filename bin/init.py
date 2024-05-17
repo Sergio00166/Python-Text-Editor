@@ -35,7 +35,7 @@ if not __name__=="__main__":
         fd = stdin.fileno()
         old_settings = tcgetattr(fd)
 
-    version="v0.5.7.2"
+    version="v0.5.7.3"
 
     if sep==chr(92):
 

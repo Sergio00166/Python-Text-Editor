@@ -16,13 +16,13 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         status_st = False
 
     elif key==keys["arr_up"] or key==keys["ctrl+arr_up"]:
-        fix = key==keys["ctrl+arr_up"]
-        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,select)
+        selected = key==keys["ctrl+arr_up"]
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,selected)
         pointer, oldptr, offset, line, select = up(*args)
         
     elif key==keys["arr_down"] or key==keys["ctrl+arr_down"]:
-        fix = key==keys["ctrl+arr_down"]
-        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,select)
+        selected = key==keys["ctrl+arr_down"]
+        args=(line,offset,arr,banoff,oldptr,rows,pointer,select,selected)
         pointer, oldptr, offset, line, select = down(*args)
 
     elif key==keys["arr_right"] or key==keys["ctrl+arr_right"]:
