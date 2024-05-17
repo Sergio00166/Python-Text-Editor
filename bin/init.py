@@ -57,6 +57,8 @@ if not __name__=="__main__":
             terminal[3] = terminal[3] & ~(ICANON | ECHO)
             tcsetattr(fd, TCSADRAIN, terminal)
             try: out=read(fd,8)
+            except KeyboardInterrupt:
+                 out=b'\x03'
             finally: tcsetattr(*old)
             return out
 
