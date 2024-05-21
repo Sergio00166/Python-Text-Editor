@@ -89,9 +89,9 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         status_st,filename,status = save_as(args)
 
     elif key==keys["ctrl+o"]:
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
-                offset,line,banner,status_st,keys,pointer,fixstr,select,read_key)
-        arr,filename,status_st,pointer,line,offset,select = open_file(args)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset\
+                ,line,banner,status_st,keys,pointer,oldptr,fixstr,select,read_key)
+        arr,filename,status_st,pointer,oldptr,line,offset,select = open_file(args)
         
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
 
