@@ -98,6 +98,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
     else: #All the other keys
         args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys)
         arr, pointer, line, offset = get_str(*args)
+        status_st = False
                 
     return pointer,oldptr,line,offset,columns,banoff,arr,rows,filename,\
            status,status_st,copy_buffer,fixstr,ch_T_SP,select
