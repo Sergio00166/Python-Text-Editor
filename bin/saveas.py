@@ -51,7 +51,7 @@ def save_as(arg):
     global run, kill, fd, thr, old_settings, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,saved_txt,keys,fixstr,read_key = arg
+    line,banner,status_st,saved_txt,keys,read_key = arg
 
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
     filewrite=filename; wrtptr=lenght+len(filewrite)
@@ -153,9 +153,7 @@ def save_as(arg):
                 exit(); break
             
             else: #Rest of keys
-                cond1=wrtptr<((columns+2)*rows+1)
-                cond2=str(key)[4:6] in fixstr
-                if cond1 and not cond2:
+                if wrtptr<((columns+2)*rows+1):
                     out=decode(key)
                     p1=filewrite[:wrtptr-lenght]
                     p2=filewrite[wrtptr-lenght:]

@@ -51,7 +51,7 @@ def open_file(arg):
     global run, kill, fd, old_settings, thr, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,keys,pointer,oldptr,fixstr,select,read_key = arg
+    line,banner,status_st,keys,pointer,oldptr,select,read_key = arg
     
     openfile=sep.join(filename.split(sep)[:-1])+sep
     opentxt=" Open: "; lenght=len(opentxt)+2; wrtptr=lenght+len(openfile)
@@ -149,9 +149,7 @@ def open_file(arg):
                 exit(); break
             
             else: #Rest of keys
-                cond1=wrtptr<((columns+2)*rows+1)
-                cond2=str(key)[4:6] in fixstr
-                if cond1 and not cond2:
+                if wrtptr<((columns+2)*rows+1):
                     out=decode(key)
                     p1=openfile[:wrtptr-lenght]
                     p2=openfile[wrtptr-lenght:]

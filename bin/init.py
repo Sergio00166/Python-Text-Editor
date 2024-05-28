@@ -1,5 +1,6 @@
 #Code by Sergio1260
 
+version="v0.5.7.4"
      
 if not __name__=="__main__":
 
@@ -19,7 +20,6 @@ if not __name__=="__main__":
     from time import time
 
     # Define colors
-
     init(autoreset=False,convert=True)
     reset=Style.RESET_ALL
     bnc=Back.LIGHTWHITE_EX+Fore.BLACK+Style.DIM
@@ -34,8 +34,6 @@ if not __name__=="__main__":
         from sys import stdin
         fd = stdin.fileno()
         old_settings = tcgetattr(fd)
-
-    version="v0.5.7.3"
 
     if sep==chr(92):
 
@@ -72,14 +70,6 @@ if not __name__=="__main__":
         else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[]    
     else: filename=getcwd()+sep+"NewFile"; arr=[""]; files=[] 
 
-    # Creates a list of banned chars code
-
-    values=["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"]
-    fixstr=[]
-    for x in range(0,2):
-        for y in values:
-            fixstr.append(str(x)+y)
-
     #Define a lot of stuff
     pointer=offset=oldptr=0
     line=banoff=1
@@ -115,5 +105,4 @@ if not __name__=="__main__":
                 "end":b'\x1b[F',"repag":b'\x1b[5~',"avpag":b'\x1b[6~',"tab":b'\t',"insert":b'2',
                 "ctrl+arr_up":b'\x1b[1;5A',"ctrl+arr_down":b'\x1b[1;5B',"ctrl+arr_left":b'\x1b[1;5D',
                 "ctrl+arr_right":b'\x1b[1;5C',"ctrl+repag":b'\x1b[5;5~',"ctrl+avpag":b'\x1b[6;5~'}
-
 

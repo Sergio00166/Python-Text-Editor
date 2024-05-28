@@ -1,6 +1,6 @@
 # Code by Sergio1260
 
-from functions import scr_arr2str, rscp
+from functions import scr_arr2str, rscp, sscp
 from functions1 import get_size, fixfilename
 from sys import stdout
 
@@ -97,6 +97,8 @@ def menu_updsrc(arg,mode=None,updo=False):
             line,0,arr,banner,filename,rows,columns,status_st,True)
             # Cut menu to add the menu bar
             menu = "\n".join(menu.split("\n")[:rows+banoff-fix])
+            # Fix weird chars
+            out=sscp(out,[slc,reset+bnc])
             # Add menu to it
             menu+="\n"+bnc+out+(" "*(full))
             # Calculate pointer y displacement
