@@ -9,10 +9,9 @@ from glob import glob
 
 if not sep==chr(92): #If OS is LINUX
     #Get default values for TTY
-    from termios import TCSADRAIN, tcsetattr, tcgetattr
-    from tty import setraw; from sys import stdin
-    fd = stdin.fileno()
-    old_settings = tcgetattr(fd)
+    from termios import TCSADRAIN,tcsetattr,tcgetattr,ICANON,ECHO
+    from sys import stdin; from tty import setraw
+    fd = stdin.fileno(); old_settings = tcgetattr(fd)
 
 def updscr_thr():
     global saveastxt,filewrite,rows,columns,black,reset,status,banoff
@@ -35,7 +34,7 @@ def updscr_thr():
             if not sep==chr(92):
                 terminal = tcgetattr(fd)
                 terminal[3] = terminal[3] & ~(ICANON | ECHO)
-                tcsetattr(fd, TCSADRAIN, terminal)
+                tcsetattr(fd, TCSADRAIN, terminal); setraw(fd)
 
 
 def exit():
@@ -76,7 +75,7 @@ def save_as(arg):
             if not sep==chr(92):
                 terminal = tcgetattr(fd)
                 terminal[3] = terminal[3] & ~(ICANON | ECHO)
-                tcsetattr(fd, TCSADRAIN, terminal)
+                tcsetattr(fd, TCSADRAIN, terminal); setraw(fd)
             
             run=True #Start update screen thread
             key=read_key() #Map keys

@@ -30,7 +30,7 @@ def updscr_thr():
                 if not sep==chr(92):
                     terminal = tcgetattr(fd)
                     terminal[3] = terminal[3] & ~(ICANON | ECHO)
-                    tcsetattr(fd, TCSADRAIN, terminal)
+                    tcsetattr(fd, TCSADRAIN, terminal); setraw(fd)
 
 
 if __name__=="__main__":
