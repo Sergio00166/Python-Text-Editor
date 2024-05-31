@@ -67,11 +67,11 @@ if __name__=="__main__":
             # Set time after reading key from keyboard and stopping the update Thread
             run_thread=True; key=getch(); run_thread=False
             # If key is Ctrl + Q (quit) exit the program and clear the screen
-            if key==keys["ctrl+e"]:
+            if key==keys["ctrl+q"]:
                 if len(files)>0:
                     filename=files[0]; files=files[1:]; arr=read_UTF8(filename)
-                    pointer=1; line=1; offset=0; status_st=False; print("\033c",end="")
-                else: kill=True; update_thr.join(); print("\033c",end=""); break    
+                    pointer=1; line=1; offset=0; status_st=False; print("\r\033c",end="")
+                else: kill=True; update_thr.join(); print("\r\033c",end=""); break    
                 #Call keys functions (Yeah, its a lot of args and returned values)
             args = (
                 key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
