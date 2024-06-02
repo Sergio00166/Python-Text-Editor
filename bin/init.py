@@ -1,12 +1,12 @@
 #Code by Sergio1260
 
-version="v0.5.7.5"
+version="v0.5.7.6"
      
 if not __name__=="__main__":
 
     from os import getcwd, sep, read
     from sys import argv, path
-    from os.path import isabs, isdir
+    from os.path import abspath, isdir
     from glob import glob
     from functions1 import get_size, read_UTF8, CalcRelLine, get_str
     from functions import str_len, fscp
@@ -64,7 +64,7 @@ if not __name__=="__main__":
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:
         files=[glob(x,recursive=False) for x in argv[1:]]
-        files=[i for x in files for i in x if not isdir(i)]
+        files=[abspath(i) for x in files for i in x if not isdir(i)]
         if len(files)>0: 
             arr=read_UTF8(files[0])
             filename=files[0]; files=files[1:]
