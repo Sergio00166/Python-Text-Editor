@@ -81,7 +81,7 @@ def open_file(arg):
             run=False #Stop update screen thread
 
             if key==keys["tab"]:
-                if not (openfile==sep or len(openfile)==0):
+                if not (len(openfile)==0 or (sep==chr(92) and not ":" in openfile)):
                     if not complete: content=glob(openfile+"*",recursive=False)
                     if len(content)>0: complete=True
                     if cmp_counter>=len(content): cmp_counter = 0
