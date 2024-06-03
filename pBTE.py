@@ -48,15 +48,17 @@ if __name__=="__main__":
     
     while True:
         try:
-            # Fix for the pointer variable
-            if pointer==0: pointer=1
+            # Fix arr when empty
+            if len(arr)==0: arr=[""]
             # Fix when line or offset is out of range
             lenght=len(arr)-1
             if lenght<0: lenght=0
             if line+offset>lenght: line,offset =\
-            CalcRelLine(lenght,arr,offset,line,banoff,rows)              
-            # Fix arr when empty
-            if len(arr)==0: arr=[""]
+            CalcRelLine(lenght,arr,offset,line,banoff,rows)   
+            # Fix for the pointer variable
+            lenght=len(arr[line+offset-banoff])+1
+            if pointer==0: pointer=1
+            elif pointer>lenght: pointer=lenght   
             # If status flag is 0 set save text to blank
             if status_st==0: status=saved_df 
             # Get the terminal size
