@@ -18,12 +18,9 @@ def updscr_thr():
             elif not (old_rows==rows and old_columns==columns):
                 # Increment the offset if line is geeter than rows
                 if line>rows: offset=offset+(line-rows); line=rows	
-                # Call screen updater function
-                print("\r\033c",end="") #Clear screen
                 # If OS is LINUX restore TTY to it default values
-                if not sep==chr(92):
-                    old=(fd,TCSADRAIN,old_settings)
-                    tcsetattr(fd, TCSADRAIN, old_settings)
+                if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
+                # Call screen updater function
                 update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,\
                            arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
@@ -72,9 +69,9 @@ if __name__=="__main__":
             if key==keys["ctrl+q"]:
                 if len(files)>0:
                     filename=files[0]; files=files[1:]; arr=read_UTF8(filename)
-                    pointer=1; line=1; offset=0; status_st=False; print("\r\033c",end="")
-                else: kill=True; update_thr.join(); print("\r\033c",end=""); break    
-                #Call keys functions (Yeah, its a lot of args and returned values)
+                    pointer=1; line=1; offset=0; status_st=False
+                else: kill=True; update_thr.join(); break
+            #Call keys functions (Yeah, its a lot of args and returned values)
             args = (
                 key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
                 filename,status,status_st,copy_buffer,black,bnc,slc,
@@ -85,3 +82,8 @@ if __name__=="__main__":
             ch_T_SP,select = keys_func(*args)
                          
         except: pass
+
+# Clear and reset the terminal
+if not sep==chr(92):
+    print("\x1b[H\x1b[2J\x1b[3J")
+print("\r\033c",end="")
