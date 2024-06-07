@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-version="v0.5.7.6"
+version="v0.5.7.7"
      
 if not __name__=="__main__":
 
@@ -8,7 +8,7 @@ if not __name__=="__main__":
     from sys import argv, path
     from os.path import abspath, isdir
     from glob import glob
-    from functions1 import get_size, read_UTF8, CalcRelLine, get_str
+    from functions1 import get_size,read_UTF8,CalcRelLine,get_str
     from functions import str_len, fscp
     from upd_scr import update_scr
     from keys_func import keys_func
@@ -29,12 +29,9 @@ if not __name__=="__main__":
 
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
-        from termios import TCSADRAIN,tcsetattr
-        from sys import stdin
-        from tty import setraw
-        fd = stdin.fileno()
-        
-        old_settings = tcgetattr(fd)
+        from termios import TCSADRAIN,tcsetattr,tcgetattr
+        from sys import stdin; from tty import setraw
+        fd = stdin.fileno(); old_settings = tcgetattr(fd)
 
     if sep==chr(92):
 
@@ -58,6 +55,7 @@ if not __name__=="__main__":
                  out=b'\x03'
             finally: tcsetattr(*old)
             return out
+
 
     #Check if we have arguments via cli, if not create an empty one
     if not len(argv)==1:

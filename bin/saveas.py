@@ -9,7 +9,7 @@ from glob import glob
 
 if not sep==chr(92): #If OS is LINUX
     #Get default values for TTY
-    from termios import TCSADRAIN,tcsetattr
+    from termios import TCSADRAIN,tcsetattr,tcgetattr
     from sys import stdin; from tty import setraw
     fd = stdin.fileno(); old_settings = tcgetattr(fd)
 
