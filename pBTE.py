@@ -24,10 +24,7 @@ def updscr_thr():
                 update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,\
                            arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
-                if not sep==chr(92):
-                    terminal = tcgetattr(fd)
-                    terminal[3] = terminal[3] & ~(ICANON | ECHO)
-                    tcsetattr(fd, TCSADRAIN, terminal); setraw(fd)
+                if not sep==chr(92): setraw(fd,when=TCSADRAIN)
 
 
 if __name__=="__main__":

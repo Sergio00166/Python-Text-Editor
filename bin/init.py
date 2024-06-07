@@ -29,11 +29,11 @@ if not __name__=="__main__":
 
     if not sep==chr(92): #If OS is LINUX
         #Get default values for TTY
-        from termios import TCSADRAIN,\
-        tcsetattr, tcgetattr, ICANON, ECHO
+        from termios import TCSADRAIN,tcsetattr
         from sys import stdin
         from tty import setraw
         fd = stdin.fileno()
+        
         old_settings = tcgetattr(fd)
 
     if sep==chr(92):
@@ -52,9 +52,7 @@ if not __name__=="__main__":
 
         def getch():
             old=(fd,TCSADRAIN,old_settings)
-            terminal = tcgetattr(fd)
-            terminal[3] = terminal[3] & ~(ICANON | ECHO)
-            tcsetattr(fd, TCSADRAIN, terminal); setraw(fd)
+            setraw(fd,when=TCSADRAIN)
             try: out=read(fd,8)
             except KeyboardInterrupt:
                  out=b'\x03'
@@ -98,7 +96,7 @@ if not __name__=="__main__":
                 "ctrl+arr_up":b'\xe0\x8d',"ctrl+arr_down":b'\xe0\x91',"ctrl+arr_left":b'\xe0s',
                 "ctrl+arr_right":b'\xe0t',"ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v'}
     else:
-        keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
+        keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\n',"ctrl+s":b'\x13',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
                 "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"ctrl+t":b'\x14',
                 "ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'\x1b[A',"arr_down":b'\x1b[B',
