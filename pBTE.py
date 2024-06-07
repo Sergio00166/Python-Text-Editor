@@ -46,11 +46,6 @@ if __name__=="__main__":
         try:
             # Fix arr when empty
             if len(arr)==0: arr=[""]
-            # Fix when line or offset is out of range
-            lenght=len(arr)-1
-            if lenght<0: lenght=0
-            if line+offset>lenght: line,offset =\
-            CalcRelLine(lenght,arr,offset,line,banoff,rows)   
             # Fix for the pointer variable
             lenght=len(arr[line+offset-banoff])+1
             if pointer==0: pointer=1
