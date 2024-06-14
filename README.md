@@ -1,7 +1,7 @@
 # pBTE
 python-based Basic Text Editor
 
-Only UTF-8, when reading other formats it converts it to UTF-8.
+<b>Only UTF-8, when reading other formats it converts to UTF-8 and for that reason it saves only to UTF-8 (LF)</b>
 
 A a basic terminal text editor with python using the minimun external libraries as possible (only wcwidth and colorama) 
 
