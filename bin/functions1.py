@@ -57,7 +57,7 @@ def mng_tab_select(arr,line,offset,select,ch_T_SP):
     # Now reconstruct all arr
     return p0+p1+p2
 
-def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
+def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys,codec):
     
     out,skip = decode(key),False
    
@@ -81,38 +81,28 @@ def get_str(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys):
     return arr, pointer, line, offset
 
 
-# Each line is ejecuted on a separate CPU core
-def read_UTF8(file):
-    file=open(file,"rb").readlines()
-    pool=Pool(processes=cpu_count())
-    out=pool.map_async(decode_until_error,file)
-    out=out.get(); pool.close()
-    return out
+def detect_line_ending_char(file_path):
+    c = open(file_path, 'rb').read()
+    crlf = c.count(b'\r\n')
+    c=c.replace(b'\r\n',b'')
+    cr = c.count(b'\r')
+    lf = c.count(b'\n')
+    
+    if crlf>cr and crlf>lf:
+        return '\r\n'
+    elif cr>lf: return '\r'
+    else: return '\n'
 
-# Decodes the UTF8 and if it cant decode a byte it decodes it as ASCII
-def decode_until_error(data):
-    decoded = ""; index = 0
-    while index < len(data):
-        try:
-            char = data[index:].decode('utf-8')
-            decoded += char
-            index += len(char.encode('utf-8'))
-        except UnicodeDecodeError as e:
-            byte_sequence = bytearray()
-            byte_sequence.append(data[index])
-            index += 1
-            while index < len(data):
-                if data[index] & 0b11000000 == 0b10000000:
-                    byte_sequence.append(data[index])
-                    index += 1
-                else: break
-            try:
-                char = byte_sequence.decode('utf-8')
-                decoded += char
-            except UnicodeDecodeError:
-                for byte in byte_sequence:
-                    decoded += chr(byte)
 
-    if decoded.endswith("\n"): decoded=decoded[:-1]
-    if decoded.endswith("\r"): decoded=decoded[:-1]
-    return decoded
+# Try to read in UTF-8, if cannot read in extended ascii
+def read_UTF8(path):
+    lnsep = detect_line_ending_char(path)
+    try:
+        file = open(path,"r", encoding="UTF-8",newline="")
+        file,codec = file.read(),"UTF-8"
+    except:
+        file = open(path,"r", encoding="latin_1",newline="")
+        file,codec = file.read(),"latin_1"
+        
+    return file.split(lnsep), codec, lnsep
+

@@ -62,18 +62,19 @@ if __name__=="__main__":
             # If key is Ctrl + Q (quit) exit the program and clear the screen
             if key==keys["ctrl+q"]:
                 if len(files)>0:
-                    filename=files[0]; files=files[1:]; arr=read_UTF8(filename)
-                    pointer=1; line=1; offset=0; status_st=False
+                    filename,files = files[0],files[1:]
+                    arr,codec,lnsep = read_UTF8(filename)
+                    pointer,line,offsetstatus_st = 1,1,0,False
                 else: kill=True; update_thr.join(); break
             #Call keys functions (Yeah, its a lot of args and returned values)
             args = (
                 key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
-                filename,status,status_st,copy_buffer,black,bnc,slc,
-                reset,saved_txt,ch_T_SP,banner,getch,keys,select
+                filename,status,status_st,copy_buffer,black,bnc,slc,reset,
+                saved_txt,ch_T_SP,banner,getch,keys,select,codec,lnsep
             )
             pointer,oldptr,line,offset,columns,banoff,arr,\
             rows,filename,status,status_st,copy_buffer,\
-            ch_T_SP,select = keys_func(*args)
+            ch_T_SP,select,codec,lnsep = keys_func(*args)
                          
         except: pass
 
