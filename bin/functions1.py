@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from os import get_terminal_size,sep
+from os.path import split
 from multiprocessing import cpu_count, Pool
 
 
@@ -27,16 +28,21 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
     except: pass
     return line, offset
 
-def fixfilename(filename, columns):
-    if len(filename)+32>columns: #If filename overflows
-        flfix=filename.split(sep)
-        filename=flfix[len(flfix)-1]
-        if len(filename)+31>columns: #If still not fiting
-            middle = len(filename) // 2
-            filename=filename[:middle-1]+'*'+filename[middle+2:]
-            if len(filename)+31>columns:
-                filename=filename[:columns-32]+"*"
-    return filename
+
+def fixfilename(path, columns):
+    length = columns-24
+    if len(path) <= length: return path
+    dirname, basename = split(path)
+    if len(path) <= length: return path
+    available_length = length - len(basename) - 1
+    if available_length <= 0: return basename[:length - 1]+'*'
+    parts = dirname.split(sep)
+    while len(parts) > 0 and len(sep.join(parts)) > available_length: parts.pop(0)
+    if len(parts) == 0: compacted_path=basename
+    else: compacted_path = sep.join(parts) + sep + basename
+    
+    return compacted_path
+   
 
 def del_sel(select, arr, banoff):
     p1=arr[:sum(select[0])]; p2=arr[sum(select[1]):]
