@@ -13,7 +13,7 @@ def updscr_thr():
             old_rows=rows; old_columns=columns
             rows,columns=get_size()
             # Check if terminal is too small
-            if rows<4 or columns<24: print("\r\033cTerminal too small")
+            if rows<4 or columns<25: print("\r\033cTerminal too small")
             # Compare the old values with the new ones
             elif not (old_rows==rows and old_columns==columns):
                 # Increment the offset if line is geeter than rows
