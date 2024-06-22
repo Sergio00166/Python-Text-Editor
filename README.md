@@ -17,7 +17,8 @@ Also now "works" under linux (tested under FEDORA and UBUNTU)
 
 <br><h2>OPTIONS</h2>
 <br>*NORMAL*<br>
-^Q QUIT | ^S SAVE | ^A Save as | ^O OPEN | ^C COPY | ^X CUT | ^P PASTE | ^G GOTO | ^T T/SP <br>
+^Q QUIT | ^S SAVE | ^A Save as | ^O OPEN | ^C COPY | ^X CUT | ^P PASTE | ^G GOTO <br>
+^T T/SP (change between tabs of 4 spaces) | ^D DEDENT <br>
 <br>*Open file menu*<br>
 ^Q CANCEL | ^O OPEN  | ^N NEW FILE <br>
 <br>*Save as menu*<br>
