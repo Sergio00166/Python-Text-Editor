@@ -50,16 +50,17 @@ def del_sel(select, arr, banoff):
     select=[]; arr=p1+p2 
     return select, arr, line, offset
 
-def mng_tab_select(arr,line,offset,select,ch_T_SP):
+def mng_tab_select(arr,line,offset,select,ch_T_SP,remove=False):
     # Get the values from select
     start=sum(select[0]); end=sum(select[1])
     # Get the text that is upper and below the selected region
     p0=arr[:start]; p2=arr[end:]
     # Get the text that is selected
     p1=arr[start:end]
-    # Add a tab at the start of each element
     tab=" "*4 if ch_T_SP else "\t"
-    p1=[tab+x for x in p1]
+    # Add indentation or remove it
+    if not remove: p1=[tab+x for x in p1]
+    else: p1 = [x[len(tab):] if x.startswith(tab) else x for x in p1] 
     # Now reconstruct all arr
     return p0+p1+p2
 

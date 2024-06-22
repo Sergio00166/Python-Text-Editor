@@ -1,6 +1,6 @@
 #Code by Sergio1260
 
-version="v0.5.8.0"
+version="v0.5.8.1"
      
 if not __name__=="__main__":
 
@@ -98,7 +98,8 @@ if not __name__=="__main__":
                 "arr_right":b'\xe0M',"arr_left":b'\xe0K',"supr":b'\xe0S',"start":b'\xe0G',
                 "end":b'\xe0O',"repag":b'\xe0I',"avpag":b'\xe0Q',"tab":b'\t',"insert":b'\xe0R',
                 "ctrl+arr_up":b'\xe0\x8d',"ctrl+arr_down":b'\xe0\x91',"ctrl+arr_left":b'\xe0s',
-                "ctrl+arr_right":b'\xe0t',"ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v'}
+                "ctrl+arr_right":b'\xe0t',"ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v',
+                "ctrl+d":b'\x04'}
     else:
         keys = {"special":b'\x1b',"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
@@ -107,5 +108,6 @@ if not __name__=="__main__":
                 "arr_right":b'\x1b[C',"arr_left":b'\x1b[D',"supr":b'\x1b[3~',"start":b'\x1b[H',
                 "end":b'\x1b[F',"repag":b'\x1b[5~',"avpag":b'\x1b[6~',"tab":b'\t',"insert":b'2',
                 "ctrl+arr_up":b'\x1b[1;5A',"ctrl+arr_down":b'\x1b[1;5B',"ctrl+arr_left":b'\x1b[1;5D',
-                "ctrl+arr_right":b'\x1b[1;5C',"ctrl+repag":b'\x1b[5;5~',"ctrl+avpag":b'\x1b[6;5~'}
+                "ctrl+arr_right":b'\x1b[1;5C',"ctrl+repag":b'\x1b[5;5~',"ctrl+avpag":b'\x1b[6;5~',
+                "ctrl+d":b'\x04'}
 

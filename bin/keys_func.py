@@ -76,7 +76,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         
     elif key==keys["ctrl+p"]:
         args=(copy_buffer,arr,line,offset,banoff,pointer,status_st,select)
-        pointer,arr,status_st,copy_buffer,line,offset,select = paste(*args)                                              
+        pointer,arr,status_st,copy_buffer,line,offset,select = paste(*args)
             
     elif key==keys["ctrl+g"]:
         args=(columns,rows,banoff,line,arr,offset,bnc)
@@ -93,6 +93,11 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         arr,filename,status_st,pointer,oldptr,line,offset,select,codec,lnsep = open_file(args)
         
     elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
+
+    elif key==keys["ctrl+d"]:
+        if len(select)>0:
+            arr = mng_tab_select(arr,line,offset,select,ch_T_SP,True)
+        else: arr,pointer = dedent(arr,line,offset,banoff,ch_T_SP,pointer)
 
     else: #All the other keys
         args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys,codec)
