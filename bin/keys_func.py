@@ -98,8 +98,8 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
                 line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep)
         arr,filename,status_st,pointer,oldptr,line,offset,select,codec,lnsep = open_file(args)
         
-    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,black,"indent") 
-    elif key==keys["f2"]: comment = chg_var_str(columns,rows,banoff,line,black) 
+    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,bnc,"indent") 
+    elif key==keys["f2"]: comment = chg_var_str(columns,rows,banoff,line,bnc) 
 
     elif key==keys["ctrl+d"]:
         if len(select)>0:
