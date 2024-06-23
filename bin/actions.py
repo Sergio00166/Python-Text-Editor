@@ -93,7 +93,7 @@ def goto(columns, rows, banoff, line, arr, offset, black):
     print("\033c", end="")
     return line, offset
 
-def chg_var_str(columns,rows,banoff,line,black,text="comment"):
+def chg_var_str(columns,rows,banoff,line,black,old,text="comment"):
     try:    
         print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
         print(black+(" "*(columns+2))+"\r", end="")
@@ -101,7 +101,7 @@ def chg_var_str(columns,rows,banoff,line,black,text="comment"):
         print("\r\033[%d;%dH"%(line, 1),end="")
     except: pass
     print("\033c", end="")
-    return p1
+    return old if len(p1)==0 else p1
 
 
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
