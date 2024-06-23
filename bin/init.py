@@ -103,12 +103,16 @@ if not __name__=="__main__":
     else:
         keys = {"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',"ctrl+d":b'\x04',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',
-                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"f1":b'\x00;',
-                "f2":b'\x00<',"ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'\x1b[A',
+                "ctrl+g":b'\x07',"ctrl+a":b'\x01',"ctrl+o":b'\x0f',"f1":b'\x1bOP',
+                "f2":b'\x1bOQ',"ctrl+b":b'\x02',"ctrl+q":b'\x11',"arr_up":b'\x1b[A',
                 "arr_down":b'\x1b[B',"arr_right":b'\x1b[C',"arr_left":b'\x1b[D',
                 "supr":b'\x1b[3~',"start":b'\x1b[H',"end":b'\x1b[F',"repag":b'\x1b[5~',
                 "avpag":b'\x1b[6~',"tab":b'\t',"insert":b'2',"ctrl+arr_up":b'\x1b[1;5A',
                 "ctrl+arr_down":b'\x1b[1;5B',"ctrl+arr_left":b'\x1b[1;5D',
                 "ctrl+arr_right":b'\x1b[1;5C',"ctrl+repag":b'\x1b[5;5~',
                 "ctrl+avpag":b'\x1b[6;5~',"ctrl+k":b'\x0b',"ctrl+u":b'\x15'}
+
+        
+
+
 
