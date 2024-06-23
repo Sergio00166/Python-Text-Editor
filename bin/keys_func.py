@@ -26,12 +26,18 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         pointer, oldptr, offset, line, select = down(*args)
 
     elif key==keys["arr_right"] or key==keys["ctrl+arr_right"]:
-        args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
-        pointer, oldptr, line, offset = right(*args); select=[]
+        times = 4 if key==keys["ctrl+arr_right"] else 1
+        for x in range(times):
+            args=(pointer,columns,offset,line,banoff,arr,rows,oldptr)
+            pointer, oldptr, line, offset = right(*args)
+        select=[]
         
     elif key==keys["arr_left"] or key==keys["ctrl+arr_left"]:
-        args=(pointer,oldptr,line,offset,banoff,arr)
-        pointer,oldptr,line,offset = left(*args); select=[]
+        times = 4 if key==keys["ctrl+arr_left"] else 1
+        for x in range(times):
+            args=(pointer,oldptr,line,offset,banoff,arr)
+            pointer,oldptr,line,offset = left(*args)
+        select=[]
         
     elif key==keys["start"]: pointer,oldptr,select = 1,1,[]
         
