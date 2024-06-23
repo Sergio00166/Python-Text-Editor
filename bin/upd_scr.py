@@ -1,20 +1,21 @@
 # Code by Sergio1260
 
-from functions import scr_arr2str, rscp, sscp
+from functions import scr_arr2str, rscp, sscp, fscp, str_len
 from functions1 import get_size, fixfilename
 from sys import stdout
 
 def print(text): stdout.write(text)
 
 def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[]):
-    # Now set the filenamevar with the fixed filename string
-    filename = fixfilename(filename,columns)
-    filename = sscp(filename,[slc,reset+bnc])
     # Create the string that represents on which line we are
     position=bnc+"  "+str(line+offset-banoff)+"  "
     # Create a part of the banner (position and status strings)
     status= (" "+banner[1] if not status_st else "  "+status)
-    outb=position+bnc+" "+banner[0]+status+"    "+reset
+    outb=position+bnc+" "+banner[0]+status+"    "
+    # Now set the filenamevar with the fixed filename string
+    length = columns-len(outb.replace(bnc,""))
+    filename = fixfilename(filename,columns,length)
+    filename = sscp(filename,[slc,reset+bnc])
     # Set the cls var with the clear screen scape code
     cls="\r\033[%d;%dH"%(1, 1)
     # Get the separation between the Left and the filename
@@ -23,7 +24,7 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     # Get the text that will be on screen and update the pointer value
     all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff)
     # Initialize the menu with all the banner
-    menu=cls+outb+bnc+" "*fix
+    menu=cls+outb+" "*fix
 
     # Highlight selector
     if len(select)>0:
@@ -82,7 +83,7 @@ def menu_updsrc(arg,mode=None,updo=False):
     old_rows=rows; old_columns=columns
     rows,columns=get_size()
     # Check if terminal is too small
-    if rows<4 or columns<25: print("\r\033cTerminal too small")
+    if rows<4 or columns<24: print("\r\033cTerminal too small")
     # Compare the old values with the new ones
     elif not (old_rows==rows and old_columns==columns) or updo:
         if not updo: print("\r\033c")

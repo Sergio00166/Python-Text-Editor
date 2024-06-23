@@ -93,6 +93,17 @@ def goto(columns, rows, banoff, line, arr, offset, black):
     print("\033c", end="")
     return line, offset
 
+def chg_var_str(columns,rows,banoff,line,black,text="comment"):
+    try:    
+        print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
+        print(black+(" "*(columns+2))+"\r", end="")
+        print(f" Set {text} char: ", end=""); p1=input()
+        print("\r\033[%d;%dH"%(line, 1),end="")
+    except: pass
+    print("\033c", end="")
+    return p1
+
+
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
     text=arr[line+offset-banoff]
     p1=arr[:line+offset-banoff]
@@ -111,13 +122,4 @@ def newline(pointer,offset,banoff,line,arr,rows,status,select):
     arr[line+offset-banoff]=text
     return line, offset, arr, pointer, status, select
 
-def dedent(arr,line,offset,banoff,ch_T_SP,pointer):
-    text = arr[line+offset-banoff]
-    tab = " "*4 if ch_T_SP else "\t"
-    p1 = text[:pointer-1]
-    p2 = text[pointer-1:]
-    if p1.endswith(tab):
-        p1 = p1[:-len(tab)]
-        pointer-=len(tab)
-    arr[line+offset-banoff] = p1+p2
-    return arr,pointer
+

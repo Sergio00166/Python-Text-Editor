@@ -8,7 +8,7 @@ from openfile import open_file
 
 def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
               filename,status,status_st,copy_buffer,black,bnc,slc,reset,
-              saved_txt,ch_T_SP,banner,read_key,keys,select,codec,lnsep):
+              saved_txt,indent,banner,read_key,keys,select,codec,lnsep,comment):
 
     if key==keys["supr"]:
         args=(pointer,offset,banoff,arr,line,select)
@@ -92,18 +92,34 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
                 line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep)
         arr,filename,status_st,pointer,oldptr,line,offset,select,codec,lnsep = open_file(args)
         
-    elif key==keys["ctrl+t"]: ch_T_SP = not ch_T_SP
+    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,black,"indent") 
+    elif key==keys["f2"]: comment = chg_var_str(columns,rows,banoff,line,black) 
 
     elif key==keys["ctrl+d"]:
         if len(select)>0:
-            arr = mng_tab_select(arr,line,offset,select,ch_T_SP,True)
-        else: arr,pointer = dedent(arr,line,offset,banoff,ch_T_SP,pointer)
+            arr = select_add_start_str(arr,line,offset,select,indent,True)
+        else: arr,pointer = dedent(arr,line,offset,banoff,indent,pointer)
+    
+    elif key==keys["ctrl+k"]:
+        if len(select)>0: slt = select
+        else:
+            slt = [[line-banoff,offset],[line,offset]]
+            pointer += len(comment)
+        arr = select_add_start_str(arr,line,offset,slt,comment)
+    
+    elif key==keys["ctrl+u"]:    
+        if len(select)>0: slt = select
+        else: 
+            slt = [[line-banoff,offset],[line,offset]]
+            if arr[line+offset-banoff].startswith(comment):
+                pointer -= len(comment)
+        arr = select_add_start_str(arr,line,offset,slt,comment,True)
 
     else: #All the other keys
-        args=(arr,key,select,pointer,line,offset,banoff,ch_T_SP,rows,keys,codec)
+        args=(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec)
         arr, pointer, line, offset = get_str(*args)
         status_st = False
                 
     return pointer,oldptr,line,offset,columns,banoff,arr,rows,filename,\
-           status,status_st,copy_buffer,ch_T_SP,select,codec,lnsep
+           status,status_st,copy_buffer,indent,select,codec,lnsep,comment
 
