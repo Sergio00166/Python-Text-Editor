@@ -66,9 +66,12 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
     out,skip = decode(key),False
    
     if select:
-        if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)     
-        else: 
-            arr,skip = select_add_start_str(arr,line,offset,select,indent),True
+        if not out=="\t": 
+            select,arr,line,offset = del_sel(select,arr,banoff)
+            if not key in [keys["return"], keys["supr"]]:
+                arr.insert(line + offset - banoff, "")
+        else: arr,skip = select_add_start_str(arr,line,offset,select,indent),True
+        select = []
        
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
@@ -83,7 +86,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
             pointer += len(out_lines[-1])
         else: pointer += len(out_lines[0])
 
-    return arr, pointer, line, offset
+    return arr, pointer, line, offset, select
 
 
 def detect_line_ending_char(file_path):
