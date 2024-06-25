@@ -70,8 +70,8 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
             select,arr,line,offset = del_sel(select,arr,banoff)
             if not key in [keys["return"], keys["supr"]]:
                 arr.insert(line + offset - banoff, "")
+                select = []
         else: arr,skip = select_add_start_str(arr,line,offset,select,indent),True
-        select = []
        
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
