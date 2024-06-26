@@ -47,7 +47,9 @@ def fixfilename(path, columns, length):
 def del_sel(select, arr, banoff):
     p1=arr[:sum(select[0])]; p2=arr[sum(select[1]):]
     line=select[0][0]+banoff; offset=select[0][1]
-    select=[]; arr=p1+p2 
+    select=[]; arr=p1+p2
+    # Fix when selection is on bottom
+    if line+offset-banoff>len(arr)-1: line-=1
     return select, arr, line, offset
 
 def select_add_start_str(arr,line,offset,select,str,remove=False):
