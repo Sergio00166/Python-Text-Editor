@@ -82,7 +82,11 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
         arr[pos] = p1+out_lines[0]+p2
         if len(out_lines) > 1:
             arr[pos+1:pos+1] = out_lines[1:]
-            line,offset = CalcRelLine(pos+len(out_lines)-1,arr,offset,line,banoff,rows)
+            # Calculate displacement
+            line+=len(out_lines)-1
+            if line>rows:
+                offset+=line-rows
+                line=rows
             pointer += len(out_lines[-1])
         else: pointer += len(out_lines[0])
 
