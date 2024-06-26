@@ -3,6 +3,7 @@
 from os import get_terminal_size,sep
 from os.path import split
 from multiprocessing import cpu_count, Pool
+from re import split
 
 
 def get_size():
@@ -62,9 +63,7 @@ def select_add_start_str(arr,line,offset,select,str,remove=False):
     return p0+p1+p2
 
 def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
-    
     out,skip = decode(key),False
-   
     if select:
         if not out=="\t": 
             select,arr,line,offset = del_sel(select,arr,banoff)
@@ -77,9 +76,8 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]
         out=out.replace("\t",indent)
-        out_lines = out.split(keys["return"].decode("utf-8"))
+        out_lines = split(r'[\n\r]+',out)
         arr[pos] = p1+out_lines[0]+p2
-        
         if len(out_lines) > 1:
             arr[pos+1:pos+1] = out_lines[1:]
             line,offset = CalcRelLine(pos+len(out_lines)-1,arr,offset,line,banoff,rows)
