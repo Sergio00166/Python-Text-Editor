@@ -84,7 +84,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
             arr[pos+1:pos+1] = out_lines[1:]
             # Calculate displacement
             line+=len(out_lines)-1
-            if line>rows:
+            if line>rows+1:
                 offset+=line-rows
                 line=rows
             pointer += len(out_lines[-1])
