@@ -1,9 +1,9 @@
 #Code by Sergio1260
 
 from os import get_terminal_size,sep
-from os.path import split
+from os.path import split as psplit
 from multiprocessing import cpu_count, Pool
-from re import split
+from re import split as resplit
 
 
 def get_size():
@@ -32,7 +32,7 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
 
 def fixfilename(path, columns, length):
     if len(path) <= length: return path
-    dirname, basename = split(path)
+    dirname, basename = psplit(path)
     if len(path) <= length: return path
     available_length = length - len(basename) - 1
     if available_length <= 0: return basename[:length - 1]+'*'
@@ -78,7 +78,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]
         out=out.replace("\t",indent)
-        out_lines = split(r'[\n\r]+',out)
+        out_lines = resplit(r'[\n\r]+',out)
         arr[pos] = p1+out_lines[0]+p2
         if len(out_lines) > 1:
             arr[pos+1:pos+1] = out_lines[1:]
