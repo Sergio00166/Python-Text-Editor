@@ -55,12 +55,11 @@ def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
         select,arr,line,offset = del_sel(select,arr,banoff)
     else:
         copy_buffer=text[pointer-1:]
-        if line>banoff:
-            if pointer==1 or pointer==len(text):
-                arr.pop(pos-banoff)
-            else:
-                text=text[:pointer-1]
-                arr[pos-banoff]=text
+        if pointer==1 or pointer==len(text):
+            arr.pop(pos-banoff)
+        else:
+            text=text[:pointer-1]
+            arr[pos-banoff]=text
     return copy_buffer,arr,line,offset,select
 
 def copy(select,arr,line,offset,banoff,pointer):
