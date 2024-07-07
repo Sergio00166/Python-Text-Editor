@@ -74,8 +74,8 @@ if not __name__=="__main__":
         codec,lnsep = "UTF-8","\n"
 
     #Define a lot of stuff
-    pointer=offset=oldptr=0
-    line=banoff=1
+    offset=oldptr=0
+    pointer=line=banoff=1
     banner=["pBTE",version]
     copy_buffer,select = "",[]
     end,start,indent = 1,0,"\t"
