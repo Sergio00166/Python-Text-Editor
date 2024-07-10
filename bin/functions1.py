@@ -52,6 +52,7 @@ def del_sel(select, arr, banoff):
     if line>banoff and line+offset-banoff>len(arr)-1: line-=1
     return select, arr, line, offset
 
+
 def select_add_start_str(arr,line,offset,select,text,remove=False):
     # Get the values from select
     start=sum(select[0]); end=sum(select[1])
@@ -62,9 +63,12 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
     if isinstance(text, list):
         if not remove: p1=[text[0]+x+text[1] for x in p1]
         else:
-            p1 = [x[len(text[0]):-len(text[1])]
-                  if x.startswith(text[0]) and x.endswith(text[1])
-                  else x for x in p1]
+            p1 = [
+                x[len(text[0]):] if len(text[1])==0 and x.startswith(text[0])
+                else x[len(text[0]):-len(text[1])]
+                if x.startswith(text[0]) and x.endswith(text[1])
+                else x for x in p1
+            ]
     else:
         if not remove: p1=[text+x for x in p1]
         else: p1 = [x[len(text):] if x.startswith(text) else x for x in p1]
@@ -72,13 +76,14 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
     # Now reconstruct all arr
     return p0+p1+p2
 
+
 def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
     out,skip = decode(key),False
     if select:
         if not out=="\t": 
             select,arr,line,offset = del_sel(select,arr,banoff)
             if not key in [keys["return"], keys["supr"]]:
-                arr.insert(line + offset - banoff, "")
+                arr.insert(line+offset-banoff, "")
                 select = []
         else: arr,skip = select_add_start_str(arr,line,offset,select,indent),True
        

@@ -97,11 +97,11 @@ def chg_var_str(columns,rows,banoff,line,black,old,text):
     try:    
         print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
         print(black+(" "*(columns+2))+"\r", end="")
-        print(f" Set {text} char: ", end=""); p1=input()
+        print(f" Set {text} char: ", end=""); inp=input()
         print("\r\033[%d;%dH"%(line, 1),end="")
-    except: pass
+    except: inp = old
     print("\033c", end="")
-    return old if len(p1)==0 else p1
+    return inp
 
 
 def newline(pointer,offset,banoff,line,arr,rows,status,select):

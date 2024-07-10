@@ -117,8 +117,8 @@ def dedent(arr,line,offset,banoff,indent,pointer):
     text = arr[line+offset-banoff]
     p1 = text[:pointer-1]
     p2 = text[pointer-1:]
-    if p1.endswith(indent):
+    if len(indent)>0 and p1.endswith(indent):
         p1 = p1[:-len(indent)]
         pointer-=len(indent)
-    arr[line+offset-banoff] = p1+p2
+        arr[line+offset-banoff] = p1+p2
     return arr,pointer
