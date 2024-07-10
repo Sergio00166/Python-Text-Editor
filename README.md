@@ -22,7 +22,8 @@ Windows or Linux with UTF-8 keyboard <br>
 F1 change indent str | F2 change start comment str <br>
 F3 change end comment str<br>
 <br>*Open file menu*<br>
-^Q CANCEL | ^O OPEN  | ^N NEW FILE <br>
+^C CANCEL | ^O OPEN  | ^N NEW FILE <br>
 <br>*Save as menu*<br>
-^Q CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
+^C CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br>
+For menus like ^G, F1, F2 and F3 you can use ^C to exit that menu and Return to leave that value blank<br>
