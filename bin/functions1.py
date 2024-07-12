@@ -10,7 +10,7 @@ def get_size():
     size=get_terminal_size()
     return size[1]-2,size[0]-2
 
-def decode(key): return key.decode("UTF-8", errors='replace')
+def decode(key): return key.decode("UTF-8")
 
 def fixlenline(text,pointer,oldptr):
     length=len(text)+1
