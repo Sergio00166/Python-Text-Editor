@@ -79,7 +79,7 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
     return p0+p1+p2
 
 
-def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
+def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
     out,skip = decode(key),False
     if select:
         if not out=="\t": 
@@ -94,14 +94,17 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
         p1,p2 = text[:pointer-1], text[pointer-1:]
         out=out.replace("\t",indent)
         out_lines = resplit(r'[\n\r]',out)
-        arr[pos] = p1+out_lines[0]+p2
+        if not select and len(out_lines)>1:
+            arr[pos] = p1+out_lines[0]
+        else: arr[pos] = p1+out_lines[0]+p2
         if len(out_lines) > 1:
+            if not select: out_lines[-1] += p2
             arr[pos+1:pos+1] = out_lines[1:]
             # Calculate displacement
             line+=len(out_lines)-1
-            if line>rows+1:
-                offset+=line-rows
-                line=rows
+            if line-banoff>rows:
+                offset+=line-rows-banoff
+                line=rows+banoff
             pointer += len(out_lines[-1])
         else: pointer += len(out_lines[0])
 

@@ -1,6 +1,7 @@
 #Code by Sergio1260
 
 from functions1 import *
+from functions import str_len
 
 
 def supr(pointer,offset,banoff,arr,line,select):
@@ -28,17 +29,20 @@ def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
             pos=line+offset-banoff; text=arr[pos]
             p1,p2 = text[:pointer-1],text[pointer-1:]
             if isinstance(copy_buffer,list):
-                arr[pos]=p1+copy_buffer[0]+p2
-                p1,p2 = arr[:pos+1],arr[pos+1:]
-                arr=p1+copy_buffer[1:]+p2
-            else: arr[pos]=p1+copy_buffer+p2
+                arr[pos]=p1+copy_buffer[0]
+                p1,p3 = arr[:pos+1],arr[pos+1:]
+                line += len(copy_buffer[1:])
+                pointer = str_len(copy_buffer[-1])+1
+                arr=p1+copy_buffer[1:-1]+[copy_buffer[-1]+p2]+p3
+            else:
+                arr[pos]=p1+copy_buffer+p2
+                pointer = str_len(copy_buffer)+1
         else:
             start,end = sum(select[0]),sum(select[1])
-            p1,p2 = arr[:start],arr[end:]
+            p1,p2,select = arr[:start],arr[end:],[]
             if not isinstance(copy_buffer,list):
                 arr=p1+[copy_buffer]+p2
             else: arr=p1+copy_buffer+p2
-            select = []
 
     return pointer,arr,status_st,copy_buffer,line,offset,select
 
@@ -57,7 +61,8 @@ def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
         copy_buffer=text[pointer-1:]
         if pointer==1 or pointer==len(text):
             arr.pop(pos)
-            if line+offset-banoff==len(arr):
+            pos = line+offset-banoff
+            if pos==len(arr) and pos!=0:
                 if offset>0: offset-=1
                 else: line-=1
         else:

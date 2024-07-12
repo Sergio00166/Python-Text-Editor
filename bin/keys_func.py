@@ -124,7 +124,7 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         arr = select_add_start_str(arr,line,offset,slt,comment,True)
 
     else: #All the other keys
-        args=(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec)
+        args=(arr,key,select,pointer,line,offset,banoff,indent,rows,keys)
         arr, pointer, line, offset, select = get_str(*args)
         status_st = False
                 
