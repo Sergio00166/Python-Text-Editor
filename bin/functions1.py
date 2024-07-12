@@ -10,7 +10,7 @@ def get_size():
     size=get_terminal_size()
     return size[1]-2,size[0]-2
 
-def decode(key): return key.decode("UTF-8")
+def decode(key): return key.decode("UTF-8", errors='replace')
 
 def fixlenline(text,pointer,oldptr):
     length=len(text)+1
@@ -91,7 +91,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys,codec):
         pos=line+offset-banoff; text=arr[pos]
         p1,p2 = text[:pointer-1], text[pointer-1:]
         out=out.replace("\t",indent)
-        out_lines = resplit(r'[\n\r]+',out)
+        out_lines = resplit(r'[\n\r]',out)
         arr[pos] = p1+out_lines[0]+p2
         if len(out_lines) > 1:
             arr[pos+1:pos+1] = out_lines[1:]
