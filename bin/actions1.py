@@ -44,7 +44,7 @@ def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
 
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
-    pos = line+offset
+    pos = line+offset-banoff
     text=arr[pos-banoff]
     if not len(select)==0:
         start=sum(select[0])-1
@@ -56,10 +56,14 @@ def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
     else:
         copy_buffer=text[pointer-1:]
         if pointer==1 or pointer==len(text):
-            arr.pop(pos-banoff)
+            arr.pop(pos)
+            if line+offset-banoff==len(arr):
+                if offset>0: offset-=1
+                else: line-=1
         else:
             text=text[:pointer-1]
-            arr[pos-banoff]=text
+            arr[pos]=text
+
     return copy_buffer,arr,line,offset,select
 
 def copy(select,arr,line,offset,banoff,pointer):

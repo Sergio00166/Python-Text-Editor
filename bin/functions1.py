@@ -49,7 +49,9 @@ def del_sel(select, arr, banoff):
     line=select[0][0]+banoff; offset=select[0][1]
     select=[]; arr=p1+p2
     # Fix when selection is on bottom
-    if line>banoff and line+offset-banoff>len(arr)-1: line-=1
+    if line>banoff and line+offset-banoff>len(arr)-1:
+        if offset>0: offset-=1
+        else: line-=1
     return select, arr, line, offset
 
 
