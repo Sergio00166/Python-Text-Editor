@@ -103,7 +103,6 @@ def chg_var_str(columns,rows,banoff,line,black,old,text):
     print("\033c", end="")
     return inp
 
-
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
     text=arr[line+offset-banoff]
     p1=arr[:line+offset-banoff]
@@ -122,4 +121,13 @@ def newline(pointer,offset,banoff,line,arr,rows,status,select):
     arr[line+offset-banoff]=text
     return line, offset, arr, pointer, status, select
 
+def dedent(arr,line,offset,banoff,indent,pointer):
+    text = arr[line+offset-banoff]
+    p1 = text[:pointer-1]
+    p2 = text[pointer-1:]
+    if len(indent)>0 and p1.endswith(indent):
+        p1 = p1[:-len(indent)]
+        pointer-=len(indent)
+        arr[line+offset-banoff] = p1+p2
+    return arr,pointer
 

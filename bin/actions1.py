@@ -20,7 +20,6 @@ def supr(pointer,offset,banoff,arr,line,select):
     else:
         select,arr,line,offset =\
         del_sel(select,arr,banoff)
-
     return arr, line, offset, select
 
 def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
@@ -33,19 +32,21 @@ def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select):
                 p1,p3 = arr[:pos+1],arr[pos+1:]
                 line += len(copy_buffer[1:])
                 pointer = str_len(copy_buffer[-1])+1
-                arr=p1+copy_buffer[1:-1]+[copy_buffer[-1]+p2]+p3
+                arr=p1+copy_buffer[1:-1]+[copy_buffer[-1]+p2]+p3        
             else:
-                arr[pos]=p1+copy_buffer+p2
-                pointer = str_len(copy_buffer)+1
+                arr[pos] = p1+copy_buffer+p2
+                pointer += str_len(copy_buffer)
         else:
             start,end = sum(select[0]),sum(select[1])
             p1,p2,select = arr[:start],arr[end:],[]
-            if not isinstance(copy_buffer,list):
+            if isinstance(copy_buffer,list):
+                arr=p1+copy_buffer+p2
+                line += len(copy_buffer)-1
+                pointer = str_len(copy_buffer[-1])+1
+            else:
                 arr=p1+[copy_buffer]+p2
-            else: arr=p1+copy_buffer+p2
-
+                pointer = str_len(copy_buffer)+1                
     return pointer,arr,status_st,copy_buffer,line,offset,select
-
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
     pos = line+offset-banoff
@@ -67,8 +68,9 @@ def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
                 else: line-=1
         else:
             text=text[:pointer-1]
-            arr[pos]=text
-
+            arr[pos]=text           
+    if isinstance(copy_buffer,list) and len(copy_buffer)==1:
+        copy_buffer = copy_buffer[0] 
     return copy_buffer,arr,line,offset,select
 
 def copy(select,arr,line,offset,banoff,pointer):
@@ -78,6 +80,8 @@ def copy(select,arr,line,offset,banoff,pointer):
         copy_buffer=arr[start:sum(select[1])]
         if not start==0: copy_buffer=copy_buffer[1:]
     else: copy_buffer=arr[line+offset-banoff][pointer-1:]
+    if isinstance(copy_buffer,list) and len(copy_buffer)==1:
+        copy_buffer = copy_buffer[0] 
     return copy_buffer
 
 def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
@@ -87,17 +91,14 @@ def repag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     text=arr[line+offset-banoff]
     pointer=fixlenline(text,pointer,oldptr)
-    arr[line+offset-banoff]=text
-    
+    arr[line+offset-banoff]=text  
     if selected:
         selst=[line-banoff,offset]
         if len(select)==0:
             select=[selst,seled]
         else: select[0]=selst
-    else: select=[]
-    
+    else: select=[]    
     return line, offset, pointer, oldptr, select
-
 
 def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
     if selected:
@@ -109,7 +110,6 @@ def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
     text=arr[line+offset-banoff]
     pointer=fixlenline(text,pointer,oldptr)
     arr[line+offset-banoff]=text
-
     if selected:
         seled=[line-banoff,offset]
         if sum(seled)<fix:
@@ -117,17 +117,6 @@ def avpag(line,offset,banoff,rows,arr,sep,pointer,oldptr,select,selected):
         if len(select)==0:
             select=[selst,seled]
         else: select[1]=seled
-    else: select=[]
-    
+    else: select=[]  
     return line, offset, pointer, oldptr, select
 
-
-def dedent(arr,line,offset,banoff,indent,pointer):
-    text = arr[line+offset-banoff]
-    p1 = text[:pointer-1]
-    p2 = text[pointer-1:]
-    if len(indent)>0 and p1.endswith(indent):
-        p1 = p1[:-len(indent)]
-        pointer-=len(indent)
-        arr[line+offset-banoff] = p1+p2
-    return arr,pointer
