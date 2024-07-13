@@ -103,6 +103,8 @@ def chg_var_str(columns,rows,banoff,line,black,old,text):
     return inp
 
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
+    if not len(select)==0:
+        select,arr,line,offset = del_sel(select,arr,banoff)
     text=arr[line+offset-banoff]
     p1=arr[:line+offset-banoff]
     p2=arr[line+offset-banoff:]
@@ -116,7 +118,6 @@ def newline(pointer,offset,banoff,line,arr,rows,status,select):
     if not line>rows: line+=1
     else: offset+=1
     status_st=False
-    if not len(select)==0: select=[]
     arr[line+offset-banoff]=text
     return line, offset, arr, pointer, status, select
 

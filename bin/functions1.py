@@ -89,11 +89,7 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
 def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
     out,skip = decode(key),False
     if select:
-        if not out=="\t": 
-            select,arr,line,offset = del_sel(select,arr,banoff)
-            if not key in [keys["return"], keys["supr"]]:
-                arr.insert(line+offset-banoff, "")
-                select = []
+        if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff)
         else: arr,skip = select_add_start_str(arr,line,offset,select,indent),True
        
     if not skip:
