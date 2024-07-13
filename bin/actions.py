@@ -1,7 +1,6 @@
 #Code by Sergio1260
 
 from functions1 import *
-from functions import str_len
 
 
 def down(line,offset,arr,banoff,oldptr,rows,pointer,select,selected):

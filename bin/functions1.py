@@ -6,6 +6,13 @@ from multiprocessing import cpu_count, Pool
 from re import split as resplit
 
 
+def calc_displacement(data,line,banoff,offset,rows,rect=0):
+    line += len(data)-rect
+    if line-banoff>rows:
+        offset+=line-rows-banoff
+        line=rows+banoff
+    return line,offset
+
 def get_size():
     size=get_terminal_size()
     return size[1]-2,size[0]-2
@@ -100,11 +107,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
         if len(out_lines) > 1:
             if not select: out_lines[-1] += p2
             arr[pos+1:pos+1] = out_lines[1:]
-            # Calculate displacement
-            line+=len(out_lines)-1
-            if line-banoff>rows:
-                offset+=line-rows-banoff
-                line=rows+banoff
+            line,offset = calc_displacement(out_lines,line,banoff,offset,rows,1)
             pointer += len(out_lines[-1])
         else: pointer += len(out_lines[0])
 
