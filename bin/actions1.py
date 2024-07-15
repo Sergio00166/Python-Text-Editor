@@ -50,7 +50,7 @@ def paste(copy_buffer,arr,line,offset,banoff,pointer,status_st,select,rows):
     
 def cut(select,arr,line,offset,banoff,status_st,copy_buffer,pointer):
     pos = line+offset-banoff
-    text=arr[pos-banoff]
+    text=arr[pos]
     if not len(select)==0:
         start=sum(select[0])-1
         if start<0: start=0
