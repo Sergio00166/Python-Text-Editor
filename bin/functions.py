@@ -14,9 +14,9 @@ ascii_map = { 0x00: '␀', 0x01: '␁', 0x02: '␂', 0x03: '␃', 0x04: '␄', 0
 ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
 
-def expandtabs(self, tabsize=8):
+def expandtabs(text, tabsize=8):
     result,col = [], 0
-    for char in self:
+    for char in text:
         if char == '\t':
             space_count = tabsize - (col % tabsize)
             result.append(' ' * space_count)
@@ -70,25 +70,29 @@ def str_len(text,pointer=None):
     return lenght
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
-    len_arr=[]; ptr=pointer; pos=0
+    # Set a lot of constants and vars
+    len_arr,ptr,pos = [],pointer,0
+    arr_l = black+"<"+reset
+    arr_r = black+">"+reset
     text = text[:pointer+columns+2]
-    pointer=str_len(fscp(text),pointer)   
-    wrapped_text = wrap(text,columns)  
-    for x in wrapped_text:
-        if pointer-str_len(fscp(x))<1: break
-        else: pos+=1
-        pointer-=str_len(fscp(x))
-    if pos>0: pointer+=1
-    if not len(wrapped_text)==0:
-        if pos>len(wrapped_text)-1: pos=-1
+    trsl = str_len(fscp(text),pointer)
+    wrapped_text = wrap(text,columns)
+    # Get in which part the cursor is
+    pos = (trsl-1)//columns
+    if pos<0: pos = 0
+    pointer = trsl-(pos*columns)
+    # Now get the content
+    lenght = len(wrapped_text)
+    if not lenght==0:
+        if pos>lenght-1: pos=-1
         text=wrapped_text[pos]
         text=sscp(text,[black,reset])
+        # Add the < AND > indicators
         if pos>0:
-            text=black+"<"+reset+text
-            if not pos==len(wrapped_text)-1:
-                text+=black+">"+reset
-        elif len(wrapped_text)>1:
-            text+=black+">"+reset      
+            text=arr_l+text
+            if not pos==lenght-1:
+                text+=arr_r+reset
+        elif lenght>1: text+=arr_r      
     else: text=""
                 
     return pointer+1, text
@@ -140,8 +144,7 @@ def rscp(arg,color,mode=False):
     global ascii_replaced
     if len(color)==3:
         b,r,c = color
-        b1 = r+b
-        r1 = r+c
+        b1,r1 = r+b,r+c
     else:
         b,r = color
         b1,r1 = b,r
