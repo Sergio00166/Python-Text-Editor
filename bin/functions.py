@@ -46,7 +46,7 @@ def wrap(text, columns, tabsize=8):
                     counter += 1
                 col += 1
         else:
-            char_width = wcwidth(char) or 1
+            char_width = wcwidth(char)
             if char_width > 0:
                 if counter + char_width > columns:
                     result.append(buffer)
