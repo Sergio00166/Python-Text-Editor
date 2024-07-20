@@ -4,6 +4,7 @@ from os import sep
 from sys import path
 path.append(path[0]+sep+"lib.zip")
 from wcwidth import wcwidth
+from functions1 import expandtabs, str_len
 
 ascii_map = { 0x00: '␀', 0x01: '␁', 0x02: '␂', 0x03: '␃', 0x04: '␄', 0x05: '␅', 0x06: '␆',
               0x07: '␇', 0x08: '␈', 0x0A: '␊', 0x0B: '␋', 0x0C: '␌', 0x0D: '␍', 0x0E: '␎',
@@ -13,21 +14,6 @@ ascii_map = { 0x00: '␀', 0x01: '␁', 0x02: '␂', 0x03: '␃', 0x04: '␄', 0
             }
 ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
-
-def expandtabs(text, tabsize=8):
-    result,col = [], 0
-    for char in text:
-        if char == '\t':
-            space_count = tabsize - (col % tabsize)
-            result.append(' ' * space_count)
-            col += space_count
-        else:
-            result.append(char)
-            char_width = wcwidth(char)
-            if char_width > 0:
-                col += char_width
-            else: col += 1
-    return ''.join(result)
 
 def calc_cursor(stop_fix,pointer,counter,pos):
     if not stop_fix:
@@ -69,7 +55,7 @@ def wrap(text, columns, pointer=None, tabsize=8):
 def fix_cursor_pos(text,pointer,columns,black,reset):
     len_arr=[]; ptr=pointer; pos=0
     text = text[:pointer+columns+2]
-    pointer=str_len(fscp(text),pointer)   
+    pointer = fscp(text[:pointer])
     wrapped_text,pos,pointer = wrap(text,columns,pointer)
     if not len(wrapped_text)==0:
         if pos>len(wrapped_text)-1: pos=-1
@@ -101,14 +87,6 @@ def fix_arr_line_len(arr, columns, black, reset):
         out.append(text)   
     return out
 
-def str_len(text,pointer=None):
-    lenght=0
-    if not pointer==None:
-        fix=text[:pointer-1]
-    else: fix=text
-    fix=expandtabs(fix)
-    for x in fix: lenght+=wcwidth(x)
-    return lenght
 
 def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     uptr=pointer; out_arr=[]; sp=black+"<"+reset
@@ -140,16 +118,18 @@ def sscp(arg,color):
         else: ext.append(b+"�"+r)
     return "".join(ext)
 
-# Changes visual ascii chars to space (to read the real screen len)
-def fscp(arg,null=False):
+# Read real screen_len
+def fscp(arg):
     global ascii_map
-    r = "" if null else " "
-    ext = []
+    lenght = 0
+    arg = expandtabs(arg)
     for x in arg:
-        if ord(x) in ascii_map: ext.append(r)
-        elif str_len(x)>0: ext.append(x)
-        else: ext.append(r)
-    return "".join(ext)
+        if ord(x) in ascii_map: lenght+=1
+        else:
+            ch_len=str_len(x)
+            if ch_len>0: lenght+=ch_len
+            else: lenght += 1
+    return lenght
 
 # Inverts the highlight (for the highlight selector)
 def rscp(arg,color,mode=False):

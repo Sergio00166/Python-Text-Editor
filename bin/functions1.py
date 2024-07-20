@@ -4,7 +4,34 @@ from os import get_terminal_size,sep
 from os.path import split as psplit
 from multiprocessing import cpu_count, Pool
 from re import split as resplit
+from sys import path
+path.append(path[0]+sep+"lib.zip")
+from wcwidth import wcwidth
 
+
+def expandtabs(text, tabsize=8):
+    result,col = [], 0
+    for char in text:
+        if char == '\t':
+            space_count = tabsize - (col % tabsize)
+            result.append(' ' * space_count)
+            col += space_count
+        else:
+            result.append(char)
+            char_width = wcwidth(char)
+            if char_width > 0:
+                col += char_width
+            else: col += 1
+    return ''.join(result)
+
+def str_len(text,pointer=None):
+    lenght=0
+    if not pointer==None:
+        fix=text[:pointer-1]
+    else: fix=text
+    fix=expandtabs(fix)
+    for x in fix: lenght+=wcwidth(x)
+    return lenght
 
 def calc_displacement(data,line,banoff,offset,rows,rect=0):
     line += len(data)-rect

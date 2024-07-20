@@ -9,7 +9,7 @@ if not __name__=="__main__":
     from os.path import abspath, isdir
     from glob import glob
     from functions1 import get_size,read_UTF8,CalcRelLine,get_str
-    from functions import str_len, fscp
+    from functions import str_len
     from upd_scr import update_scr
     from keys_func import keys_func
     from subprocess import check_output

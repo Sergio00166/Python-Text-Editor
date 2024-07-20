@@ -1,6 +1,6 @@
 # Code by Sergio1260
 
-from functions import scr_arr2str, rscp, sscp, fscp, str_len
+from functions import scr_arr2str, rscp, sscp, str_len
 from functions1 import get_size, fixfilename
 from sys import stdout
 
