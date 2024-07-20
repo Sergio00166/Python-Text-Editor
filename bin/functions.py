@@ -30,9 +30,18 @@ def expandtabs(text, tabsize=8):
     return ''.join(result)
 
 
-def wrap(text, columns, tabsize=8):
-    result, buffer, counter, col = [], "", -1, 0
+def calc_cursor(stop_fix,pointer,counter,pos):
+    if not stop_fix:
+        if pointer-counter<1:
+            stop_fix=True
+        else: pos+=1
+        pointer-=counter
+    return pos, pointer, stop_fix
 
+def wrap(text, columns,pointer=None, tabsize=8):
+    result, buffer, counter, col = [], "", -1, 0
+    stop_fix,pos = False,0
+    
     for char in text:
         if char == '\t':
             space_count = tabsize - (col % tabsize)
@@ -40,6 +49,9 @@ def wrap(text, columns, tabsize=8):
             for x in expanded:
                 if counter+1 > columns:
                     result.append(buffer)
+                    if not pointer==None:
+                        pos, pointer, stop_fix =\
+                        calc_cursor(stop_fix,pointer,counter,pos)
                     buffer, counter = x, 1
                 else:
                     buffer += x
@@ -50,6 +62,9 @@ def wrap(text, columns, tabsize=8):
             if char_width > 0:
                 if counter + char_width > columns:
                     result.append(buffer)
+                    if not pointer==None:
+                        pos, pointer, stop_fix =\
+                        calc_cursor(stop_fix,pointer,counter,pos)
                     buffer, counter = char, char_width
                 else:
                     buffer += char
@@ -58,6 +73,9 @@ def wrap(text, columns, tabsize=8):
             else:
                 if counter + 1 > columns:
                     result.append(buffer)
+                    if not pointer==None:
+                        pos, pointer, stop_fix =\
+                        calc_cursor(stop_fix,pointer,counter,pos)
                     buffer, counter = char, 1
                 else:
                     buffer += char
@@ -65,33 +83,25 @@ def wrap(text, columns, tabsize=8):
                 col += 1
 
     if buffer:  result.append(buffer)
-    return result
+    if pointer==None: return result
+    else: return result,pos,pointer
 
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
-    # Set a lot of constants and vars
-    len_arr,ptr,pos = [],pointer,0
-    arr_l = black+"<"+reset
-    arr_r = black+">"+reset
+    len_arr=[]; ptr=pointer; pos=0
     text = text[:pointer+columns+2]
-    trsl = str_len(fscp(text),pointer)
-    wrapped_text = wrap(text,columns)
-    # Get in which part the cursor is
-    pos = (trsl-1)//columns
-    if pos<0: pos = 0
-    pointer = trsl-(pos*columns)
-    # Now get the content
-    lenght = len(wrapped_text)
-    if not lenght==0:
-        if pos>lenght-1: pos=-1
+    pointer=str_len(fscp(text),pointer)   
+    wrapped_text,pos,pointer = wrap(text,columns,pointer)
+    if not len(wrapped_text)==0:
+        if pos>len(wrapped_text)-1: pos=-1
         text=wrapped_text[pos]
         text=sscp(text,[black,reset])
-        # Add the < AND > indicators
         if pos>0:
-            text=arr_l+text
-            if not pos==lenght-1:
-                text+=arr_r+reset
-        elif lenght>1: text+=arr_r      
+            text=black+"<"+reset+text
+            if not pos==len(wrapped_text)-1:
+                text+=black+">"+reset
+        elif len(wrapped_text)>1:
+            text+=black+">"+reset      
     else: text=""
                 
     return pointer+1, text
