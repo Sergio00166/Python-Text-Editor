@@ -29,7 +29,6 @@ def expandtabs(text, tabsize=8):
             else: col += 1
     return ''.join(result)
 
-
 def calc_cursor(stop_fix,pointer,counter,pos):
     if not stop_fix:
         if pointer-counter<1:
@@ -38,53 +37,33 @@ def calc_cursor(stop_fix,pointer,counter,pos):
         pointer-=counter
     return pos, pointer, stop_fix
 
-def wrap(text, columns,pointer=None, tabsize=8):
+def wrap(text, columns, pointer=None, tabsize=8):
     result, buffer, counter, col = [], "", -1, 0
-    stop_fix,pos = False,0
-    
+    stop_fix, pos = False, 0
+
+    def handle_char(char, char_width):
+        nonlocal buffer, counter, col, result, stop_fix, pos, pointer
+        if counter + char_width > columns:
+            result.append(buffer)
+            if pointer is not None:
+                pos, pointer, stop_fix = calc_cursor(stop_fix, pointer, counter, pos)
+            buffer, counter = char, char_width
+        else:
+            buffer += char
+            counter += char_width
+        col += char_width
+
     for char in text:
         if char == '\t':
             space_count = tabsize - (col % tabsize)
             expanded = ' ' * space_count
-            for x in expanded:
-                if counter+1 > columns:
-                    result.append(buffer)
-                    if not pointer==None:
-                        pos, pointer, stop_fix =\
-                        calc_cursor(stop_fix,pointer,counter,pos)
-                    buffer, counter = x, 1
-                else:
-                    buffer += x
-                    counter += 1
-                col += 1
+            for x in expanded: handle_char(x, 1)
         else:
-            char_width = wcwidth(char)
-            if char_width > 0:
-                if counter + char_width > columns:
-                    result.append(buffer)
-                    if not pointer==None:
-                        pos, pointer, stop_fix =\
-                        calc_cursor(stop_fix,pointer,counter,pos)
-                    buffer, counter = char, char_width
-                else:
-                    buffer += char
-                    counter += char_width
-                col += char_width
-            else:
-                if counter + 1 > columns:
-                    result.append(buffer)
-                    if not pointer==None:
-                        pos, pointer, stop_fix =\
-                        calc_cursor(stop_fix,pointer,counter,pos)
-                    buffer, counter = char, 1
-                else:
-                    buffer += char
-                    counter += 1
-                col += 1
+            char_width = wcwidth(char) if wcwidth(char) > 0 else 1
+            handle_char(char, char_width)
 
-    if buffer:  result.append(buffer)
-    if pointer==None: return result
-    else: return result,pos,pointer
+    if buffer: result.append(buffer)
+    return (result, pos, pointer) if pointer is not None else result
 
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
