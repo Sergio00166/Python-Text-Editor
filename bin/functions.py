@@ -30,44 +30,43 @@ def expandtabs(text, tabsize=8):
     return ''.join(result)
 
 
-# Now it seems to work
-def wrap(text, columns):
-    out,buffer,counter = [],"",-1
-    text=expandtabs(text)
-    for x in text:
-        lenght=str_len(fscp(x))
-        if counter+lenght>columns:
-            out.append(buffer)
-            buffer,counter = x,lenght
+def wrap(text, columns, tabsize=8):
+    result, buffer, counter, col = [], "", -1, 0
+
+    for char in text:
+        if char == '\t':
+            space_count = tabsize - (col % tabsize)
+            expanded = ' ' * space_count
+            for x in expanded:
+                if counter+1 > columns:
+                    result.append(buffer)
+                    buffer, counter = x, 1
+                else:
+                    buffer += x
+                    counter += 1
+                col += 1
         else:
-            buffer+=x
-            counter+=lenght
-    out.append(buffer)
-    return out
+            char_width = wcwidth(char) or 1
+            if char_width > 0:
+                if counter + char_width > columns:
+                    result.append(buffer)
+                    buffer, counter = char, char_width
+                else:
+                    buffer += char
+                    counter += char_width
+                col += char_width
+            else:
+                if counter + 1 > columns:
+                    result.append(buffer)
+                    buffer, counter = char, 1
+                else:
+                    buffer += char
+                    counter += 1
+                col += 1
 
-def fix_arr_line_len(arr, columns, black, reset):
-    out=[]; fix=0//(columns+2)
-    for text in arr:
-        text = text[:columns+2]
-        wrapped_text = wrap(text,columns)
-        if len(wrapped_text)==0: wrapped_text=""
-        elif fix==len(wrapped_text):
-            text=wrapped_text[fix-1]
-        else: text=wrapped_text[fix]
-        text=sscp(text,[black,reset])
-        if (len(wrapped_text)-fix)>1:
-            text+=black+">"+reset
-        out.append(text)   
-    return out
+    if buffer:  result.append(buffer)
+    return result
 
-def str_len(text,pointer=None):
-    lenght=0
-    if not pointer==None:
-        fix=text[:pointer-1]
-    else: fix=text
-    fix=expandtabs(fix)
-    for x in fix: lenght+=wcwidth(x)
-    return lenght
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
     # Set a lot of constants and vars
@@ -97,6 +96,30 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
                 
     return pointer+1, text
 
+
+def fix_arr_line_len(arr, columns, black, reset):
+    out=[]; fix=0//(columns+2)
+    for text in arr:
+        text = text[:columns+2]
+        wrapped_text = wrap(text,columns)
+        if len(wrapped_text)==0: wrapped_text=""
+        elif fix==len(wrapped_text):
+            text=wrapped_text[fix-1]
+        else: text=wrapped_text[fix]
+        text=sscp(text,[black,reset])
+        if (len(wrapped_text)-fix)>1:
+            text+=black+">"+reset
+        out.append(text)   
+    return out
+
+def str_len(text,pointer=None):
+    lenght=0
+    if not pointer==None:
+        fix=text[:pointer-1]
+    else: fix=text
+    fix=expandtabs(fix)
+    for x in fix: lenght+=wcwidth(x)
+    return lenght
 
 def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     uptr=pointer; out_arr=[]; sp=black+"<"+reset
