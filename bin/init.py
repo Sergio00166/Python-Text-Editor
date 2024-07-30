@@ -7,17 +7,13 @@ if not __name__=="__main__":
     from os import getcwd, sep, read
     from sys import argv, path
     from os.path import abspath, isdir
-    from glob import glob
-    from functions1 import get_size,read_UTF8,CalcRelLine,get_str
-    from functions import str_len, fscp
+    from functions1 import get_size,read_UTF8
     from upd_scr import update_scr
     from keys_func import keys_func
-    from subprocess import check_output
     path.append(path[0]+sep+"lib.zip")
     from colorama import init, Fore, Back, Style, deinit
     from threading import Thread
     from time import sleep as delay
-    from time import time
 
     # Define colors
     init(autoreset=False,convert=True)
