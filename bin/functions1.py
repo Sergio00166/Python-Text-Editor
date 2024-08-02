@@ -1,4 +1,4 @@
-#Code by Sergio1260
+# Code by Sergio00166
 
 from os import get_terminal_size,sep
 from os.path import split as psplit
