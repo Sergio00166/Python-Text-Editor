@@ -14,6 +14,7 @@ if not __name__=="__main__":
     from colorama import init, Fore, Back, Style, deinit
     from threading import Thread
     from time import sleep as delay
+    from glob import glob
 
     # Define colors
     init(autoreset=False,convert=True)
