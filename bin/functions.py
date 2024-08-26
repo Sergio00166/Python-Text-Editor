@@ -13,23 +13,8 @@ ascii_map = { 0x00: '␀', 0x01: '␁', 0x02: '␂', 0x03: '␃', 0x04: '␄', 0
             }
 ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
-
-def expandtabs(self, tabsize=8):
-    result,col = [], 0
-    for char in self:
-        if char == '\t':
-            space_count = tabsize - (col % tabsize)
-            result.append(' ' * space_count)
-            col += space_count
-        else:
-            result.append(char)
-            char_width = wcwidth(char)
-            if char_width > 0:
-                col += char_width
-            else: col += 1
-    return ''.join(result)
-
-
+# Expands tabulators and splits the text in parts and as
+# optional returns a list of the real lenght of each part
 def wrap(text, columns, tabsize=8, rtarr=False):
     buffer, counter, col = "", -1, 0
     result, len_arr = [], []
@@ -73,11 +58,24 @@ def fix_arr_line_len(arr, columns, black, reset):
         out.append(text)   
     return out
 
-def str_len(text):
-    lenght=0
-    fix=expandtabs(text)
-    for x in fix: lenght+=wcwidth(x)
+# Expands tabs and gets real string lenght
+def str_len(self, tabsize=8):
+    result,col,lenght = [],0,0
+    for char in self:
+        if char == '\t':
+            space_count = tabsize - (col % tabsize)
+            result.append(' ' * space_count)
+            lenght += space_count
+            col += space_count
+        else:
+            result.append(char)
+            char_width = wcwidth(char)
+            lenght += char_width
+            if char_width > 0:
+                col += char_width
+            else: col += 1
     return lenght
+
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
     len_arr=[]; ptr=pointer; pos=0
