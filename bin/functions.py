@@ -132,17 +132,6 @@ def sscp(arg,color):
         else: ext.append(b+"�"+r)
     return "".join(ext)
 
-# Changes visual ascii chars to space (to read the real screen len)
-def fscp(arg,null=False):
-    global ascii_map
-    r = "" if null else " "
-    ext = []
-    for x in arg:
-        if ord(x) in ascii_map: ext.append(r)
-        elif str_len(x)>0: ext.append(x)
-        else: ext.append(r)
-    return "".join(ext)
-
 # Inverts the highlight (for the highlight selector)
 def rscp(arg,color,mode=False):
     global ascii_replaced
