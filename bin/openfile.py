@@ -58,6 +58,8 @@ def open_file(arg):
         if len(openfile)<wrtptr-length:
             wrtptr = len(openfile)+length
         try:
+            # Force use LINUX dir separator
+            openfile=openfile.replace(chr(92),"/")
             # If OS is LINUX restore TTY to it default values
             if not sep==chr(92):
                 old=(fd,TCSADRAIN,old_settings)
@@ -103,8 +105,8 @@ def open_file(arg):
             elif key==keys["delete"]:
                 if not wrtptr==length:
                     if complete:
-                        openfile=openfile.split(sep)[:-1]
-                        openfile=sep.join(openfile)+sep
+                        openfile=openfile.split("/")[:-1]
+                        openfile=sep.join(openfile)+"/"
                         wrtptr-=len(openfile[-1])-1
                         complete=False
                     else: 

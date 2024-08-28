@@ -26,6 +26,8 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     if small: outb,fix,length = "",1,columns
     # Fix the filename string to fit in the space
     filename = fixfilename(filename,length)
+    # Use the fucking UNIX path separator
+    filename = filename.replace(chr(92),"/")
     filename = sscp(filename,[slc,reset+bnc])
     # Calculate blank space of necessary
     if small: filename+=" "*(columns-len(filename))

@@ -59,6 +59,8 @@ def save_as(arg):
         if len(filewrite)<wrtptr-length:
             wrtptr = len(filewrite)+length
         try:
+            # Force use LINUX dir separator
+            filewrite=filewrite.replace(chr(92),"/")
             # If OS is LINUX restore TTY to it default values
             if not sep==chr(92):
                 old=(fd,TCSADRAIN,old_settings)
@@ -76,7 +78,7 @@ def save_as(arg):
             run=False #Stop update screen thread
 
             if key==keys["tab"]:
-                if not (len(openfile)==0 or (sep==chr(92) and not ":" in openfile)):
+                if not (len(filewrite)==0 or (sep==chr(92) and not ":" in filewrite)):
                     if not complete: content=glob(filewrite+"*",recursive=False)
                     if len(content)>0: complete=True
                     if cmp_counter>=len(content): cmp_counter = 0
@@ -103,8 +105,8 @@ def save_as(arg):
             elif key==keys["delete"]:
                 if not wrtptr==length:
                     if complete:
-                        filewrite=filewrite.split(sep)[:-1]
-                        filewrite=sep.join(filewrite)+sep
+                        filewrite=filewrite.split("/")[:-1]
+                        filewrite=sep.join(filewrite)+"/"
                         wrtptr-=len(filewrite[-1])-1
                         complete=False
                     else: 
