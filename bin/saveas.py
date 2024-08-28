@@ -78,7 +78,7 @@ def save_as(arg):
             run=False #Stop update screen thread
 
             if key==keys["tab"]:
-                if not (len(filewrite)==0 or (sep==chr(92) and not ":" in filewrite)):
+                if not (len(filewrite)==0 or (sep==chr(92) and not ":/" in filewrite)):
                     if not complete: content=glob(filewrite+"*",recursive=False)
                     if len(content)>0: complete=True
                     if cmp_counter>=len(content): cmp_counter = 0

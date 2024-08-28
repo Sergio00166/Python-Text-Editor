@@ -71,13 +71,13 @@ def open_file(arg):
             rows,columns = menu_updsrc(arg,mode,True)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
-
+            
             run=True #Start update screen thread
             key=read_key() #Map keys
             run=False #Stop update screen thread
-
+            
             if key==keys["tab"]:
-                if not (len(openfile)==0 or (sep==chr(92) and not ":" in openfile)):
+                if not (len(openfile)==0 or (sep==chr(92) and not ":/" in openfile)):
                     if not complete: content=glob(openfile+"*",recursive=False)
                     if len(content)>0: complete=True
                     if cmp_counter>=len(content): cmp_counter = 0
