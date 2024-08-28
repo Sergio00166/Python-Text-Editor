@@ -122,6 +122,10 @@ def menu_updsrc(arg,mode=None,updo=False):
             line_number = (wrtptr-1)//(columns+2)
             cursor_y = ((rows+2)-text_size)+line_number
             cursor_x = (wrtptr-1)%(columns+2)
+            # Fix cursor xy displacement
+            if cursor_x==0:
+                cursor_x = columns+2
+                cursor_y -= 1
             # Add scape secuence to move cursor
             menu+="\r\033[%d;%dH"%(cursor_y, cursor_x)
             # Print the whole screen
