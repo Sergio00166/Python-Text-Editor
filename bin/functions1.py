@@ -37,20 +37,6 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
     return line, offset
 
 
-def fixfilename(path, length):
-    if len(path) <= length: return path
-    dirname, basename = psplit(path)
-    if len(path) <= length: return path
-    available_length = length - len(basename) - 1
-    if available_length <= 0: return basename[:length - 1]+'*'
-    parts = dirname.split(sep)
-    while len(parts) > 0 and len(sep.join(parts)) > available_length: parts.pop(0)
-    if len(parts) == 0: compacted_path=basename
-    else: compacted_path = sep.join(parts) + sep + basename
-    
-    return compacted_path
-   
-
 def del_sel(select, arr, banoff, blank=False):
     p1=arr[:sum(select[0])]
     p2=arr[sum(select[1]):]
@@ -63,6 +49,19 @@ def del_sel(select, arr, banoff, blank=False):
         if offset>0: offset-=1
         else: line-=1
     return [], arr, line, offset
+
+
+def fixfilename(path, length):
+    if len(path) <= length: return path
+    dirname, basename = psplit(path)
+    if len(path) <= length: return path
+    available_length = length - len(basename) - 1
+    if available_length <= 0: return basename[:length - 1]+'*'
+    parts = dirname.split(sep)
+    while len(parts) > 0 and len(sep.join(parts)) > available_length: parts.pop(0)
+    if len(parts) == 0: compacted_path=basename
+    else: compacted_path = sep.join(parts)+sep+basename
+    return compacted_path
 
 
 def select_add_start_str(arr,line,offset,select,text,remove=False):

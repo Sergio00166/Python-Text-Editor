@@ -17,21 +17,24 @@ def print(text):
 
 def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[]):
     # Create the string that represents on which line we are
-    position=bnc+" "+str(line+offset-banoff)+"  "
+    position=" "+str(line+offset-banoff)+"  "
     # Create a part of the banner (position and status strings)
     status= (" "+banner[1] if not status_st else "  "+status)
-    outb=position+bnc+" "+banner[0]+status+"    "
-    # Now set the filenamevar with the fixed filename string
-    length = columns-len(outb.replace(bnc,""))
+    outb=position+" "+banner[0]+status+"    "
+    # Check if the space for the filename is too small
+    length = columns-len(outb); small = length<24
+    if small: outb,fix,length = "",1,columns
+    # Fix the filename string to fit in the space
     filename = fixfilename(filename,length)
     filename = sscp(filename,[slc,reset+bnc])
+    # Calculate blank space of necessary
+    if small: filename+=" "*(columns-len(filename))
     # Get the separation between the Left and the filename
-    fix=outb.replace(bnc,"").replace(reset,"")
-    fix=columns-len(fix)-len(filename)+1
+    if not small: fix=columns-len(outb)-len(filename)+1
     # Get the text that will be on screen and update the pointer value
     all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff)
     # Initialize the menu with all the banner
-    menu=cls+outb+" "*fix
+    menu=cls+bnc+outb+" "*fix
 
     # Highlight selector
     if len(select)>0:
