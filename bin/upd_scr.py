@@ -117,17 +117,13 @@ def menu_updsrc(arg,mode=None,updo=False):
             out=sscp(out,[slc,reset+bnc])
             # Add menu to it
             menu+="\n"+bnc+out+(" "*(full))
-            # Calculate pointer y displacement
-            fix_lip = rows+banoff+2-fix+((wrtptr-1)//(columns+2))
-            # Calculate pointer x displacement
-            fix_wrtptr = (columns+2)*fix
-            # Some pointer x displacement fix
-            while True:
-                if wrtptr-1-fix_wrtptr<0:
-                    fix-=1; fix_wrtptr=(columns+2)*fix
-                else: break
+            # Calculate cursor displacement
+            text_size = len(out)//(columns+2)
+            line_number = (wrtptr-1)//(columns+2)
+            cursor_y = ((rows+2)-text_size)+line_number
+            cursor_x = (wrtptr-1)%(columns+2)
             # Add scape secuence to move cursor
-            menu+="\r\033[%d;%dH"%(fix_lip, wrtptr-1-fix_wrtptr)
+            menu+="\r\033[%d;%dH"%(cursor_y, cursor_x)
             # Print the whole screen
             print(menu)
             
