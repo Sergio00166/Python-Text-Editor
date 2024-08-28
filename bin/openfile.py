@@ -15,7 +15,7 @@ if not sep==chr(92): #If OS is LINUX
 
 def updscr_thr():
     global opentxt,openfile,rows,columns,black,reset,status,banoff
-    global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
+    global length,wrtptr,offset,line,arr,banner,filename,rows,columns
     global run, kill, fd, old_settings, status_st, bnc, slc
     
     while not kill:
@@ -26,7 +26,7 @@ def updscr_thr():
                 old=(fd,TCSADRAIN,old_settings)
                 tcsetattr(fd, TCSADRAIN, old_settings)
             # Call Screen updater
-            mode=(openfile,opentxt,wrtptr,lenght)
+            mode=(openfile,opentxt,wrtptr,length)
             arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode)
@@ -42,28 +42,28 @@ def exit():
 
 def open_file(arg):
     global opentxt,openfile,rows,columns,black,reset,status,banoff
-    global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
+    global length,wrtptr,offset,line,arr,banner,filename,rows,columns
     global run, kill, fd, old_settings, thr, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
     line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep = arg
     
     openfile=sep.join(filename.split(sep)[:-1])+sep
-    opentxt=" Open: "; lenght=len(opentxt)+2; wrtptr=lenght+len(openfile)
+    opentxt=" Open: "; length=len(opentxt)+2; wrtptr=length+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
     complete=False; cmp_counter=0
     
     while True:
         # Fix when the pointer is out
-        if len(openfile)<wrtptr-lenght:
-            wrtptr = len(openfile)+lenght
+        if len(openfile)<wrtptr-length:
+            wrtptr = len(openfile)+length
         try:
             # If OS is LINUX restore TTY to it default values
             if not sep==chr(92):
                 old=(fd,TCSADRAIN,old_settings)
                 tcsetattr(fd, TCSADRAIN, old_settings)
             # Call Screen updater
-            mode=(openfile,opentxt,wrtptr,lenght)
+            mode=(openfile,opentxt,wrtptr,length)
             arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode,True)
@@ -101,7 +101,7 @@ def open_file(arg):
             elif key==keys["ctrl+c"]: exit(); break
         
             elif key==keys["delete"]:
-                if not wrtptr==lenght:
+                if not wrtptr==length:
                     if complete:
                         openfile=openfile.split(sep)[:-1]
                         openfile=sep.join(openfile)+sep
@@ -109,15 +109,15 @@ def open_file(arg):
                         complete=False
                     else: 
                         p1=list(openfile)
-                        p1.pop(wrtptr-lenght-1)
+                        p1.pop(wrtptr-length-1)
                         openfile="".join(p1)
                         wrtptr-=1
 
             elif key==keys["arr_left"]:
-                if not wrtptr==lenght: wrtptr-=1
+                if not wrtptr==length: wrtptr-=1
                 
             elif key==keys["arr_right"]:
-                if not wrtptr>len(openfile)+lenght-1: wrtptr+=1
+                if not wrtptr>len(openfile)+length-1: wrtptr+=1
                     
             elif key==keys["supr"]:
                 if not sep==chr(92): getch()
@@ -128,12 +128,12 @@ def open_file(arg):
                     complete=False
                 else:
                     p1=list(openfile)
-                    p1.pop(wrtptr-lenght)
+                    p1.pop(wrtptr-length)
                     openfile="".join(p1)
 
-            elif key==keys["start"]: wrtptr=lenght
+            elif key==keys["start"]: wrtptr=length
                 
-            elif key==keys["end"]: wrtptr=len(openfile)+lenght
+            elif key==keys["end"]: wrtptr=len(openfile)+length
             
             elif key==keys["ctrl+n"]:
                 pointer,oldptr,offset,line = 1,1,0,1
@@ -144,8 +144,8 @@ def open_file(arg):
             else: #Rest of keys
                 if wrtptr<((columns+2)*rows+1):
                     out=decode(key)
-                    p1=openfile[:wrtptr-lenght]
-                    p2=openfile[wrtptr-lenght:]
+                    p1=openfile[:wrtptr-length]
+                    p2=openfile[wrtptr-length:]
                     openfile=p1+out+p2
                     wrtptr+=len(out)
                     complete=False

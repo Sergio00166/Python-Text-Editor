@@ -23,7 +23,7 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     outb=position+bnc+" "+banner[0]+status+"    "
     # Now set the filenamevar with the fixed filename string
     length = columns-len(outb.replace(bnc,""))
-    filename = fixfilename(filename,columns,length)
+    filename = fixfilename(filename,length)
     filename = sscp(filename,[slc,reset+bnc])
     # Get the separation between the Left and the filename
     fix=outb.replace(bnc,"").replace(reset,"")
@@ -51,18 +51,18 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
         # Get the text that is selected
         p1=all_file[start:end]; out=[]
         # Get the len of the higligh ascii code
-        lenght=len(black+"*"+reset)
+        length=len(black+"*"+reset)
         # For each line of p1
         for x in p1:
             x=rscp(x,[black,reset,slc])
             # Checks if the line rendered continues to the right
             # (having the flag that marks that)
             if x.endswith(black+">"+reset):
-                out.append(x[:-lenght]+reset+">"+black)
+                out.append(x[:-length]+reset+">"+black)
             # Checks if the line rendered continues to the left
             # (having the flag that marks that)
             elif x.startswith(black+"<"+reset):
-                out.append(x[:-lenght]+reset+"<"+black)
+                out.append(x[:-length]+reset+"<"+black)
             # If none of the above simply add is to out dic
             else: out.append(x)
         # Create a string from the list
@@ -99,7 +99,7 @@ def menu_updsrc(arg,mode=None,updo=False):
         if not updo: print("\r\033c")
         if not mode==None or updo:
             # Set vars
-            filetext,opentxt,wrtptr,lenght = mode
+            filetext,opentxt,wrtptr,length = mode
             out=opentxt+filetext
             # Calculate in what line it is
             fix=len(out)//(columns+2)

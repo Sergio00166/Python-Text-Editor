@@ -37,7 +37,7 @@ def CalcRelLine(p1,arr,offset,line,banoff,rows):
     return line, offset
 
 
-def fixfilename(path, columns, length):
+def fixfilename(path, length):
     if len(path) <= length: return path
     dirname, basename = psplit(path)
     if len(path) <= length: return path

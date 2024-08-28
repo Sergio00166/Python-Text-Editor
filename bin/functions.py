@@ -64,23 +64,23 @@ def fix_arr_line_len(arr, columns, black, reset):
         out.append(text)   
     return out
 
-# Expands tabs and gets real string lenght
+# Expands tabs and gets real string length
 def str_len(self, tabsize=8):
-    result,col,lenght = [],0,0
+    result,col,length = [],0,0
     for char in self:
         if char == '\t':
             space_count = tabsize - (col % tabsize)
             result.append(' ' * space_count)
-            lenght += space_count
+            length += space_count
             col += space_count
         else:
             result.append(char)
             char_width = wcwidth(char)
-            lenght += char_width
+            length += char_width
             if char_width > 0:
                 col += char_width
             else: col += 1
-    return lenght
+    return length
 
 
 def fix_cursor_pos(text,pointer,columns,black,reset):
