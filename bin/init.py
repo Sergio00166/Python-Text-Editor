@@ -110,5 +110,5 @@ if not __name__=="__main__":
                 "insert":b'2',"ctrl+arr_up":b'\x1b[1;5A',"ctrl+arr_down":b'\x1b[1;5B',
                 "ctrl+arr_left":b'\x1b[1;5D',"ctrl+arr_right":b'\x1b[1;5C',
                 "ctrl+repag":b'\x1b[5;5~',"ctrl+avpag":b'\x1b[6;5~',"ctrl+k":b'\x0b',
-                "ctrl+u":b'\x15'}
+                "ctrl+u":b'\x15',"ctrl+f":b'\x06'}
 
