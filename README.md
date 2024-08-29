@@ -28,5 +28,5 @@ F3 change end comment str | F4 change indent str<br>
 <br>*Save as menu*<br>
 ^C CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br><br>
-For menus like ^G, F1, F2 and F3 you can use ^C to exit that menu and<br>
+For menus like ^G, F2, F3, and F4 you can use ^C to exit that menu and<br>
 Return to leave that value blank (if no text is writed)<br>
