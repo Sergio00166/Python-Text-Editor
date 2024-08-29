@@ -104,9 +104,10 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
                 status,offset,line,banner,status_st,keys,read_key,pointer)
         pointer,line,offset = find(args)
         
-    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,bnc,indent,"Set indent") 
+    elif key==keys["f1"]: indent = " "*4 if indent=="\t" else "\t"  
     elif key==keys["f2"]: comment[0] = chg_var_str(columns,rows,banoff,line,bnc,comment[0],"Set comment")
-    elif key==keys["f3"]: comment[1] = chg_var_str(columns,rows,banoff,line,bnc,comment[1],"Set end cmt") 
+    elif key==keys["f3"]: comment[1] = chg_var_str(columns,rows,banoff,line,bnc,comment[1],"Set end cmt")
+    elif key==keys["f4"]: indent = chg_var_str(columns,rows,banoff,line,bnc,indent,"Set indent")
 
     elif key==keys["ctrl+d"]:
         if len(select)>0:
