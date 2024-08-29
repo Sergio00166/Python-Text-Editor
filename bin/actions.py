@@ -95,8 +95,8 @@ def chg_var_str(columns,rows,banoff,line,black,old,text):
         print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
         print(black+(" "*(columns+2))+"\r", end="")
         print(f" {text}: ", end=""); inp=input()
-        print("\r\033[%d;%dH"%(line, 1),end="")
     except: inp = old
+    print("\r\033[3J",end="") # Clear TTY buffer
     return inp
 
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
