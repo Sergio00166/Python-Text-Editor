@@ -28,7 +28,6 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     filename = fixfilename(filename,length)
     # Use the fucking UNIX path separator
     filename = filename.replace(chr(92),"/")
-    filename = sscp(filename,[slc,reset+bnc])
     # Calculate blank space of necessary
     if small: filename+=" "*(columns-len(filename))
     # Get the separation between the Left and the filename
