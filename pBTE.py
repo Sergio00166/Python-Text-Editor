@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 # Code by Sergio00166
-
 
 def updscr_thr():
     global black,reset,status,banoff,offset,line,pointer
