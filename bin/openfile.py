@@ -37,7 +37,6 @@ def exit():
     global fd, old_settings, run, kill, thr
     run=False; kill=True; thr.join()
     if not sep == chr(92): tcsetattr(fd,TCSADRAIN,old_settings)
-    print(reset+"\r\033c", end="")
 
 
 def open_file(arg):
@@ -47,8 +46,8 @@ def open_file(arg):
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
     line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep = arg
-    
-    openfile=sep.join(filename.split(sep)[:-1])+sep
+
+    openfile = "/".join(filename.split("/")[:-1])+"/"
     opentxt=" Open: "; length=len(opentxt)+2; wrtptr=length+len(openfile)
     thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
     complete=False; cmp_counter=0
@@ -106,7 +105,7 @@ def open_file(arg):
                 if not wrtptr==length:
                     if complete:
                         openfile=openfile.split("/")[:-1]
-                        openfile=sep.join(openfile)+"/"
+                        openfile="/".join(openfile)+"/"
                         wrtptr-=len(openfile[-1])-1
                         complete=False
                     else: 
@@ -124,8 +123,8 @@ def open_file(arg):
             elif key==keys["supr"]:
                 if not sep==chr(92): getch()
                 if complete:
-                    openfile=openfile.split(sep)[:-1]
-                    openfile=sep.join(openfile)+sep
+                    openfile=openfile.split("/")[:-1]
+                    openfile="/".join(openfile)+"/"
                     wrtptr-=len(openfile[-1])-1
                     complete=False
                 else:
@@ -140,7 +139,7 @@ def open_file(arg):
             elif key==keys["ctrl+n"]:
                 pointer,oldptr,offset,line = 1,1,0,1
                 arr,select,status_st = [""],[],False
-                filename=getcwd()+sep+"NewFile"
+                filename=getcwd()+"/NewFile"
                 exit(); break
             
             else: #Rest of keys

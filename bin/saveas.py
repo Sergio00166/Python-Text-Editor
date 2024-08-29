@@ -38,7 +38,6 @@ def exit():
     global fd, old_settings, run, kill, thr
     run=False; kill=True; thr.join()
     if not sep == chr(92): tcsetattr(fd,TCSADRAIN,old_settings)
-    print(reset+"\r\033c", end="")
 
 
 def save_as(arg):
@@ -91,7 +90,7 @@ def save_as(arg):
                 wrtptr=len(filewrite)+len(saveastxt)+2
                 complete=False
             
-            #Ctrl + A (confirms) or Ctrl + B backup
+            #Ctrl + S (confirms) or Ctrl + B backup
             elif key==keys["ctrl+s"] or key==keys["ctrl+b"]:
                 if key==keys["ctrl+b"] and filewrite==filename: filewrite+=".bak"
                 out=open(filewrite,"w",encoding=codec,newline='')
@@ -106,7 +105,7 @@ def save_as(arg):
                 if not wrtptr==length:
                     if complete:
                         filewrite=filewrite.split("/")[:-1]
-                        filewrite=sep.join(filewrite)+"/"
+                        filewrite="/".join(filewrite)+"/"
                         wrtptr-=len(filewrite[-1])-1
                         complete=False
                     else: 
@@ -124,7 +123,7 @@ def save_as(arg):
             elif key==keys["supr"]:
                 if not sep==chr(92): getch()
                 if complete:
-                    filewrite=sep.join(filewrite.split(sep)[:-1])+sep
+                    filewrite="/".join(filewrite.split("/")[:-1])+"/"
                     wrtptr-=len(filewrite[-1])-1
                     complete=False
                 else: 
@@ -155,5 +154,5 @@ def save_as(arg):
                     filewrite=p1+out+p2
                     wrtptr+=len(out)
         except: pass
-
+    
     return status_st, filename, status, codec, lnsep

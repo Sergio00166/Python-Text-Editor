@@ -15,7 +15,7 @@ def print(text):
     stdout.write(text)
     stdout.flush()
 
-def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[]):
+def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[],hlg_str=None):
     # Create the string that represents on which line we are
     position=" "+str(line+offset-banoff)+"  "
     # Create a part of the banner (position and status strings)
@@ -35,6 +35,27 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     if not small: fix=columns-len(outb)-len(filename)+1
     # Get the text that will be on screen and update the pointer value
     all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff)
+    # This is for the find str function page
+    if not hlg_str is None:
+        l_pointer = hlg_str[2]-1
+        l_line = hlg_str[1]-banoff
+        text = hlg_str[0]
+        all_file = all_file.split("\n")
+        t = all_file[l_line]
+        t1 = t[:l_pointer-len(text)]
+        t1 = t1.replace(text,black+text+reset)
+        t2 = t[l_pointer:]
+        t2 = t2.replace(text,black+text+reset)
+        t = t[l_pointer-len(text):l_pointer]
+        t = t1+slc+t+reset+t2
+        del t1,t2,l_pointer,hlg_str
+        p1 = "\n".join(all_file[:l_line])
+        p1 = p1.replace(text,black+text+reset)
+        p2 = "\n".join(all_file[l_line+1:])
+        p2 = p2.replace(text,black+text+reset)
+        all_file = p1+t+p2
+        del p1,p2,t,l_line,text
+        
     # Initialize the menu with all the banner
     menu=cls+bnc+outb+" "*fix
 

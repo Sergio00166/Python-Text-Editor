@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-version="v0.6.0.1"
+version="v0.6.1.0"
      
 if not __name__=="__main__":
 
@@ -59,6 +59,7 @@ if not __name__=="__main__":
         if len(files)>0: 
             arr,codec,lnsep = read_UTF8(files[0])
             filename=files[0]; files=files[1:]
+            files = [x.replace(sep,"/") for x in files]
         else:
             filename=getcwd()+sep+"NewFile"
             arr,files = [""],[]   
@@ -67,6 +68,8 @@ if not __name__=="__main__":
         filename=getcwd()+sep+"NewFile"
         arr,files = [""],[]   
         codec,lnsep = "UTF-8","\n"
+
+    filename = filename.replace(sep,"/")
 
     #Define a lot of stuff
     offset=oldptr=0
@@ -94,7 +97,8 @@ if not __name__=="__main__":
                 "supr":b'\xe0S',"start":b'\xe0G',"end":b'\xe0O',"repag":b'\xe0I',
                 "avpag":b'\xe0Q',"tab":b'\t',"insert":b'\xe0R',"ctrl+arr_up":b'\xe0\x8d',
                 "ctrl+arr_down":b'\xe0\x91',"ctrl+arr_left":b'\xe0s',"ctrl+arr_right":b'\xe0t',
-                "ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v',"ctrl+k":b'\x0b',"ctrl+u":b'\x15'}
+                "ctrl+repag":b'\xe0\x86', "ctrl+avpag":b'\xe0v',"ctrl+k":b'\x0b',
+                "ctrl+u":b'\x15',"ctrl+f":b'\x06'}
     else:
         keys = {"delete":b'\x7f',"return":b'\r',"ctrl+s":b'\x13',"ctrl+d":b'\x04',
                 "ctrl+n":b'\x0e',"ctrl+x":b'\x18',"ctrl+c":b'\x03',"ctrl+p":b'\x10',

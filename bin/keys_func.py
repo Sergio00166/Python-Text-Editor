@@ -4,6 +4,7 @@ from actions import *
 from actions1 import *
 from saveas import save_as
 from openfile import open_file
+from find import find
 
 
 def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
@@ -97,10 +98,15 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
                 line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep)
         arr,filename,status_st,pointer,oldptr,line,offset,select,codec,lnsep = open_file(args)
+
+    elif key==keys["ctrl+f"]:
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
+                status,offset,line,banner,status_st,keys,read_key,pointer)
+        pointer,line,offset = find(args)
         
-    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,bnc,indent,"indent") 
-    elif key==keys["f2"]: comment[0] = chg_var_str(columns,rows,banoff,line,bnc,comment[0],"comment")
-    elif key==keys["f3"]: comment[1] = chg_var_str(columns,rows,banoff,line,bnc,comment[1],"end cmt") 
+    elif key==keys["f1"]: indent = chg_var_str(columns,rows,banoff,line,bnc,indent,"Set indent") 
+    elif key==keys["f2"]: comment[0] = chg_var_str(columns,rows,banoff,line,bnc,comment[0],"Set comment")
+    elif key==keys["f3"]: comment[1] = chg_var_str(columns,rows,banoff,line,bnc,comment[1],"Set end cmt") 
 
     elif key==keys["ctrl+d"]:
         if len(select)>0:
