@@ -110,8 +110,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
 
     for x in arr:
         ln=str_len(rscp(x,[black,reset],True))
-        if ln<(columns+2): x=x+(" "*(columns-ln+2))
-        out_arr.append(x)
+        out_arr.append(x+(" "*(columns-ln+2)))
     if not len(arr)==rows:
         out_arr+=[" "*(columns+2)]*(rows-len(arr)+1)
     
