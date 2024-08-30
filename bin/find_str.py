@@ -1,7 +1,7 @@
 # Code by Sergio00166
 
 from functions1 import get_size,CalcRelLine
-from upd_scr import update_scr,movcr
+from upd_scr import update_scr,movcr,hcr
 from chg_var_str import chg_var_str
 from time import sleep as delay
 from threading import Thread
@@ -19,7 +19,7 @@ def updscr_thr():
     global rows,columns,black,reset,status,banoff,pointer
     global offset,line,arr,banner,filename,rows,columns,run
     global kill,fd,thr,old_settings,status_st,bnc,slc,find_str
-    
+
     while not kill:
         delay(0.01)
         if run:
@@ -27,11 +27,24 @@ def updscr_thr():
             if not sep==chr(92):
                 old=(fd,TCSADRAIN,old_settings)
                 tcsetattr(fd, TCSADRAIN, old_settings)
-            # Call Screen updater
+            # Save old vars and get new values
+            old_rows=rows; old_columns=columns
             rows,columns=get_size()
-            # Call screen updater function
-            update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
-                       filename,rows,columns,status_st,False,[],[find_str,line,pointer])
+            # Check if terminal is too small
+            if rows<4 or columns<24: print("\r\033cTerminal too small")
+            # Compare the old values with the new ones
+            elif not (old_rows==rows and old_columns==columns):
+                # Increment the offset if line is geeter than rows
+                if line>rows: offset=offset+(line-rows); line=rows
+                # If OS is LINUX restore TTY to it default values
+                if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
+                # Clear the screen
+                print("\r\033c",end="")
+                # Call screen updater function
+                update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
+                        filename,rows,columns,status_st,False,[],[find_str,line,pointer])
+                # Hide the cursor
+                print(hcr,end="")
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
 
@@ -96,6 +109,7 @@ def find(arg):
             # Call screen updater function
             update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
                        filename,rows,columns,status_st,False,[],[find_str,line,pointer])
+            print(hcr,end="") # Hide cursor
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
             
