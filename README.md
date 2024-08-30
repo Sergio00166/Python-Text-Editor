@@ -11,11 +11,13 @@ Basic functionalities currently available such as copy, cut, paste lines, find s
 
 Due to limitations with msvcrt.getch() on windows to select (highlight) lines you must use Ctrl+arrows instead of Shift+arrows 
 
-Requirements:<br>
+<h3>Requirements:</h3>
 Python 3 (tested under python 3.12)<br>
 No dependencies<br>
 Windows or Linux with UTF-8 keyboard <br>
 
+<h2>BUGs</h2>
+Double-wided chars would bug sometimes the text input boxes.
 
 <br><h2>OPTIONS</h2>
 <br>*NORMAL*<br>
