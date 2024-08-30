@@ -90,15 +90,6 @@ def goto(columns, rows, banoff, line, arr, offset, black):
     except: pass
     return line, offset
 
-def chg_var_str(columns,rows,banoff,line,black,old,text):
-    try:    
-        print("\r\033[%d;%dH"%(rows+banoff+2,1),end="")
-        print(black+(" "*(columns+2))+"\r", end="")
-        print(f" {text}: ", end=""); inp=input()
-    except: inp = old
-    print("\r\033[3J",end="") # Clear TTY buffer
-    return inp
-
 def newline(pointer,offset,banoff,line,arr,rows,status,select):
     if not len(select)==0:
         select,arr,line,offset = del_sel(select,arr,banoff)

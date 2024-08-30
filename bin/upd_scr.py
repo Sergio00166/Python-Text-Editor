@@ -1,8 +1,8 @@
 # Code by Sergio00166
 
-from functions import scr_arr2str, rscp, sscp, str_len
+from functions import scr_arr2str,rscp,sscp,str_len
 from functions1 import get_size, fixfilename
-from sys import stdout
+from sys import stdout,maxsize
 
 
 # Some ANSII ctrl codes
@@ -57,7 +57,6 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
         
     # Initialize the menu with all the banner
     menu=cls+bnc+outb+" "*fix
-
     # Highlight selector
     if len(select)>0:
         # Get values from the select list
@@ -123,27 +122,31 @@ def menu_updsrc(arg,mode=None,updo=False):
     elif not (old_rows==rows and old_columns==columns) or updo:
         if not updo: print("\r\033c")
         if not mode==None or updo:
-            # Set vars
+            # Set some vars
             filetext,opentxt,wrtptr,length = mode
             out=opentxt+filetext
+            # Get real text length
+            text_len = str_len(out)
             # Calculate in what line it is
-            fix=len(out)//(columns+2)
-            # Calculate blank spaces
-            full=((columns+2)*(fix+1))-len(out)
+            fix=text_len//(columns+2)
             # Get raw screen updated
             menu = update_scr(black,bnc,slc,reset,status,banoff,offset,\
             line,0,arr,banner,filename,rows,columns,status_st,True)
             # Cut menu to add the menu bar
             menu = "\n".join(menu.split("\n")[:rows+banoff-fix])
-            # Fix weird chars
+            # Calculate relative cursor pos
+            wrtptr = str_len(out[:wrtptr-2])+1
+            # Calculate cursor displacement
+            text_size = text_len//(columns+2)
+            line_number = (wrtptr)//(columns+2)
+            cursor_y = ((rows+2)-text_size)+line_number
+            cursor_x = (wrtptr)%(columns+2)
+            # Calculate filling size
+            full = (columns+2)-(text_len%(columns+2))
+            # Fix weird binary chars
             out=sscp(out,[slc,reset+bnc])
             # Add menu to it
             menu+="\n"+bnc+out+(" "*(full))
-            # Calculate cursor displacement
-            text_size = len(out)//(columns+2)
-            line_number = (wrtptr-1)//(columns+2)
-            cursor_y = ((rows+2)-text_size)+line_number
-            cursor_x = (wrtptr-1)%(columns+2)
             # Fix cursor xy displacement
             if cursor_x==0:
                 cursor_x = columns+2

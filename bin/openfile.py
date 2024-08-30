@@ -121,7 +121,6 @@ def open_file(arg):
                 if not wrtptr>len(openfile)+length-1: wrtptr+=1
                     
             elif key==keys["supr"]:
-                if not sep==chr(92): getch()
                 if complete:
                     openfile=openfile.split("/")[:-1]
                     openfile="/".join(openfile)+"/"

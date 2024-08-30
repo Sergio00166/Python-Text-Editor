@@ -75,11 +75,8 @@ def str_len(self, tabsize=8):
             col += space_count
         else:
             result.append(char)
-            char_width = wcwidth(char)
+            char_width = wcwidth(char) if wcwidth(char) > 0 else 1
             length += char_width
-            if char_width > 0:
-                col += char_width
-            else: col += 1
     return length
 
 

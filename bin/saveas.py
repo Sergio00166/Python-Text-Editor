@@ -121,7 +121,6 @@ def save_as(arg):
                 if not wrtptr>len(filewrite)+length-1:  wrtptr+=1
                 
             elif key==keys["supr"]:
-                if not sep==chr(92): getch()
                 if complete:
                     filewrite="/".join(filewrite.split("/")[:-1])+"/"
                     wrtptr-=len(filewrite[-1])-1
