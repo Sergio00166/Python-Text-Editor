@@ -71,7 +71,7 @@ def find(arg):
     status,offset,line,banner,status_st,keys,read_key,pointer = arg
 
     args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-            line,banner,status_st,keys,pointer,[],read_key,"","Find: ")    
+            line,banner,status_st,keys,pointer,[],read_key,""," Find: ")    
     find_str = chg_var_str(args)
 
     thr=Thread(target=updscr_thr)

@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-from functions import scr_arr2str,rscp,sscp,str_len
+from functions import scr_arr2str,rscp,sscp,str_len,fix_cursor_pos
 from functions1 import get_size, fixfilename
 from sys import stdout,maxsize
 
@@ -125,35 +125,17 @@ def menu_updsrc(arg,mode=None,updo=False):
             # Set some vars
             filetext,opentxt,wrtptr,length = mode
             out=opentxt+filetext
-            # Get real text length
-            text_len = str_len(out)
-            # Calculate in what line it is
-            fix=text_len//(columns+2)
             # Get raw screen updated
             menu = update_scr(black,bnc,slc,reset,status,banoff,offset,\
             line,0,arr,banner,filename,rows,columns,status_st,True)
             # Cut menu to add the menu bar
-            menu = "\n".join(menu.split("\n")[:rows+banoff-fix])
+            menu = "\n".join(menu.split("\n")[:rows+banoff])
             # Calculate relative cursor pos
-            wrtptr = str_len(out[:wrtptr-2])+1
-            # Calculate cursor displacement
-            text_size = text_len//(columns+2)
-            line_number = (wrtptr)//(columns+2)
-            cursor_y = ((rows+2)-text_size)+line_number
-            cursor_x = (wrtptr)%(columns+2)
-            # Calculate filling size
-            full = (columns+2)-(text_len%(columns+2))
-            # Fix weird binary chars
-            out=sscp(out,[slc,reset+bnc])
-            # Add menu to it
-            menu+="\n"+bnc+out+(" "*(full))
-            # Fix cursor xy displacement
-            if cursor_x==0:
-                cursor_x = columns+2
-                cursor_y -= 1
-            # Add scape secuence to move cursor
-            menu+="\r\033[%d;%dH"%(cursor_y, cursor_x)
-            # Print the whole screen
-            print(menu)
+            wrtptr,out = fix_cursor_pos(out,wrtptr-1,columns,black,bnc)
+            # Add blank spaces to shade it
+            ln=str_len(rscp(out,[black,bnc],True))
+            out += " "*(columns-ln+2)
+            # Print the whole screen and move cursor
+            print(menu+bnc+out+movcr%(rows+2,wrtptr))
             
     return rows,columns

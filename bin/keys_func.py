@@ -109,17 +109,17 @@ def keys_func(key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
     
     elif key==keys["f2"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
-                banner,status_st,keys,pointer,select,read_key,comment[0],"Set comment: ")    
+                banner,status_st,keys,pointer,select,read_key,comment[0]," Set comment: ")    
         comment[0] = chg_var_str(args)
         
     elif key==keys["f3"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
-                banner,status_st,keys,pointer,select,read_key,comment[1],"Set end cmt: ")    
+                banner,status_st,keys,pointer,select,read_key,comment[1]," Set end cmt: ")    
         comment[0] = chg_var_str(args)
         
     elif key==keys["f4"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
-                banner,status_st,keys,pointer,select,read_key,indent,"Set indent: ")    
+                banner,status_st,keys,pointer,select,read_key,indent," Set indent: ")    
         comment[0] = chg_var_str(args)
 
     elif key==keys["ctrl+d"]:
