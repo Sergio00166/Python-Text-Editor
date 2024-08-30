@@ -5,8 +5,6 @@ A a basic terminal text editor with python using the minimun external libraries 
 
 Only supports UTF-8 (normal mode) and ASCII (for reading bin files)
 
-Nowadays it is in development stage, then it can be expected to be broken
-
 Basic functionalities currently available such as copy, cut, paste lines, find string, and the basic for a text editor
 
 Due to limitations with msvcrt.getch() on windows to select (highlight) lines you must use Ctrl+arrows instead of Shift+arrows 
@@ -15,9 +13,6 @@ Due to limitations with msvcrt.getch() on windows to select (highlight) lines yo
 Python 3 (tested under python 3.12)<br>
 No dependencies<br>
 Windows or Linux with UTF-8 keyboard <br>
-
-<h2>BUGs</h2>
-Double-wided chars would bug sometimes the text input boxes.
 
 <br><h2>OPTIONS</h2>
 <br>*NORMAL*<br>
