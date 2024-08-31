@@ -77,4 +77,4 @@ if __name__=="__main__":
     # Clear and reset the terminal
     if not sep==chr(92):
         print("\x1b[H\x1b[2J\x1b[3J")
-    print("\r\033c",end="")
+    print("\r\033c"+"\033[0 q",end="")
