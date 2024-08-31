@@ -83,7 +83,7 @@ def find(arg):
     status,offset,line,banner,status_st,keys,read_key,pointer = arg
 
     args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-            line,banner,status_st,keys,pointer,[],read_key,""," Find: ")    
+            line,banner,status_st,keys,pointer,[],read_key,""," Find: ")
     find_str = chg_var_str(args)
 
     thr=Thread(target=updscr_thr)
@@ -95,7 +95,6 @@ def find(arg):
     try: p1,pointer = search_substring(arr,find_str,pos,pointer)
     except: exit(); return pointer,line,offset
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
-    pointer += 1 # Pointer starts on 1 not 0
     
     while True:
         try:
@@ -120,15 +119,13 @@ def find(arg):
             if key==keys["arr_right"]:
                 p1,pointer = search_substring(arr,find_str,pos,pointer)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
-                pointer += 1 # Pointer starts on 1 not 0
                 
             elif key==keys["arr_left"]:
                 p1,pointer = search_substring_rev(arr,find_str,pos,pointer-1)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
-                pointer += 1 # Pointer starts on 1 not 0
 
             elif key==keys["ctrl+c"]: exit(); break
    
         except: pass
 
-    return pointer,line,offset
+    return pointer+1,line,offset

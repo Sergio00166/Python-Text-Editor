@@ -15,7 +15,8 @@ def print(text):
     stdout.write(text)
     stdout.flush()
 
-def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,filename,rows,columns,status_st,rrw=False,select=[],hlg_str=None):
+def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
+               filename,rows,columns,status_st,rrw=False,select=[],hlg_str=None):
     # Create the string that represents on which line we are
     position=" "+str(line+offset-banoff)+"  "
     # Create a part of the banner (position and status strings)
@@ -118,5 +119,6 @@ def menu_updsrc(arg,mode=None,updo=False):
             out += " "*(columns-ln+2)
             # Print the whole screen and move cursor
             print(menu+bnc+out+movcr%(rows+2,wrtptr))
+            print("\033[1 q") # Change cursor
             
     return rows,columns
