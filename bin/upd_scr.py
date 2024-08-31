@@ -16,7 +16,7 @@ def print(text):
     stdout.flush()
 
 def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
-               filename,rows,columns,status_st,rrw=False,select=[],hlg_str=None):
+               filename,rows,columns,status_st,rrw=False,select=[],hlg_str=""):
     # Create the string that represents on which line we are
     position=" "+str(line+offset-banoff)+"  "
     # Create a part of the banner (position and status strings)
@@ -36,7 +36,7 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     # Get the text that will be on screen and update the pointer value
     all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff)
     # This is for the find str function page
-    if not hlg_str is None: all_file = all_file.replace(hlg_str,black+hlg_str+reset)
+    if hlg_str!="": all_file = all_file.replace(hlg_str,black+hlg_str+reset)
     # Initialize the menu with all the banner
     menu=cls+bnc+outb+" "*fix
     # Highlight selector
