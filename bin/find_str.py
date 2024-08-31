@@ -1,7 +1,7 @@
 # Code by Sergio00166
 
 from functions1 import get_size,CalcRelLine
-from upd_scr import update_scr,movcr,hcr
+from upd_scr import update_scr,movcr
 from chg_var_str import chg_var_str
 from time import sleep as delay
 from threading import Thread
@@ -38,8 +38,7 @@ def updscr_thr():
                 if line>rows: offset=offset+(line-rows); line=rows
                 # If OS is LINUX restore TTY to it default values
                 if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
-                # Clear the screen
-                print("\r\033c",end="")
+                print("\r\033[3J",end="") # Clear previous content
                 # Call screen updater function
                 update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
                         filename,rows,columns,status_st,False,[],[find_str,line,pointer])
@@ -108,8 +107,7 @@ def find(arg):
             rows,columns=get_size()
             # Call screen updater function
             update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
-                       filename,rows,columns,status_st,False,[],[find_str,line,pointer])
-            print(hcr,end="") # Hide cursor
+                       filename,rows,columns,status_st,False,[],find_str)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
             
