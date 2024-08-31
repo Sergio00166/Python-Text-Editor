@@ -119,6 +119,5 @@ def menu_updsrc(arg,mode=None,updo=False):
             out += " "*(columns-ln+2)
             # Print the whole screen and move cursor
             print(menu+bnc+out+movcr%(rows+2,wrtptr))
-            print("\033[1 q") # Change cursor
             
     return rows,columns

@@ -50,7 +50,6 @@ if __name__=="__main__":
             # Get the terminal size
             rows,columns=get_size()
             # Call screen updater function
-            print("\033[0 q",end="") # Change cursor
             update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,\
                        banner,filename,rows,columns,status_st,False,select)
             # Set time after reading key from keyboard and stopping the update Thread
