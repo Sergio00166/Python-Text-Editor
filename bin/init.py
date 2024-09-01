@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-version="v0.6.4.2"
+version="v0.6.4.3"
      
 if not __name__=="__main__":
 
@@ -73,7 +73,7 @@ if not __name__=="__main__":
 
     #Define a lot of stuff
     offset=oldptr=0
-    pointer=line=banoff=1
+    cursor=line=banoff=1
     banner=["pBTE",version]
     copy_buffer,select = "",[]
     end,start,indent = 1,0,"\t"

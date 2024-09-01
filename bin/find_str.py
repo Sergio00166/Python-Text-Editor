@@ -16,7 +16,7 @@ if not sep==chr(92): #If OS is LINUX
     fd = stdin.fileno(); old_settings = tcgetattr(fd)
 
 def updscr_thr():
-    global rows,columns,black,reset,status,banoff,pointer
+    global rows,columns,black,reset,status,banoff,cursor
     global offset,line,arr,banner,filename,rows,columns,run
     global kill,fd,thr,old_settings,status_st,bnc,slc,find_str
 
@@ -40,10 +40,8 @@ def updscr_thr():
                 if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
                 print("\r\033[3J",end="") # Clear previous content
                 # Call screen updater function
-                update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
-                        filename,rows,columns,status_st,False,[],[find_str,line,pointer])
-                # Hide the cursor
-                print(hcr,end="")
+                update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
+                        filename,rows,columns,status_st,False,[],find_str)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
 
@@ -75,15 +73,15 @@ def search_substring_rev(lst, substring, start_list_pos=0, start_string_pos=None
 
 
 def find(arg):
-    global rows,columns,black,reset,status,banoff,pointer
+    global rows,columns,black,reset,status,banoff,cursor
     global offset,line,arr,banner,filename,rows,columns,run
     global kill,fd,thr,old_settings,status_st,bnc,slc,find_str
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
-    status,offset,line,banner,status_st,keys,read_key,pointer = arg
+    status,offset,line,banner,status_st,keys,read_key,cursor = arg
 
     args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-            line,banner,status_st,keys,pointer,[],read_key,""," Find: ")
+            line,banner,status_st,keys,cursor,[],read_key,""," Find: ")
     find_str = chg_var_str(args)
 
     thr=Thread(target=updscr_thr)
@@ -92,8 +90,8 @@ def find(arg):
 
     # Find and move cursor to the fist one
     pos = line+offset-banoff
-    try: p1,pointer = search_substring(arr,find_str,pos,pointer)
-    except: exit(); return pointer,line,offset
+    try: p1,cursor = search_substring(arr,find_str,pos,cursor)
+    except: exit(); return cursor,line,offset
     line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
     
     while True:
@@ -105,7 +103,7 @@ def find(arg):
             # Call Screen updater
             rows,columns=get_size()
             # Call screen updater function
-            update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
+            update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
                        filename,rows,columns,status_st,False,[],find_str)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
@@ -117,15 +115,15 @@ def find(arg):
             pos = line+offset-banoff
     
             if key==keys["arr_right"]:
-                p1,pointer = search_substring(arr,find_str,pos,pointer)
+                p1,cursor = search_substring(arr,find_str,pos,cursor)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
                 
             elif key==keys["arr_left"]:
-                p1,pointer = search_substring_rev(arr,find_str,pos,pointer-1)
+                p1,cursor = search_substring_rev(arr,find_str,pos,cursor-1)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
 
             elif key==keys["ctrl+c"]: exit(); break
    
         except: pass
 
-    return pointer+1,line,offset
+    return cursor+1,line,offset

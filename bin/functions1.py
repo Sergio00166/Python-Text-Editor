@@ -4,7 +4,7 @@ from os import get_terminal_size,sep
 from os.path import split as psplit
 from multiprocessing import cpu_count, Pool
 from re import split as resplit
-
+        
 
 def calc_displacement(data,line,banoff,offset,rows,rect=0):
     line += len(data)-rect
@@ -19,12 +19,12 @@ def get_size():
 
 def decode(key): return key.decode("UTF-8")
 
-def fixlenline(text,pointer,oldptr):
+def fixlenline(text,cursor,oldptr):
     length=len(text)+1
-    if pointer>length or oldptr>length:
+    if cursor>length or oldptr>length:
         return length
-    elif oldptr>pointer: return oldptr
-    else: return pointer
+    elif oldptr>cursor: return oldptr
+    else: return cursor
 
 def CalcRelLine(p1,arr,offset,line,banoff,rows):
     if p1=="-": p1=len(arr)-1
@@ -88,7 +88,7 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
     return p0+p1+p2
 
 
-def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
+def get_str(arr,key,select,cursor,line,offset,banoff,indent,rows,keys):
     out,skip = decode(key),False
     if select:
         if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff,True)
@@ -96,7 +96,7 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
        
     if not skip:
         pos=line+offset-banoff; text=arr[pos]
-        p1,p2 = text[:pointer-1], text[pointer-1:]
+        p1,p2 = text[:cursor-1], text[cursor-1:]
         out=out.replace("\t",indent)
         out_lines = resplit(r'[\n\r]',out)
         if not select and len(out_lines)>1:
@@ -106,10 +106,10 @@ def get_str(arr,key,select,pointer,line,offset,banoff,indent,rows,keys):
             if not select: out_lines[-1] += p2
             arr[pos+1:pos+1] = out_lines[1:]
             line,offset = calc_displacement(out_lines,line,banoff,offset,rows,1)
-            pointer += len(out_lines[-1])
-        else: pointer += len(out_lines[0])
+            cursor += len(out_lines[-1])
+        else: cursor += len(out_lines[0])
 
-    return arr, pointer, line, offset, select
+    return arr, cursor, line, offset, select
 
 
 def detect_line_ending_char(file_path):

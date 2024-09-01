@@ -15,11 +15,11 @@ ascii_replaced = [ascii_map[x] for x in ascii_map]+[">","<","�"]
 
 
 # Expands tabulators and splits the text in parts and as
-# optional calculates the position and relative pointer
-def wrap(text, columns, tabsize=8, pointer=None):
+# optional calculates the position and relative cursor
+def wrap(text, columns, tabsize=8, cursor=None):
     buffer,counter,col = "", -1, 0
     result,pos,ptr = [], 0, 0
-    extra = pointer!=None
+    extra = cursor!=None
 
     def handle_char(char, char_width):
         nonlocal buffer,counter,col,result,ptr,pos
@@ -38,15 +38,15 @@ def wrap(text, columns, tabsize=8, pointer=None):
         if char == '\t':
             space_count = tabsize - (col % tabsize)
             expanded = ' ' * space_count
-            if extra and pointer>p: ptr += space_count
+            if extra and cursor>p: ptr += space_count
             for x in expanded: handle_char(x, 1)
         else:
             char_width = wcwidth(char) if wcwidth(char) > 0 else 1
-            if extra and pointer>p: ptr += char_width
+            if extra and cursor>p: ptr += char_width
             handle_char(char, char_width)
 
     if buffer: result.append(buffer)
-    return (result,ptr,pos) if not pointer==None else (result)
+    return (result,ptr,pos) if not cursor==None else (result)
 
 
 def fix_arr_line_len(arr, columns, black, reset):
@@ -80,10 +80,10 @@ def str_len(self, tabsize=8):
     return length
 
 
-def fix_cursor_pos(text,pointer,columns,black,reset):
-    text = text[:pointer+columns+2]
-    wrapped_text, pointer, pos =\
-    wrap(text,columns,pointer=pointer-1)
+def fix_cursor_pos(text,cursor,columns,black,reset):
+    text = text[:cursor+columns+2]
+    wrapped_text, cursor, pos =\
+    wrap(text,columns,cursor=cursor-1)
 
     if not len(wrapped_text)==0:
         if pos>len(wrapped_text)-1: pos=-1
@@ -97,13 +97,13 @@ def fix_cursor_pos(text,pointer,columns,black,reset):
             text+=black+">"+reset      
     else: text=""
                 
-    return pointer+1, text
+    return cursor+1, text
 
 
-def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
-    uptr=pointer; out_arr=[]; sp=black+"<"+reset
+def scr_arr2str(arr,line,offset,cursor,black,reset,columns,rows,banoff):
+    uptr=cursor; out_arr=[]; sp=black+"<"+reset
     text = arr[line+offset-banoff]
-    pointer, text = fix_cursor_pos(text,pointer,columns,black,reset)
+    cursor, text = fix_cursor_pos(text,cursor,columns,black,reset)
     arr = arr[offset:rows+offset+banoff]
     arr = fix_arr_line_len(arr,columns,black,reset)
     arr[line-banoff] = text
@@ -114,7 +114,7 @@ def scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff):
     if not len(arr)==rows:
         out_arr+=[" "*(columns+2)]*(rows-len(arr)+1)
     
-    return "\n".join(out_arr), pointer
+    return "\n".join(out_arr), cursor
 
 
 # Replaces ascii control chars to the highlighted visual version

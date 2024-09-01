@@ -2,7 +2,7 @@
 # Code by Sergio00166
 
 def updscr_thr():
-    global black,reset,status,banoff,offset,line,pointer
+    global black,reset,status,banoff,offset,line,cursor
     global banner,filename,rows,columns,run_thread,text
     global kill,p_offset,arr,select
     
@@ -22,7 +22,7 @@ def updscr_thr():
                 if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
                 print("\r\033[3J",end="") # Clear previous content
                 # Call screen updater function
-                update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,\
+                update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,\
                            arr,banner,filename,rows,columns,status_st,False,select)
                 # If OS is LINUX set TTY to raw mode
                 if not sep==chr(92): setraw(fd,when=TCSADRAIN)
@@ -50,7 +50,7 @@ if __name__=="__main__":
             # Get the terminal size
             rows,columns=get_size()
             # Call screen updater function
-            update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,\
+            update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,\
                        banner,filename,rows,columns,status_st,False,select)
             # Set time after reading key from keyboard and stopping the update Thread
             run_thread=True; key=getch(); run_thread=False
@@ -59,15 +59,15 @@ if __name__=="__main__":
                 if len(files)>0:
                     filename,files = files[0],files[1:]
                     arr,codec,lnsep = read_UTF8(filename)
-                    pointer,line,offsetstatus_st = 1,1,0,False
+                    cursor,line,offsetstatus_st = 1,1,0,False
                 else: kill=True; update_thr.join(); break
             #Call keys functions (Yeah, its a lot of args and returned values)
             args = (
-                key,pointer,oldptr,line,offset,columns,banoff,arr,rows,
+                key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
                 filename,status,status_st,copy_buffer,black,bnc,slc,reset,
                 saved_txt,indent,banner,getch,keys,select,codec,lnsep,comment
             )
-            pointer,oldptr,line,offset,columns,banoff,arr,\
+            cursor,oldptr,line,offset,columns,banoff,arr,\
             rows,filename,status,status_st,copy_buffer,\
             indent,select,codec,lnsep,comment = keys_func(*args)
                          

@@ -46,7 +46,7 @@ def chg_var_str(arg):
     global run, kill, fd, old_settings, thr, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
-    banner,status_st,keys,pointer,select,read_key,entered_str,prt_txt = arg
+    banner,status_st,keys,cursor,select,read_key,entered_str,prt_txt = arg
 
     old = entered_str
     length=len(prt_txt)+2
@@ -56,7 +56,7 @@ def chg_var_str(arg):
     thr.start()
     
     while True:
-        # Fix when the pointer is out
+        # Fix when the cursor is out
         if len(entered_str)<wrtptr-length:
             wrtptr = len(entered_str)+length
         try:

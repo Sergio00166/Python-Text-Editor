@@ -45,7 +45,7 @@ def open_file(arg):
     global run, kill, fd, old_settings, thr, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,keys,pointer,oldptr,select,read_key,codec,lnsep = arg
+    line,banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep = arg
 
     openfile = "/".join(filename.split("/")[:-1])+"/"
     opentxt=" Open: "; length=len(opentxt)+2; wrtptr=length+len(openfile)
@@ -53,7 +53,7 @@ def open_file(arg):
     complete=False; cmp_counter=0
     
     while True:
-        # Fix when the pointer is out
+        # Fix when the cursor is out
         if len(openfile)<wrtptr-length:
             wrtptr = len(openfile)+length
         try:
@@ -96,7 +96,7 @@ def open_file(arg):
                 arr,codec,lnsep = read_UTF8(openfile)
                 filename = openfile
                 status_st,line,select = False,1,[]
-                pointer,offset,oldptr = 1,0,1
+                cursor,offset,oldptr = 1,0,1
                 exit(); break
                 
             elif key==keys["ctrl+c"]: exit(); break
@@ -136,7 +136,7 @@ def open_file(arg):
             elif key==keys["end"]: wrtptr=len(openfile)+length
             
             elif key==keys["ctrl+n"]:
-                pointer,oldptr,offset,line = 1,1,0,1
+                cursor,oldptr,offset,line = 1,1,0,1
                 arr,select,status_st = [""],[],False
                 filename=getcwd()+"/NewFile"
                 exit(); break
@@ -151,4 +151,4 @@ def open_file(arg):
                     complete=False
         except: pass
     
-    return arr,filename,status_st,pointer,oldptr,line,offset,select,codec,lnsep
+    return arr,filename,status_st,cursor,oldptr,line,offset,select,codec,lnsep

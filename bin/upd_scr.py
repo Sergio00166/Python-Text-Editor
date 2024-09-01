@@ -1,7 +1,7 @@
 # Code by Sergio00166
 
 from functions import scr_arr2str,rscp,sscp,str_len,fix_cursor_pos
-from functions1 import get_size, fixfilename
+from functions1 import get_size, fixfilename,calc_abs_cru
 from sys import stdout,maxsize
 
 
@@ -15,7 +15,7 @@ def print(text):
     stdout.write(text)
     stdout.flush()
 
-def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,\
+def update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
                filename,rows,columns,status_st,rrw=False,select=[],hlg_str=""):
     # Create the string that represents on which line we are
     position=" "+str(line+offset-banoff)+"  "
@@ -33,10 +33,10 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
     if small: filename+=" "*(columns-len(filename))
     # Get the separation between the Left and the filename
     if not small: fix=columns-len(outb)-len(filename)+1
-    # Get the text that will be on screen and update the pointer value
-    all_file,pointer = scr_arr2str(arr,line,offset,pointer,black,reset,columns,rows,banoff)
+    # Get the text that will be on screen and update the cursor value
+    all_file,cursor = scr_arr2str(arr,line,offset,cursor,black,reset,columns,rows,banoff)
     # This is for the find str function page
-    if hlg_str!="": all_file = all_file.replace(hlg_str,black+hlg_str+reset)
+    if hlg_str!="": all_file = all_file.replace(hlg_str,black+hlg_str+reset) 
     # Initialize the menu with all the banner
     menu=cls+bnc+outb+" "*fix
     # Highlight selector
@@ -87,13 +87,13 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,pointer,arr,banner,
         # it horizontally and then print to stdout
         line += banoff
         menu += movcr%(line,1)+scr
-        menu += movcr%(line,pointer)
+        menu += movcr%(line,cursor)
         print(hcr+menu)
 
 
 def menu_updsrc(arg,mode=None,updo=False):
     # Extract args
-    black,bnc,slc,reset,status,banoff,offset,line,pointer,\
+    black,bnc,slc,reset,status,banoff,offset,line,cursor,\
     arr,banner,filename,rows,columns,status_st = arg
     # Save old vars and get new values
     old_rows=rows; old_columns=columns

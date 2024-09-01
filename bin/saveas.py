@@ -54,7 +54,7 @@ def save_as(arg):
     kill=False; thr.start(); complete=False; cmp_counter=0
     
     while True:
-        # Fix when the pointer is out
+        # Fix when the cursor is out
         if len(filewrite)<wrtptr-length:
             wrtptr = len(filewrite)+length
         try:
