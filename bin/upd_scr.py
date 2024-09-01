@@ -1,7 +1,7 @@
 # Code by Sergio00166
 
 from functions import scr_arr2str,rscp,sscp,str_len,fix_cursor_pos
-from functions1 import get_size, fixfilename,calc_abs_cru
+from functions1 import get_size, fixfilename
 from sys import stdout,maxsize
 
 
