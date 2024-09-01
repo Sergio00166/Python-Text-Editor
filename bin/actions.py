@@ -81,14 +81,23 @@ def backspace(cursor,offset,line,arr,banoff,select):
     else: select,arr,line,offset = del_sel(select,arr,banoff)
     return line, offset, arr, cursor, select
 
-def goto(columns, rows, banoff, line, arr, offset, black):
-    try:
-        default = str(line+offset-banoff)
-        p1 = chg_var_str(columns,rows,banoff,line,black,default,"Go to")
-        p1 = len(arr)-1 if p1=="-" else int(p1)
-        line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
-    except: pass
-    return line, offset
+def supr(cursor,offset,banoff,arr,line,select):
+    text=arr[line+offset-banoff]
+    if len(select)==0:
+        p1=list(text)
+        if (cursor-1)<len(p1) and len(p1)>0:
+            p1.pop(cursor-1)
+            text="".join(p1)
+        elif not line+offset==len(arr): #move all to previous line
+            seltext=arr[line+offset-banoff+1]
+            arr[line+offset-banoff+1]=text+seltext
+            arr.pop(line+offset-banoff+1)
+            text=text+seltext
+        arr[line+offset-banoff]=text
+    else:
+        select,arr,line,offset =\
+        del_sel(select,arr,banoff)
+    return arr, line, offset, select
 
 def newline(cursor,offset,banoff,line,arr,rows,status,select):
     if not len(select)==0:
@@ -108,14 +117,3 @@ def newline(cursor,offset,banoff,line,arr,rows,status,select):
     status_st=False
     arr[line+offset-banoff]=text
     return line, offset, arr, cursor, status, select
-
-def dedent(arr,line,offset,banoff,indent,cursor):
-    text = arr[line+offset-banoff]
-    p1 = text[:cursor-1]
-    p2 = text[cursor-1:]
-    if len(indent)>0 and p1.endswith(indent):
-        p1 = p1[:-len(indent)]
-        cursor-=len(indent)
-        arr[line+offset-banoff] = p1+p2
-    return arr,cursor
-

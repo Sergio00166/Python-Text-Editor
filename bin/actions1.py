@@ -3,24 +3,6 @@
 from functions1 import *
 
 
-def supr(cursor,offset,banoff,arr,line,select):
-    text=arr[line+offset-banoff]
-    if len(select)==0:
-        p1=list(text)
-        if (cursor-1)<len(p1) and len(p1)>0: 
-            p1.pop(cursor-1)
-            text="".join(p1)
-        elif not line+offset==len(arr): #move all to previous line
-            seltext=arr[line+offset-banoff+1]
-            arr[line+offset-banoff+1]=text+seltext
-            arr.pop(line+offset-banoff+1)
-            text=text+seltext
-        arr[line+offset-banoff]=text
-    else:
-        select,arr,line,offset =\
-        del_sel(select,arr,banoff)
-    return arr, line, offset, select
-
 def paste(copy_buffer,arr,line,offset,banoff,cursor,select,rows,status_st):
     if not len(copy_buffer)==0:
         if len(select)==0:
@@ -119,4 +101,14 @@ def avpag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
         else: select[1]=seled
     else: select=[]  
     return line, offset, cursor, oldptr, select
+
+def dedent(arr,line,offset,banoff,indent,cursor):
+    text = arr[line+offset-banoff]
+    p1 = text[:cursor-1]
+    p2 = text[cursor-1:]
+    if len(indent)>0 and p1.endswith(indent):
+        p1 = p1[:-len(indent)]
+        cursor-=len(indent)
+        arr[line+offset-banoff] = p1+p2
+    return arr,cursor
 

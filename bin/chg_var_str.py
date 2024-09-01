@@ -48,7 +48,7 @@ def chg_var_str(arg):
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
     banner,status_st,keys,cursor,select,read_key,entered_str,prt_txt = arg
 
-    old = entered_str
+    old_str = entered_str
     length=len(prt_txt)+2
     wrtptr=length+len(entered_str)
     thr=Thread(target=updscr_thr)
@@ -82,7 +82,7 @@ def chg_var_str(arg):
             if key==keys["return"]: exit(); break
 
             elif key==keys["ctrl+c"]:
-                entered_str = old
+                entered_str = old_str
                 exit(); break
         
             elif key==keys["delete"]:

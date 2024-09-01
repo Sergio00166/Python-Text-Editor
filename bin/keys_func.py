@@ -87,8 +87,11 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         cursor,arr,copy_buffer,line,offset,select,status_st = paste(*args)
             
     elif key==keys["ctrl+g"]:
-        args=(columns,rows,banoff,line,arr,offset,bnc)
-        line,offset = goto(*args)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
+                banner,status_st,keys,cursor,select,read_key,""," Go to: ")
+        p1 = chg_var_str(args) # Get user input
+        p1 = len(arr)-1 if p1 == "-" else int(p1) if p1.isdigit() else line+offset-banoff
+        line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
 
     elif key==keys["ctrl+a"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
