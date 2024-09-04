@@ -113,9 +113,9 @@ def menu_updsrc(arg,mode=None,updo=False):
             # Cut menu to add the menu bar
             menu = "\n".join(menu.split("\n")[:rows+banoff])
             # Calculate relative cursor pos
-            wrtptr,out = fix_cursor_pos(out,wrtptr-1,columns,black,bnc)
+            wrtptr,out = fix_cursor_pos(out,wrtptr-1,columns,slc,reset+bnc)
             # Add blank spaces to shade it
-            ln=str_len(rscp(out,[black,bnc],True))
+            ln=str_len(rscp(out,[slc,reset+bnc],True))
             out += " "*(columns-ln+2)
             # Print the whole screen and move cursor
             print(menu+bnc+out+movcr%(rows+2,wrtptr))
