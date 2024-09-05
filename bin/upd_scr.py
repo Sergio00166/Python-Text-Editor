@@ -2,7 +2,7 @@
 
 from functions import scr_arr2str,rscp,sscp,str_len,fix_cursor_pos
 from functions1 import get_size, fixfilename
-from sys import stdout,maxsize
+from sys import stdout
 
 
 # Some ANSII ctrl codes
@@ -14,6 +14,7 @@ hcr = "\r\x1b[?25l"
 def print(text):
     stdout.write(text)
     stdout.flush()
+
 
 def update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
                filename,rows,columns,status_st,rrw=False,select=[],hlg_str=""):
@@ -89,6 +90,9 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
         menu += movcr%(line,1)+scr
         menu += movcr%(line,cursor)
         print(hcr+menu)
+        # If we are using this in the find
+        # function return the relative cursor
+        if hlg_str!="": return cursor
 
 
 def menu_updsrc(arg,mode=None,updo=False):
@@ -118,6 +122,5 @@ def menu_updsrc(arg,mode=None,updo=False):
             ln=str_len(rscp(out,[slc,reset+bnc],True))
             out += " "*(columns-ln+2)
             # Print the whole screen and move cursor
-            print(menu+bnc+out+movcr%(rows+2,wrtptr))
-            
+            print(menu+bnc+out+movcr%(rows+2,wrtptr))          
     return rows,columns
