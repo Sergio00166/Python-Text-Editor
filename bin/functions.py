@@ -42,6 +42,7 @@ def wrap(text, columns, tabsize=8, cursor=None):
             for x in expanded: handle_char(x, 1)
         else:
             char_width = wcwidth(char)
+            if char_width<1: char_width=1
             if extra and cursor>p: ptr += char_width
             handle_char(char, char_width)
 
@@ -75,7 +76,7 @@ def str_len(self, tabsize=8):
             col += space_count
         else:
             result.append(char)
-            char_width = wcwidth(char) if wcwidth(char) > 0 else 1
+            char_width = wcwidth(char)
             length += char_width
     return length
 
