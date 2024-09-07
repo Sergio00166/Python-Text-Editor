@@ -77,7 +77,6 @@ def str_len(self, tabsize=8):
         else:
             result.append(char)
             char_width = wcwidth(char)
-            if char_width<1: char_width=1
             length += char_width
     return length
 
