@@ -4,6 +4,7 @@ from os import get_terminal_size,sep
 from os.path import split as psplit
 from multiprocessing import cpu_count, Pool
 from re import split as resplit
+from data import ascii_map
         
 
 def calc_displacement(data,line,banoff,offset,rows,rect=0):
@@ -90,6 +91,10 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
 
 def get_str(arr,key,select,cursor,line,offset,banoff,indent,rows,keys):
     out,skip = decode(key),False
+
+    for x in ascii_map:
+        if chr(x) in out: return arr,cursor,line,offset,select 
+    
     if select:
         if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff,True)
         else: arr,skip = select_add_start_str(arr,line,offset,select,indent),True
@@ -118,7 +123,7 @@ def detect_line_ending_char(file_path):
     c=c.replace(b'\r\n',b'')
     cr = c.count(b'\r')
     lf = c.count(b'\n')
-    
+
     if crlf>cr and crlf>lf:
         return '\r\n'
     elif cr>lf: return '\r'
