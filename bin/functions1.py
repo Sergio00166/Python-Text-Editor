@@ -18,7 +18,11 @@ def get_size():
     size=get_terminal_size()
     return size[1]-2,size[0]-2
 
-def decode(key): return key.decode("UTF-8")
+def decode(key):
+    out = key.decode("UTF-8")
+    for x in ascii_map:
+        if chr(x) in out: return ""
+    return out
 
 def fixlenline(text,cursor,oldptr):
     length=len(text)+1
@@ -91,9 +95,6 @@ def select_add_start_str(arr,line,offset,select,text,remove=False):
 
 def get_str(arr,key,select,cursor,line,offset,banoff,indent,rows,keys):
     out,skip = decode(key),False
-
-    for x in ascii_map:
-        if chr(x) in out: return arr,cursor,line,offset,select 
     
     if select:
         if not out=="\t": select,arr,line,offset = del_sel(select,arr,banoff,True)
