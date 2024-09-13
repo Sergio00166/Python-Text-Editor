@@ -83,6 +83,7 @@ if sep == chr(92):  # Windows
         "ctrl+u": b'\x15',
         "ctrl+f": b'\x06',
         "f4": b'\x00>',
+        "ctrl+r":b'\x12',
     }
 else:  # Linux
     keys = {
@@ -123,6 +124,5 @@ else:  # Linux
         "ctrl+u": b'\x15',
         "ctrl+f": b'\x06',
         "f4": b'\x1bOS',
+        "ctrl+r": b'\x12',
     }
-
-
