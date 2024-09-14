@@ -98,9 +98,9 @@ def replace(arg):
             offset,line,banner,status_st,keys,cursor,[],read_key,"")
 
     try: find_str = find_str = chg_var_str((*args," [R] Find: "),True)
-    except KeyboardInterrupt: return cursor,line,offset
+    except KeyboardInterrupt: return cursor,line,offset,arr
     try: replace_str = chg_var_str((*args," Replace with: "),True)
-    except KeyboardInterrupt: return cursor,line,offset
+    except KeyboardInterrupt: return cursor,line,offset,arr
 
     thr=Thread(target=updscr_thr)
     run,kill = False,False
@@ -108,7 +108,7 @@ def replace(arg):
 
     # Check if the str exists in arr
     if not isin_arr(arr,find_str):
-        exit(); return cursor,line,offset
+        exit(); return cursor,line,offset,arr
     # Find replace and move cursor to the first one
     pos,first_exec = line+offset-banoff,True
     cl_line,cursor = search_substring(arr,find_str,pos,cursor)
@@ -167,4 +167,4 @@ def replace(arg):
    
         except: pass
 
-    return cursor,line,offset
+    return cursor,line,offset,arr

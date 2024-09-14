@@ -112,7 +112,7 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
     elif key==keys["ctrl+r"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
                 status,offset,line,banner,status_st,keys,read_key,cursor)
-        cursor,line,offset = replace(args)
+        cursor,line,offset,arr = replace(args)
         
     elif key==keys["f1"]: indent = " "*4 if indent=="\t" else "\t"
     
