@@ -20,7 +20,7 @@ def updscr_thr():
     global rows,columns,black,reset,status,banoff,cursor
     global offset,line,banner,filename,rows,columns
     global kill,fd,thr,old_settings,status_st,bnc,slc
-    global find_str,rel_cursor,run,arr
+    global find_str,rel_cursor,run,arr,first_exec
 
     while not kill:
         delay(0.01)
@@ -45,7 +45,7 @@ def updscr_thr():
                 rel_cursor = update_scr(
                 black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,\
                 banner,filename,rows,columns,status_st,False,[],find_str)
-                chg_hlg(rel_cursor,find_str)
+                if not first_exec: chg_hlg(rel_cursor,find_str)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
 
@@ -89,15 +89,15 @@ def replace(arg):
     global rows,columns,black,reset,status,banoff,cursor
     global offset,line,banner,filename,rows,columns
     global kill,fd,thr,old_settings,status_st,bnc,slc
-    global find_str,rel_cursor,run,arr
+    global find_str,rel_cursor,run,arr,first_exec
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
     status,offset,line,banner,status_st,keys,read_key,cursor = arg
-
+    
     args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
             offset,line,banner,status_st,keys,cursor,[],read_key,"")
 
-    try: find_str = find_str = chg_var_str((*args," Find: "),True)
+    try: find_str = find_str = chg_var_str((*args," [R] Find: "),True)
     except KeyboardInterrupt: return cursor,line,offset
     try: replace_str = chg_var_str((*args," Replace with: "),True)
     except KeyboardInterrupt: return cursor,line,offset
@@ -110,16 +110,11 @@ def replace(arg):
     if not isin_arr(arr,find_str):
         exit(); return cursor,line,offset
     # Find replace and move cursor to the first one
-
-    pos = line+offset-banoff
+    pos,first_exec = line+offset-banoff,True
     cl_line,cursor = search_substring(arr,find_str,pos,cursor)
-    p1 = arr[cl_line][:cursor-len(find_str)]
-    p2 = arr[cl_line][cursor:]
-    arr[cl_line] = p1+replace_str+p2
-    cursor = cursor+len(replace_str)-len(find_str)
     line,offset = CalcRelLine(cl_line,arr,offset,line,banoff,rows)
-    cursor += 1 # Cursor starts in 1 not 0
-    
+    cursor -= len(find_str) # Move to the start of the string
+
     while True:
         try:
             # If OS is LINUX restore TTY to it default values
@@ -132,14 +127,14 @@ def replace(arg):
             rel_cursor = update_scr(
             black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,\
             banner,filename,rows,columns,status_st,False,[],find_str)
-            chg_hlg(rel_cursor,replace_str)
+            if first_exec: first_exec = False
+            else: chg_hlg(rel_cursor,replace_str)
             # If OS is LINUX set TTY to raw mode
             if not sep==chr(92): setraw(fd,when=TCSADRAIN)
             
             run=True #Start update screen thread
             key=read_key() #Map keys
             run=False #Stop update screen thread
-
             pos = line+offset-banoff
 
             if key==keys["ctrl+c"]: exit(); break
