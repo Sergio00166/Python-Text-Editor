@@ -5,7 +5,8 @@ A a basic terminal text editor with python using the minimun external libraries 
 
 Only supports UTF-8 (normal mode) and ASCII (for reading bin files)
 
-Basic functionalities currently available such as copy, cut, paste lines, find string, and the basic for a text editor
+Basic functionalities currently available such as copy, cut, paste lines, find string, and replaced string.
+<br>Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b to create a .bak file
 
 Due to limitations with msvcrt.getch() on windows to select (highlight) lines you must use Ctrl+arrows instead of Shift+arrows 
 
