@@ -160,7 +160,10 @@ def replace(arg):
                 line,offset = CalcRelLine(cl_line,arr,offset,line,banoff,rows)
                 cursor += 1 # Cursor starts in 1 not 0
 
-            elif key==keys["ctrl+a"]: arr = [x.replace(find_str,replace_str) for x in arr]
+            elif key==keys["ctrl+a"]:
+                for p,x in enumerate(arr):
+                    arr[p] = x.replace(find_str,replace_str)
+                break # Exit this menu program
    
         except: pass
 
