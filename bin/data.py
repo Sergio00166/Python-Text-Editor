@@ -81,11 +81,12 @@ if sep == chr(92):  # Windows
         "avpag": b'\xe0Q',
         "tab": b'\t',
         "insert": b'\xe0R',
-        "alt+k": b'\x1bk',
-        "alt+u": b'\x1bu',
-        "alt+i": b'\x1bi',
-        "alt+d": b'\x1bd'
+        "alt+k": b'\x00%',
+        "alt+u": b'\x00\x16',
+        "alt+i": b'\x00\x17',
+        "alt+d": b'\x00 ',
     }
+
 else:  # Linux
     keys = {
         "delete": b'\x7f',
@@ -126,5 +127,5 @@ else:  # Linux
         "alt+k": b'\x1bk',
         "alt+u": b'\x1bu',
         "alt+i": b'\x1bi',
-        "alt+d": b'\x1bd'
+        "alt+d": b'\x1bd',
     }
