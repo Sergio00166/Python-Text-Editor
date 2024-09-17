@@ -98,9 +98,9 @@ def replace(arg):
             offset,line,banner,status_st,keys,cursor,[],read_key,"")
 
     try: find_str = find_str = chg_var_str((*args," [R] Find: "),True)
-    except KeyboardInterrupt: cursor,line,offset,arr,status_st
+    except KeyboardInterrupt: return cursor,line,offset,arr,status_st
     try: replace_str = chg_var_str((*args," Replace with: "),True)
-    except KeyboardInterrupt: cursor,line,offset,arr,status_st
+    except KeyboardInterrupt: return cursor,line,offset,arr,status_st
 
     thr=Thread(target=updscr_thr)
     run,kill = False,False
