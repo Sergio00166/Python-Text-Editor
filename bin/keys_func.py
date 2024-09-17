@@ -42,9 +42,9 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
             cursor,oldptr,line,offset = left(*args)
         select=[]
         
-    elif key==keys["start"]: cursor,oldptr,select = 1,1,[]
+    elif key in keys["start"]: cursor,oldptr,select = 1,1,[]
         
-    elif key==keys["end"]:
+    elif key in keys["end"]:
         text=arr[line+offset-banoff]
         cursor = len(text)+1
         oldptr,select = cursor,[]
