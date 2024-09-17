@@ -19,12 +19,11 @@ Windows or Linux with UTF-8 keyboard <br>
 <br>*NORMAL*<br>
 ^Q QUIT | ^S SAVE | ^A Save as | ^O OPEN | ^C COPY | ^X CUT | ^P PASTE | ^G GOTO <br>
 ^D DEDENT | ^I INDENT | ^K COMMENT | ^U UNCOMMENT | ^F FIND | ^R REPLACE <br>
-Ctrl+T toggle between 4 spaces or tab | F2 change start comment str <br>
-F3 change end comment str | F4 change indent str<br>
+Alt+D toggle between 4 spaces or tab | Alt+K change start comment str <br>
+Alt+U change end comment str | Alt+I change indent str<br>
 <br>*Open file menu*<br>
 ^C CANCEL | ^O OPEN  | ^N NEW FILE <br>
 <br>*Save as menu*<br>
 ^C CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br><br>
-For menus like ^G, F2, F3, and F4 you can use ^C to exit that menu and<br>
 Return to leave that value blank (if no text is writed)<br>
