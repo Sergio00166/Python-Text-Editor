@@ -9,7 +9,7 @@ Basic functionalities currently available such as copy, cut, paste lines, find s
 <br>Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b to create a .bak file
 
 Due to limitations with msvcrt.getch() on windows to select (highlight) lines you must use Ctrl+arrows instead of Shift+arrows<br>
-Also in Windows all shortcuts with Alt must be instead Ctrl+Alt due to OS TTY limitations
+<b>Also in Windows all shortcuts with Alt must be instead Ctrl+Alt due to OS TTY limitations</b>
 
 <h3>Requirements:</h3>
 Python 3 (tested under python 3.12)<br>
