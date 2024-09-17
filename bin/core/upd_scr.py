@@ -106,7 +106,7 @@ def menu_updsrc(arg,mode=None,updo=False):
     if rows<4 or columns<24: print("\r\033cTerminal too small")
     # Compare the old values with the new ones
     elif not (old_rows==rows and old_columns==columns) or updo:
-        if not updo: print("\r\033[3J",end="") # Clear previous content
+        if not updo: print("\r\033[3J") # Clear previous content
         if not mode==None or updo:
             # Set some vars
             filetext,opentxt,wrtptr,length = mode
