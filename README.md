@@ -19,7 +19,7 @@ Windows or Linux with UTF-8 keyboard <br>
 <br>*NORMAL*<br>
 ^Q QUIT | ^S SAVE | ^A Save as | ^O OPEN | ^C COPY | ^X CUT | ^P PASTE | ^G GOTO <br>
 ^D DEDENT | ^I INDENT | ^K COMMENT | ^U UNCOMMENT | ^F FIND | ^R REPLACE <br>
-F1 toggle between 4 spaces or tab | F2 change start comment str <br>
+Ctrl+T toggle between 4 spaces or tab | F2 change start comment str <br>
 F3 change end comment str | F4 change indent str<br>
 <br>*Open file menu*<br>
 ^C CANCEL | ^O OPEN  | ^N NEW FILE <br>
