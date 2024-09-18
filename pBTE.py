@@ -64,8 +64,8 @@ if __name__=="__main__":
                             arr,codec,lnsep = read_UTF8(name)
                             filename,status_st = name,False
                             cursor,line,offset = 1,1,0
+                            break
                         except: pass
-                    kill = True; update_thr.join(); break
                 else: kill=True; update_thr.join(); break
 
             #Call keys functions (Yeah, its a lot of args and returned values)

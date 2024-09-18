@@ -74,6 +74,7 @@ if not __name__=="__main__":
                     name,files = files[0],files[1:]
                     arr,codec,lnsep = read_UTF8(name)
                     filename = name
+                    break
                 except: pass
     else: files=[]
 
