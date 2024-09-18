@@ -33,13 +33,15 @@ def fixlenline(text,cursor,oldptr):
     else: return cursor
 
 def CalcRelLine(p1,arr,offset,line,banoff,rows):
-    if p1=="-": p1=len(arr)-1
-    try:
-        p1=int(p1)
-        if p1<len(arr):
-            if p1<rows: offset=0; line=p1+banoff
-            else: offset=p1-rows; line=rows+banoff
-    except: pass
+    try: p1 = len(arr)-1 if p1=="-" else int(p1)
+    except: return line, offset
+    if p1<len(arr):
+        if p1<rows:
+            offset,line = 0,p1+banoff
+        else:
+            part,fix = (rows//2),(rows%2)
+            line = part+banoff+fix
+            offset = p1-part 
     return line, offset
 
 
