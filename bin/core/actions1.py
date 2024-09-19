@@ -68,9 +68,8 @@ def copy(select,arr,line,offset,banoff,cursor):
 
 def repag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
     if selected: seled=[line-banoff,offset]
-    p1=line+offset-banoff-rows
-    if p1<0: p1=0
-    line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
+    offset -= rows-banoff
+    if offset<0: offset,line = 0,banoff
     text=arr[line+offset-banoff]
     cursor=fixlenline(text,cursor,oldptr)
     arr[line+offset-banoff]=text  
@@ -86,12 +85,14 @@ def avpag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
     if selected:
         selst=[line-banoff,offset]
         fix=line+offset
-    p1=line+offset-banoff+rows
-    if p1>=len(arr): p1="-"
-    line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
-    text=arr[line+offset-banoff]
+    old_offset = offset
+    offset += rows-banoff
+    if offset+line>len(arr):
+        offset = old_offset
+        line = len(arr)+1-offset
+        line -= banoff
+    text = arr[line+offset-banoff]
     cursor=fixlenline(text,cursor,oldptr)
-    arr[line+offset-banoff]=text
     if selected:
         seled=[line-banoff,offset]
         if sum(seled)<fix:
