@@ -3,6 +3,7 @@
 from functions import scr_arr2str,rscp,sscp,str_len,fix_cursor_pos
 from functions1 import get_size, fixfilename
 from sys import stdout
+from os import sep
 
 
 # Some ANSII ctrl codes
@@ -29,7 +30,7 @@ def update_scr(black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,banner,\
     # Fix the filename string to fit in the space
     filename = fixfilename(filename,length)
     # Use the fucking UNIX path separator
-    filename = filename.replace(chr(92),"/")
+    filename = filename.replace(sep,"/")
     # Calculate blank space of necessary
     if small: filename+=" "*(columns-len(filename))
     # Get the separation between the Left and the filename
