@@ -1,6 +1,7 @@
 # Code by Sergio00166
 
 from functions1 import *
+from actions import up,down
 
 
 def paste(copy_buffer,arr,line,offset,banoff,cursor,select,rows,status_st):
@@ -67,23 +68,16 @@ def copy(select,arr,line,offset,banoff,cursor):
     return copy_buffer
 
 def repag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
-    offset -= rows-banoff
-    if offset<0: offset,line = 0,banoff
-    text=arr[line+offset-banoff]
-    cursor=fixlenline(text,cursor,oldptr)
-    arr[line+offset-banoff]=text     
-    return line, offset, cursor, oldptr, []
+    for x in range(0,rows):
+        cursor, oldptr, offset, line, select =\
+        up(line,offset,arr,banoff,oldptr,rows,cursor,select,selected)
+    return line, offset, cursor, oldptr, select
 
 def avpag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
-    old_offset = offset
-    offset += rows-banoff
-    if offset+line>len(arr):
-        offset = old_offset
-        line = len(arr)+1-offset
-        line -= banoff
-    text = arr[line+offset-banoff]
-    cursor=fixlenline(text,cursor,oldptr)
-    return line, offset, cursor, oldptr, []
+    for x in range(0,rows):
+        cursor, oldptr, offset, line, select =\
+        down(line,offset,arr,banoff,oldptr,rows,cursor,select,selected)
+    return line, offset, cursor, oldptr, select
 
 def dedent(arr,line,offset,banoff,indent,cursor):
     text = arr[line+offset-banoff]
