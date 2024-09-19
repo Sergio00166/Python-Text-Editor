@@ -67,24 +67,14 @@ def copy(select,arr,line,offset,banoff,cursor):
     return copy_buffer
 
 def repag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
-    if selected: seled=[line-banoff,offset]
     offset -= rows-banoff
     if offset<0: offset,line = 0,banoff
     text=arr[line+offset-banoff]
     cursor=fixlenline(text,cursor,oldptr)
-    arr[line+offset-banoff]=text  
-    if selected:
-        selst=[line-banoff,offset]
-        if len(select)==0:
-            select=[selst,seled]
-        else: select[0]=selst
-    else: select=[]    
-    return line, offset, cursor, oldptr, select
+    arr[line+offset-banoff]=text     
+    return line, offset, cursor, oldptr, []
 
 def avpag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
-    if selected:
-        selst=[line-banoff,offset]
-        fix=line+offset
     old_offset = offset
     offset += rows-banoff
     if offset+line>len(arr):
@@ -93,15 +83,7 @@ def avpag(line,offset,banoff,rows,arr,sep,cursor,oldptr,select,selected):
         line -= banoff
     text = arr[line+offset-banoff]
     cursor=fixlenline(text,cursor,oldptr)
-    if selected:
-        seled=[line-banoff,offset]
-        if sum(seled)<fix:
-            seled[0]=seled[0]+1
-        if len(select)==0:
-            select=[selst,seled]
-        else: select[1]=seled
-    else: select=[]  
-    return line, offset, cursor, oldptr, select
+    return line, offset, cursor, oldptr, []
 
 def dedent(arr,line,offset,banoff,indent,cursor):
     text = arr[line+offset-banoff]
