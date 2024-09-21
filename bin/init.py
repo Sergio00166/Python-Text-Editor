@@ -62,6 +62,9 @@ if not __name__=="__main__":
 
     # Check if we have arguments via cli, if not create an empty one
     filename = getcwd()+sep+"NewFile"
+    # Fix when current dir is root
+    if filename.startswith("//"):
+        filename = filename[1:]
     arr,codec,lnsep = [""],"UTF-8","\n"
     if not len(argv)==1:
         files = [glob(x,recursive=False) for x in argv[1:]]
