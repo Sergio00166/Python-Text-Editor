@@ -32,4 +32,3 @@ Alt+U change end comment str | Alt+I change indent str<br>
 <br>*Save as menu*<br>
 ^C CANCEL | ^S SAVE | ^B BACKUP | ^A APPEND | ^P PREPEND
 <br><br>
-Return to leave that value blank (if no text is writed)<br>
