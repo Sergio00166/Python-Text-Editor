@@ -9,7 +9,7 @@ Basic functionalities currently available such as copy, cut, paste lines, find s
 <br>Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b to create a .bak file
 
 <h3>Requirements:</h3>
-Python 3 (tested under python 3.12)<br>
+Python 3 (tested under python 3.13)<br>
 No dependencies<br>
 Windows or Linux with UTF-8 keyboard <br>
 
