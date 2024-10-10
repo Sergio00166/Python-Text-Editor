@@ -138,7 +138,7 @@ def replace(arg):
             run=False #Stop update screen thread
             pos = line+offset-banoff
 
-            if key==keys["ctrl+c"] or !isin_arr(arr,find_str):
+            if key==keys["ctrl+c"] or not isin_arr(arr,find_str):
                  exit(); break # Stop executing this process
             
             elif key==keys["arr_right"]:
