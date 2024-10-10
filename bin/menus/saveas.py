@@ -50,8 +50,10 @@ def save_as(arg):
 
     saveastxt=" Save as: "; length=len(saveastxt)+2
     filewrite=filename; wrtptr=length+len(filewrite)
-    thr=Thread(target=updscr_thr); run=False
-    kill=False; thr.start(); complete=False; cmp_counter=0
+    thr=Thread(target=updscr_thr)
+    run=,kill,complete = False,False,False
+    thr.daemon=True; thr.start()
+    cmp_counter = 0
     
     while True:
         # Fix when the cursor is out

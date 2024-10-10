@@ -102,7 +102,7 @@ def find(arg):
 
     thr=Thread(target=updscr_thr)
     run,kill = False,False
-    thr.start()
+    thr.daemon = True; thr.start()
 
     # Check if the str exists in arr
     if not isin_arr(arr,find_str):

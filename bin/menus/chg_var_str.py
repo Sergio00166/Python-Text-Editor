@@ -53,7 +53,7 @@ def chg_var_str(arg,kctlc_f=False):
     wrtptr=length+len(entered_str)
     thr=Thread(target=updscr_thr)
     run,kill,kctlc = False,False,False
-    thr.start()
+    thr.daemon = True; thr.start()
     
     while True:
         # Fix when the cursor is out

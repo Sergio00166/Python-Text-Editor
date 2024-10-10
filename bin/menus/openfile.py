@@ -48,8 +48,11 @@ def open_file(arg):
     line,banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep = arg
 
     openfile = "/".join(filename.split("/")[:-1])+"/"
-    opentxt=" Open: "; length=len(opentxt)+2; wrtptr=length+len(openfile)
-    thr=Thread(target=updscr_thr); run=False; kill=False; thr.start()
+    opentxt=" Open: "; length=len(opentxt)+2
+    wrtptr=length+len(openfile)
+    thr=Thread(target=updscr_thr)
+    run,kill = False,False
+    thr.daemon = True; thr.start()
     complete=False; cmp_counter=0
     
     while True:

@@ -104,8 +104,8 @@ def replace(arg):
 
     thr=Thread(target=updscr_thr)
     run,kill = False,False
-    thr.start()
-
+    thr.daemon=True; thr.start()
+ 
     # Check if the str exists in arr
     if not isin_arr(arr,find_str):
         exit(); cursor,line,offset,arr,status_st
@@ -138,10 +138,8 @@ def replace(arg):
             run=False #Stop update screen thread
             pos = line+offset-banoff
 
-            if key==keys["ctrl+c"]: exit(); break
-
-            # Lock it if we cannot do anything more
-            elif not isin_arr(arr,find_str): pass
+            if key==keys["ctrl+c"] or !isin_arr(arr,find_str):
+                 exit(); break # Stop executing this process
             
             elif key==keys["arr_right"]:
                 cl_line,cursor = search_substring(arr,find_str,pos,cursor)
