@@ -105,7 +105,7 @@ def find(arg):
     thr.daemon = True; thr.start()
 
     # Check if the str exists in arr
-    if not isin_arr(arr,find_str):
+    if not isin_arr(arr,find_str) or find_str=="":
         exit(); return cursor,line,offset
     # Find and move cursor to the fist one
     pos = line+offset-banoff
@@ -134,8 +134,11 @@ def find(arg):
             run=False #Stop update screen thread
 
             pos = line+offset-banoff
+
+            # Stop executing this process
+            if key==keys["ctrl+c"]: exit(); break 
     
-            if key==keys["arr_right"]:
+            elif key==keys["arr_right"]:
                 p1,cursor = search_substring(arr,find_str,pos,cursor)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
                 cursor += 1 # Cursor starts in 1 not 0
@@ -144,8 +147,6 @@ def find(arg):
                 p1,cursor = search_substring_rev(arr,find_str,pos,cursor-1)
                 line,offset = CalcRelLine(p1,arr,offset,line,banoff,rows)
                 cursor += 1 # Cursor starts in 1 not 0
-
-            elif key==keys["ctrl+c"]: exit(); break
    
         except: pass
 

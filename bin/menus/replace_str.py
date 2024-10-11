@@ -97,7 +97,9 @@ def replace(arg):
     args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
             offset,line,banner,status_st,keys,cursor,[],read_key,"")
 
-    try: find_str = find_str = chg_var_str((*args," [R] Find: "),True)
+    try: # Skip if Ctrl+C or the text is empty
+        find_str = find_str = chg_var_str((*args," [R] Find: "),True)
+        if find_str == "": raise KeyboardInterrupt
     except KeyboardInterrupt: return cursor,line,offset,arr,status_st
     try: replace_str = chg_var_str((*args," Replace with: "),True)
     except KeyboardInterrupt: return cursor,line,offset,arr,status_st
@@ -108,7 +110,7 @@ def replace(arg):
  
     # Check if the str exists in arr
     if not isin_arr(arr,find_str):
-        exit(); cursor,line,offset,arr,status_st
+        exit(); return cursor,line,offset,arr,status_st
     # Find replace and move cursor to the first one
     pos,active = line+offset-banoff,False
     cl_line,cursor = search_substring(arr,find_str,pos,cursor)
