@@ -40,7 +40,6 @@ def updscr_thr():
                 if line>rows: offset=offset+(line-rows); line=rows
                 # If OS is LINUX restore TTY to it default values
                 if not sep==chr(92): tcsetattr(fd, TCSADRAIN, old_settings)
-                print("\r\033[3J") # Clear previous content
                 # Call screen updater function
                 rel_cursor = update_scr(
                 black,bnc,slc,reset,status,banoff,offset,line,cursor,arr,\
@@ -56,23 +55,23 @@ def exit():
     if not sep == chr(92): tcsetattr(fd,TCSADRAIN,old_settings)
 
 def search_substring(lst, substring, start_list_pos=0, start_string_pos=0):
-    list_length,i = len(lst),start_list_pos
+    list_lenght,i = len(lst),start_list_pos
     while True:
         start = start_string_pos if i == start_list_pos else 0
         for j in range(start, len(lst[i])):
             if lst[i][j:j+len(substring)] == substring:
                 return i, j+len(substring)
-        i,start_string_pos = (i+1)%list_length,0
+        i,start_string_pos = (i+1)%list_lenght,0
 
 def search_substring_rev(lst, substring, start_list_pos=0, start_string_pos=None):
-    list_length,i = len(lst),start_list_pos
+    list_lenght,i = len(lst),start_list_pos
     while True:
         start = start_string_pos if i == start_list_pos else len(lst[i])
         if start_string_pos is None: start = len(lst[i])
         else: start = start_string_pos-len(find_str)
         for j in range(start, -1, -1):
             if lst[i][j-len(substring):j] == substring: return i, j
-        i,start_string_pos = (i-1)%list_length,None
+        i,start_string_pos = (i-1)%list_lenght,None
 
 def chg_hlg(rel_cursor,find_str):
     pos = rel_cursor-str_len(find_str)
@@ -100,13 +99,14 @@ def find(arg):
     try: find_str = chg_var_str(args,True)
     except KeyboardInterrupt: return cursor,line,offset
 
+    # Check if the str exists in arr
+    if not isin_arr(arr,find_str) or find_str=="":
+        return cursor,line,offset
+
     thr=Thread(target=updscr_thr)
     run,kill = False,False
     thr.daemon = True; thr.start()
 
-    # Check if the str exists in arr
-    if not isin_arr(arr,find_str) or find_str=="":
-        exit(); return cursor,line,offset
     # Find and move cursor to the fist one
     pos = line+offset-banoff
     p1,cursor = search_substring(arr,find_str,pos,cursor)
@@ -136,7 +136,7 @@ def find(arg):
             pos = line+offset-banoff
 
             # Stop executing this process
-            if key==keys["ctrl+c"]: exit(); break 
+            if key==keys["ctrl+c"]: break 
     
             elif key==keys["arr_right"]:
                 p1,cursor = search_substring(arr,find_str,pos,cursor)
@@ -150,4 +150,5 @@ def find(arg):
    
         except: pass
 
+    exit() # Reset
     return cursor,line,offset
