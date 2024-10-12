@@ -55,6 +55,7 @@ def opt_menu(arg):
     thr=Thread(target=updscr_thr)
     run,kill = False,False
     thr.daemon = True; thr.start()
+    print(hcr) # Hide the cursor
     
     while True:
         # Fix when the cursor is out
