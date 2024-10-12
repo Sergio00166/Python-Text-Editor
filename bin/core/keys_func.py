@@ -143,7 +143,7 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         comment,indent = opt_menu(args)
 
     elif key==keys["help"]:
-        text = "^Q [Quit], ^S [Save], ^A [Save as], ^O [Open], ^C [Copy], ^X [Cut], ^P [Paste], ^G [GOTO]"
+        text = "^Q [Quit], ^T [Change vars], ^S [Save], ^A [Save as], ^O [Open], ^C [Copy], ^X [Cut], ^P [Paste], ^G [GOTO]"
         text += ", ^D [Dedent], ^I [Ident], ^K [Comment], ^U [Uncomment], ^F [Find], ^R [Replace]"
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
                 status,offset,line,banner,status_st,keys,read_key,text)

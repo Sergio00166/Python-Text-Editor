@@ -49,7 +49,7 @@ def opt_menu(arg):
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
     banner,status_st,keys,cursor,select,read_key,comment,indent = arg
 
-    prt_str = "Options: "
+    prt_str = " Options: "
     text = "t (Tab/Sp), c (Chg cmnt), e (Chg end cmnt), i (Chg indent)"
     wrtptr = lenght = len(prt_str)+2
     thr=Thread(target=updscr_thr)
