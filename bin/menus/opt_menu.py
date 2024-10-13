@@ -50,7 +50,7 @@ def opt_menu(arg):
     banner,status_st,keys,cursor,select,read_key,comment,indent = arg
 
     prt_str = " Options: "
-    text = "t (Tab/Sp), c (Chg cmnt), e (Chg end cmnt), i (Chg indent)"
+    text = "T (Tab/Sp), C (Chg cmnt), E (Chg end cmnt), I (Chg indent)"
     wrtptr = lenght = len(prt_str)+2
     thr=Thread(target=updscr_thr)
     run,kill = False,False
@@ -79,7 +79,6 @@ def opt_menu(arg):
             run=True #Start update screen thread
             key=read_key() #Map keys
             run=False #Stop update screen thread
-
 
             if key==keys["ctrl+c"]: break
         

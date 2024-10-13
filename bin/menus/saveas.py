@@ -150,7 +150,7 @@ def save_as(arg):
                 break
 
             elif key==keys["help"]:
-                text = "^C [Exit], ^S [Save], ^B [BackUp], ^A [Append], ^P [Prepend]"
+                text = "^C [Exit], ^S [Save], Tab/Ret [Navigate], ^B [BackUp], ^A [Append], ^P [Prepend]"       
                 args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
                         status,offset,line,banner,status_st,keys,read_key,text)
                 show_help(args)

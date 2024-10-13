@@ -18,6 +18,11 @@ def get_size():
     size=get_terminal_size()
     return size[1]-2,size[0]-2
 
+def cmt_w_ind(string, sepstr):
+    pos,lenght = 0,len(sepstr)
+    while string.startswith(sepstr,pos): pos+=lenght
+    return string[:pos], string[pos:]
+
 def decode(key):
     out = key.decode("UTF-8")
     for x in ascii_no_lfcr:

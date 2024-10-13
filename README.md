@@ -18,7 +18,6 @@ Windows or Linux with UTF-8 keyboard <br>
 
 <h3>Issues</h3>
 Due to limitations with msvcrt.getch() on windows to select (highlight) lines you must use Ctrl+arrows instead of Shift+arrows<br>
-<b>Also in Windows all shortcuts with Alt must be instead Ctrl+Alt due to OS TTY limitations</b><br>
 On linux some terminal emulators intercept Ctrl + PgUP and Ctrl + PgDown but we cannot
 use Shift instead of Ctrl due to internal limitations on how the keystrokes is read. <br>
 

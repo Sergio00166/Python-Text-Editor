@@ -147,7 +147,7 @@ def open_file(arg):
                 break
 
             elif key==keys["help"]:
-                text = "^C [Exit], ^O [Open], ^N [New File]"
+                text = "^C [Exit], ^O [Open], Tab/Ret [Navigate], ^N [New File]"
                 args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
                         status,offset,line,banner,status_st,keys,read_key,text)
                 show_help(args)
