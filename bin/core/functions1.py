@@ -138,5 +138,9 @@ def read_UTF8(path):
 
 # Detect if indent is tab or space
 def taborspace(contents):
-    indents = ["\t" if x.startswith("\t") else " "*4 for x in contents]
-    return max(indents) if not len(indents)==0 else "\t"
+    sp_cnt,tab_cnt = 0,0
+    for x in contents:
+        if x.startswith(" "*4): sp_cnt+=1
+        if x.startswith("\t"): tab_cnt+=1
+    return " "*4 if sp_cnt>tab_cnt else "\t"
+

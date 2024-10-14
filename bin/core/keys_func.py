@@ -104,9 +104,9 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         status_st,filename,status,codec,lnsep = save_as(args)
 
     elif key==keys["ctrl+o"]:
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-                line,banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep)
-        arr,filename,status_st,cursor,oldptr,line,offset,select,codec,lnsep = open_file(args)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
+                banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep,indent)
+        arr,filename,status_st,cursor,oldptr,line,offset,select,codec,lnsep,indent = open_file(args)
 
     elif key==keys["ctrl+f"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\

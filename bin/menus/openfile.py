@@ -46,8 +46,8 @@ def open_file(arg):
     global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
     global run, kill, fd, old_settings, thr, status_st, bnc, slc
 
-    filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep = arg
+    filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
+    banner,status_st,keys,cursor,oldptr,select,read_key,codec,lnsep,indent = arg
 
     openfile = "/".join(filename.split("/")[:-1])+"/"
     opentxt=" Open: "; lenght=len(opentxt)+2
@@ -165,4 +165,4 @@ def open_file(arg):
     exit() # Reset
     # Fix when current dir is root
     if filename.startswith("//"): filename = filename[1:]
-    return arr,filename,status_st,cursor,oldptr,line,offset,select,codec,lnsep
+    return arr,filename,status_st,cursor,oldptr,line,offset,select,codec,lnsep,indent
