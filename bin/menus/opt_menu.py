@@ -50,7 +50,7 @@ def opt_menu(arg):
     banner,status_st,keys,cursor,select,read_key,comment,indent = arg
 
     prt_str = " Options: "
-    text = "T (Tab/Sp), C (Chg cmnt), E (Chg end cmnt), I (Chg indent)"
+    text = "TAB (Tab/Sp), C (Chg cmnt), E (Chg end cmnt), I (Chg indent)"
     wrtptr = lenght = len(prt_str)+2
     thr=Thread(target=updscr_thr)
     run,kill = False,False
@@ -82,7 +82,7 @@ def opt_menu(arg):
 
             if key==keys["ctrl+c"]: break
         
-            elif key==b't':
+            elif key==b'\t':
                 indent = " "*4 if indent=="\t" else "\t"
                 break
 
