@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-from functions1 import decode, get_size, read_UTF8
+from functions1 import decode, get_size, read_UTF8, taborspace
 from upd_scr import menu_updsrc
 from time import sleep as delay
 from show_help import show_help
@@ -99,9 +99,9 @@ def open_file(arg):
             elif key==keys["ctrl+o"]:
                 openfile=glob(openfile, recursive=False)[0]
                 arr,codec,lnsep = read_UTF8(openfile)
-                filename = openfile
-                status_st,line,select = False,1,[]
-                cursor,offset,oldptr = 1,0,1
+                filename,status_st = openfile,False
+                cursor,offset,oldptr,line,select = 1,0,1,1,[]
+                indent = taborspace(arr)
                 break
                 
             elif key==keys["ctrl+c"]: break

@@ -136,3 +136,7 @@ def read_UTF8(path):
         
     return file.split(lnsep), codec, lnsep
 
+# Detect if indent is tab or space
+def taborspace(contents):
+    indents = ["\t" if x.startswith("\t") else " "*4 for x in contents]
+    return max(indents) if not len(indents)==0 else "\t"
