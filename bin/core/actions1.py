@@ -66,27 +66,29 @@ def paste(copy_buffer, arr, line, offset, banoff, cursor, select, rows, status_s
 
 def cut(select,arr,line,offset,banoff,copy_buffer,cursor):
     pos = line+offset-banoff
-    text=arr[pos]
+    text = arr[pos]
     if not len(select)==0:
         start=sum(select[0])-1
         if start<0: start=0
         copy_buffer=arr[start:sum(select[1])]
         if not start==0: copy_buffer=copy_buffer[1:]
         select,arr,line,offset = del_sel(select,arr,banoff)
-    else:
+    elif not text=="":
+        if cursor==1:
+            if pos==len(arr)-1: arr[pos]=""
+            else: arr.pop(pos)
+        elif cursor-1==len(text):
+            if pos!=len(arr)-1:
+                text = arr[pos+1]
+                arr.pop(pos+1)
+                cursor = 1
+        else: arr[pos]=text[:cursor-1]
         copy_buffer=text[cursor-1:]
-        if cursor==1 or cursor==len(text):
-            arr.pop(pos)
-            pos = line+offset-banoff
-            if pos==len(arr) and pos!=0:
-                if offset>0: offset-=1
-                else: line-=1
-        else:
-            text=text[:cursor-1]
-            arr[pos]=text           
+
     if isinstance(copy_buffer,list) and len(copy_buffer)==1:
         copy_buffer = copy_buffer[0]
     return copy_buffer,arr,line,offset,select
+
 
 def copy(select,arr,line,offset,banoff,cursor):
     if not len(select)==0:
