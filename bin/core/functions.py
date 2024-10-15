@@ -105,7 +105,9 @@ def scr_arr2str(arr,line,offset,cursor,black,reset,columns,rows,banoff):
     for x in arr:
         ln=str_len(rscp(x,[black,reset],True))
         out_arr.append(x+(" "*(columns-ln+2)))
-    if not len(arr)==rows:
+
+    # Add empty lines to fill it
+    if not len(arr)-1==rows:
         out_arr+=[" "*(columns+2)]*(rows-len(arr)+1)
     
     return "\n".join(out_arr), cursor
