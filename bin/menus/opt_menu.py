@@ -15,8 +15,8 @@ if not sep==chr(92): #If OS is LINUX
     fd = stdin.fileno(); old_settings = tcgetattr(fd)
 
 def updscr_thr():
-    global text,rows,columns,black,reset,status,banoff,prt_str
-    global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
+    global text,rows,columns,black,reset,status,banoff,arr
+    global wrtptr,offset,line,banner,filename,rows,columns
     global run, kill, fd, old_settings, status_st, bnc, slc
     
     while not kill:
@@ -27,7 +27,7 @@ def updscr_thr():
                 old=(fd,TCSADRAIN,old_settings)
                 tcsetattr(fd, TCSADRAIN, old_settings)
             # Call Screen updater
-            mode=(text,prt_str,wrtptr,lenght)
+            mode=(text,"",wrtptr,0)
             arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode)
@@ -42,16 +42,16 @@ def exit():
 
 
 def opt_menu(arg):
-    global text,rows,columns,black,reset,status,banoff,prt_str
-    global lenght,wrtptr,offset,line,arr,banner,filename,rows,columns
+    global text,rows,columns,black,reset,status,banoff,arr
+    global wrtptr,offset,line,banner,filename,rows,columns
     global run,kill,fd,old_settings,thr,status_st,bnc,slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
     banner,status_st,keys,cursor,select,read_key,comment,indent = arg
 
-    prt_str = " Options: "
     text = "TAB (Tab/Sp), C (Chg cmnt), E (Chg end cmnt), I (Chg indent)"
-    wrtptr = lenght = len(prt_str)+2
+    text = " Options: "+text
+    wrtptr = columns
     thr=Thread(target=updscr_thr)
     run,kill = False,False
     thr.daemon = True; thr.start()
@@ -59,7 +59,7 @@ def opt_menu(arg):
     
     while True:
         # Fix when the cursor is out
-        if len(text)+lenght<wrtptr: wrtptr = len(text)+lenght
+        if len(text)<wrtptr: wrtptr = len(text)
         try:
             # Force use LINUX dir separator
             text=text.replace(chr(92),"/")
@@ -68,7 +68,7 @@ def opt_menu(arg):
                 old=(fd,TCSADRAIN,old_settings)
                 tcsetattr(fd, TCSADRAIN, old_settings)
             # Call Screen updater
-            mode=(text,prt_str,wrtptr,lenght)
+            mode=(text,"",wrtptr,0)
             arg=(black,bnc,slc,reset,status,banoff,offset,line,\
             wrtptr,arr,banner,filename,rows,columns,status_st)
             rows,columns = menu_updsrc(arg,mode,True)
@@ -105,16 +105,14 @@ def opt_menu(arg):
                 break
 
             elif key==keys["arr_left"]:
-                if not wrtptr==lenght:
-                    wrtptr-=columns
-                    if wrtptr<lenght:
-                        wrtptr=lenght
+                wrtptr -= columns
+                if wrtptr<columns:
+                    wrtptr = columns
                 
             elif key==keys["arr_right"]:
-                if not wrtptr>len(text)+lenght-1:
-                    wrtptr+=columns
-                    if wrtptr-lenght>len(text):
-                        wrtptr=len(text)+lenght
+                wrtptr+=columns
+                if wrtptr>len(text):
+                    wrtptr=len(text)
 
         except: pass
 
