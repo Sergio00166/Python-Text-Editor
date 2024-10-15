@@ -46,13 +46,19 @@ def cut(select, arr, line, offset, banoff, copy_buffer, cursor):
     else:
         if cursor==1:
             if pos==len(arr)-1:
-                 if text!="": copy_buffer,arr[pos] = text[cursor-1:],""
-            else: arr.pop(pos)
+                 if not text == "":
+                     copy_buffer = text
+                     arr[pos] = ""
+            else:
+                copy_buffer = text
+                arr.pop(pos)
+
         elif cursor-1==len(text):
-            if pos<len(arr)-1: copy_buffer = arr.pop(pos+1)
+            if pos<len(arr)-1:
+                copy_buffer = arr.pop(pos+1)
         else:
-            copy_buffer = text[cursor-1:]
             arr[pos] = text[:cursor-1]
+            copy_buffer = text[cursor-1:]
 
     if isinstance(copy_buffer,list) and len(copy_buffer)==1:
         copy_buffer = copy_buffer[0]
