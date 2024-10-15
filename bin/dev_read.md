@@ -61,8 +61,6 @@ allows developers to implement new functionalities without altering the core.
 
 * **Menu systems**: Each menu is treated as a separate module that controls the TTY when activated, returning control to 
   the main editor after use.
-* **Keyboard mapping**: Functions and keybindings are handled through separate configuration files, allowing easy 
-  customization of the editor's behavior.
 
 7. File Structure
 -----------------
