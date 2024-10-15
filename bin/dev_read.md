@@ -34,7 +34,7 @@ modules can be developed to extend its functionality.
 * **Text editing**: Basic editing functions including cut, copy, paste, and file navigation.
 * **File operations**: Open, save, and manage files.
 * **Cursor management**: Displacement controls for both vertical and horizontal movements, ensuring proper positioning 
-  even with multi-byte characters.
+  even with characters with a width greater than 1.
 * **Screen redraw**: Full-screen redraws by moving the cursor to the top-left corner and overwriting previous content 
   with spaces to ensure old information is cleared.
 
