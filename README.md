@@ -7,8 +7,6 @@ Using colorama and wcwidth (they are inside lib.zip) and its LICENSES can be fou
 
 Basic functionalities currently available such as copy, cut, paste lines, find string, and replaced string.  
 Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b to create a .bak file  
-  
-To see all options press F1 (Windows) or Ctrl+H (Linux) to show the extra controls (if available)
 
 ### Requirements:
 
