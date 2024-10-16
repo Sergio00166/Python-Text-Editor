@@ -8,8 +8,37 @@ Using colorama and wcwidth (they are inside lib.zip) and its LICENSES can be fou
 Basic functionalities currently available such as copy, cut, paste lines, find string, and replaced string.  
 Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b to create a .bak file  
 
-### Requirements:
+-----------------------------------
 
-Python 3 (tested under python 3.13)  
-No dependencies  
-Windows or Linux with UTF-8 keyboard  
+### KEYBINDS
+
+#### Main Mode:
+- `^Q` [Quit],      `^T` [Change df values]
+- `^S` [Save],      `^A` [Save as]
+- `^O` [Open],      `^C` [Copy]
+- `^X` [Cut],       `^P` [Paste]
+- `^G` [GOTO],      `^D` [Dedent]
+- `^I` [Indent],    `^K` [Comment]
+- `^U` [Uncomment], `^F` [Find]
+- `^R` [Replace],   `^J` [non-move NL]
+
+#### OpenFile Menu:
+- `^C` [Exit], `^O` [Open file]
+- `Tab`/`Ret` [For autocomplete filenames]
+- `^N` [New empty file]
+
+#### SaveAs Menu:
+- `^C` [Exit], `^S` [Save file]
+- `Tab`/`Ret` [For autocomplete filenames]
+- `^B` [BackUp], `^A` [Append], `^P` [Prepend]
+
+#### Find Menu:
+- `^C` [Exit]
+- `<-` [Previous one]
+- `->` [Next one]
+
+#### Replace Menu:
+- `^C` [Exit]
+- `^A` [Replace all]
+- `<-` [Previous one]
+- `->` [Next one]
