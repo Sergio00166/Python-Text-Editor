@@ -64,7 +64,7 @@ if sep == chr(92):  # Windows
         "ctrl+f": b'\x06',
         "ctrl+t": b'\x14',
         "ctrl+r":b'\x12',
-        "help": b'\x00;', #F1
+        "help": b'\x00;',
         "arr_up": b'\xe0H',
         "arr_down": b'\xe0P',
         "arr_right": b'\xe0M',
@@ -81,6 +81,7 @@ if sep == chr(92):  # Windows
         "repag": b'\xe0I',
         "avpag": b'\xe0Q',
         "tab": b'\t',
+        "insert": b'\xe0R',
     }
 
 else:  # Linux
@@ -103,7 +104,7 @@ else:  # Linux
         "ctrl+f": b'\x06',
         "ctrl+t": b'\x14',
         "ctrl+r": b'\x12',
-        "help": b'\x1bOP', #F1
+        "help": b'\x08',
         "arr_up": b'\x1b[A',
         "arr_down": b'\x1b[B',
         "arr_right": b'\x1b[C',
@@ -120,4 +121,5 @@ else:  # Linux
         "repag": b'\x1b[5~',
         "avpag": b'\x1b[6~',
         "tab": b'\t',
+        "insert": b'2',
     }
