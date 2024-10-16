@@ -10,7 +10,6 @@ from find_str import find
 from replace_str import replace
 from chg_var_str import chg_var_str
 from opt_menu import opt_menu
-from show_help import show_help
 
 
 def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
@@ -73,6 +72,11 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         line,offset,arr,cursor,staus,select = newline(*args)
         status_st = False
 
+    elif key==keys["ctrl+j"]:
+        args=(cursor,offset,banoff,line,arr,rows,status,select)
+        _,_,arr,_,staus,select = newline(*args)
+        status_st = False
+
     elif key==keys["ctrl+s"]:
         out=open(filename,"w",encoding=codec,newline='')
         out.write(lnsep.join(arr)); out.close()
@@ -133,13 +137,6 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
                 line,banner,status_st,keys,cursor,select,read_key,comment,indent)
         comment,indent = opt_menu(args)
-
-    elif key==keys["help"]:
-        text = "^Q [Quit], ^T [Change vars], ^S [Save], ^A [Save as], ^O [Open], ^C [Copy], ^X [Cut], ^P [Paste]"
-        text += ", ^G [GOTO], ^D [Dedent], ^I [Ident], ^K [Comment], ^U [Uncomment], ^F [Find], ^R [Replace]"
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
-                status,offset,line,banner,status_st,keys,read_key,text)
-        show_help(args)
 
     else: #All the other keys
         args=(arr,key,select,cursor,line,offset,banoff,indent,rows,keys)

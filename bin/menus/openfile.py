@@ -3,7 +3,6 @@
 from functions1 import decode, get_size, read_UTF8, taborspace
 from upd_scr import menu_updsrc
 from time import sleep as delay
-from show_help import show_help
 from threading import Thread
 from os import getcwd,sep
 from glob import glob
@@ -145,12 +144,6 @@ def open_file(arg):
                 arr,select,status_st = [""],[],False
                 filename=getcwd()+"/NewFile"
                 break
-
-            elif key==keys["help"]:
-                text = "^C [Exit], ^O [Open], Tab/Ret [Navigate], ^N [New File]"
-                args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,\
-                        status,offset,line,banner,status_st,keys,read_key,text)
-                show_help(args)
   
             else: #Rest of keys
                 if wrtptr<((columns+2)*rows+1):
