@@ -49,9 +49,9 @@ def opt_menu(arg):
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
     banner,status_st,keys,cursor,select,read_key,comment,indent = arg
 
-    text = "TAB (Tab/Sp), C (Chg cmnt), E (Chg end cmnt), I (Chg indent)"
-    text = " Options: "+text
-    wrtptr = columns
+    text = "TAB (Tab/Sp), C (Chg cmnt), "
+    text += "E (Chg end cmnt), I (Chg indent)"
+    text,wrtptr = " Options: "+text, 1
     thr=Thread(target=updscr_thr)
     run,kill = False,False
     thr.daemon = True; thr.start()
@@ -106,13 +106,11 @@ def opt_menu(arg):
 
             elif key==keys["arr_left"]:
                 wrtptr -= columns
-                if wrtptr<columns:
-                    wrtptr = columns
+                wrtptr = max(wrtptr,0)
                 
             elif key==keys["arr_right"]:
-                wrtptr+=columns
-                if wrtptr>len(text):
-                    wrtptr=len(text)
+                wrtptr += columns+2
+                wrtptr = min(wrtptr,len(text))
 
         except: pass
 
