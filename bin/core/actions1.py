@@ -109,7 +109,7 @@ def newline(cursor,offset,banoff,line,arr,rows,select):
     if not len(select) == 0:
         select,arr,line,offset = del_sel(select,arr,banoff)
         if len(arr)==0: return line,offset,arr,1,select
-    ext = arr[line+offset-banoff]
+    text = arr[line+offset-banoff]
     if not len(text) == 0:
         arr.insert(line+offset-banoff,text[:cursor-1])
         text = text[cursor-1:]; cursor = 1
