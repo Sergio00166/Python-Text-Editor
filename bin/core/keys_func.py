@@ -68,8 +68,8 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         status_st = False
 
     elif key==keys["return"]:
-        args=(cursor,offset,banoff,line,arr,rows,status,select)
-        line,offset,arr,cursor,staus,select = newline(*args)
+        args=(cursor,offset,banoff,line,arr,rows,select)
+        line,offset,arr,cursor,select = newline(*args)
         status_st = False
 
     elif key==keys["ctrl+j"]:

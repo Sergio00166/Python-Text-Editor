@@ -105,10 +105,11 @@ def dedent(arr,line,offset,banoff,indent,cursor):
         arr[line+offset-banoff] = p1+p2
     return arr,cursor
 
-def newline(cursor, offset, banoff, line, arr, rows, status, select):
+def newline(cursor,offset,banoff,line,arr,rows,select):
     if not len(select) == 0:
-        select,arr,line,offset = del_sel(select, arr, banoff)
-    text = arr[line+offset-banoff]
+        select,arr,line,offset = del_sel(select,arr,banoff)
+        if len(arr)==0: return line,offset,arr,1,select
+    ext = arr[line+offset-banoff]
     if not len(text) == 0:
         arr.insert(line+offset-banoff,text[:cursor-1])
         text = text[cursor-1:]; cursor = 1
@@ -116,5 +117,5 @@ def newline(cursor, offset, banoff, line, arr, rows, status, select):
     if line>rows: offset += 1
     else: line += 1
     arr[line+offset-banoff] = text
-    return line, offset, arr, cursor, status, select
+    return line,offset,arr,cursor,select
 
