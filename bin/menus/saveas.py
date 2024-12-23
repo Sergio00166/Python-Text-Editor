@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-from functions1 import decode, get_size, read_UTF8
+from functions1 import decode,get_size,read_UTF8,write_UTF8
 from upd_scr import menu_updsrc
 from time import sleep as delay
 from threading import Thread
@@ -98,8 +98,7 @@ def save_as(arg):
                 old_filewrite = filewrite
                 try:
                     if key==keys["ctrl+b"] and filewrite==filename: filewrite+=".bak"
-                    out=open(filewrite,"w",encoding=codec,newline='')
-                    out.write(lnsep.join(arr)); out.close()
+                    write_UTF8(filewrite,codec,lnsep,arr)
                     if key==keys["ctrl+b"]: status="BCKPd"
                     else: status,filename = saved_txt,filewrite
                     status_st=True; break # Exit the menu
@@ -147,8 +146,7 @@ def save_as(arg):
                 tmp,codec,lnsep = read_UTF8(filewrite)
                 if key==keys["ctrl+a"]: output=list(arr+tmp)
                 elif key==keys["ctrl+p"]: output=list(tmp+arr)
-                out=open(filewrite,"w",encoding=codec,newline='')
-                out.write(lnsep.join(output)); out.close()
+                write_UTF8(filewrite,codec,lnsep,output)
                 status,status_st = bnc+"ADDED",True
                 break
             

@@ -1,6 +1,6 @@
 # Code by Sergio00166
 
-from functions1 import cmt_w_ind
+from functions1 import cmt_w_ind,write_UTF8
 from functions import str_len
 from actions import *
 from actions1 import *
@@ -78,8 +78,7 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         status_st = False
 
     elif key==keys["ctrl+s"]:
-        out=open(filename,"w",encoding=codec,newline='')
-        out.write(lnsep.join(arr)); out.close()
+        write_UTF8(filename,codec,lnsep,arr)
         status=saved_txt; status_st=True
         
     elif key==keys["ctrl+x"]:
