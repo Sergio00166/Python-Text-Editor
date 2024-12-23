@@ -149,6 +149,7 @@ def taborspace(contents):
 
 
 def detect_line_ending_char(c):
+    c = c[:1024]
     crlf = c.count('\r\n')
     c = c.replace('\r\n','')
     cr = c.count('\r')
