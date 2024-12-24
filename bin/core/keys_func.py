@@ -133,9 +133,9 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         arr,cursor = uncomment_func(arr,line,offset,banoff,select,comment,cursor,indent)
         
     elif key==keys["ctrl+t"]:
-        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-                line,banner,status_st,keys,cursor,select,read_key,comment,indent)
-        comment,indent = opt_menu(args)
+        args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,line,\
+                banner,status_st,keys,cursor,select,read_key,comment,indent,codec,lnsep)
+        comment,indent,codec,lnsep = opt_menu(args)
 
     else: #All the other keys
         args=(arr,key,select,cursor,line,offset,banoff,indent,rows,keys)

@@ -4,7 +4,8 @@ python-based Basic Text Editor
 A a basic text editor with python using the minimun external libraries as possible.    
 Only supports UTF-8 and UTF-16 (with or wihout BOM [LE/BE]) and ASCII (for reading bin files).    
 
-It does not allow to change the encoding nor line separators when saving but it will keep the same as original file.    
+It will autodetect encoding and linesep, but you can change any time (affects only when saving)    
+with ^T and the S or L to change the charset and the linesep.    
 The default encoding for blank files is UTF-8 and defaults to use LF.    
 
 Using colorama and wcwidth (they are inside lib.zip) and its LICENSES can be found inside that zip file.    
@@ -16,7 +17,7 @@ Currently ctrl+Z is not available a workaround is using ctrl+a and then ctrl+b t
 ### KEYBINDS
 
 #### Main Mode:
-- `^Q` [Quit],      `^T` [Change df values]
+- `^Q` [Quit],      `^T` [Main Setting Menu]
 - `^S` [Save],      `^A` [Save as]
 - `^O` [Open],      `^C` [Copy]
 - `^X` [Cut],       `^P` [Paste]
