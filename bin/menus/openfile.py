@@ -153,6 +153,9 @@ def open_file(arg):
                     openfile=p1+out+p2
                     wrtptr+=len(out)
                     complete=False
+
+            if status=="ERROR": status_st = False
+        except OSError: status,status_st = "ERROR",True
         except: pass
 
     exit() # Reset

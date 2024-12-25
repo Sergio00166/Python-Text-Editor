@@ -14,7 +14,7 @@ from opt_menu import opt_menu
 
 def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
               filename,status,status_st,copy_buffer,black,bnc,slc,reset,
-              saved_txt,indent,banner,read_key,keys,select,codec,lnsep,comment):
+              indent,banner,read_key,keys,select,codec,lnsep,comment):
 
     if key==keys["supr"]:
         args=(cursor,offset,banoff,arr,line,select)
@@ -78,8 +78,11 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
         status_st = False
 
     elif key==keys["ctrl+s"]:
-        write_UTF8(filename,codec,lnsep,arr)
-        status=saved_txt; status_st=True
+        try:
+            write_UTF8(filename,codec,lnsep,arr)
+            status="SAVED"
+        except: status = "ERROR"
+        status_st = True
         
     elif key==keys["ctrl+x"]:
         args=(select,arr,line,offset,banoff,copy_buffer,cursor)
@@ -103,7 +106,7 @@ def keys_func(key,cursor,oldptr,line,offset,columns,banoff,arr,rows,
 
     elif key==keys["ctrl+a"]:
         args = (filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,\
-                offset,line,banner,status_st,saved_txt,keys,read_key,codec,lnsep)
+                offset,line,banner,status_st,keys,read_key,codec,lnsep)
         status_st,filename,status,codec,lnsep = save_as(args)
 
     elif key==keys["ctrl+o"]:

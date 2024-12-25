@@ -47,7 +47,7 @@ def save_as(arg):
     global run, kill, fd, thr, old_settings, status_st, bnc, slc
 
     filename,black,bnc,slc,reset,rows,banoff,arr,columns,status,offset,\
-    line,banner,status_st,saved_txt,keys,read_key,codec,lnsep = arg
+    line,banner,status_st,keys,read_key,codec,lnsep = arg
 
     saveastxt=" Save as: "; lenght=len(saveastxt)+2
     filewrite=filename; wrtptr=lenght+len(filewrite)
@@ -100,9 +100,11 @@ def save_as(arg):
                     if key==keys["ctrl+b"] and filewrite==filename: filewrite+=".bak"
                     write_UTF8(filewrite,codec,lnsep,arr)
                     if key==keys["ctrl+b"]: status="BCKPd"
-                    else: status,filename = saved_txt,filewrite
+                    else: status,filename = "SAVED",filewrite
                     status_st=True; break # Exit the menu
-                except: filewrite = old_filewrite
+                except:
+                    filewrite = old_filewrite
+                    raise OSError
                 
                 
             elif key==keys["ctrl+c"]: break
@@ -124,7 +126,7 @@ def save_as(arg):
                 if not wrtptr==lenght: wrtptr-=1
                 
             elif key==keys["arr_right"]:
-                if not wrtptr>len(filewrite)+lenght-1:  wrtptr+=1
+                if not wrtptr>len(filewrite)+lenght-1: wrtptr+=1
                 
             elif key==keys["supr"]:
                 if complete:
@@ -157,6 +159,9 @@ def save_as(arg):
                     p2=filewrite[wrtptr-lenght:]
                     filewrite=p1+out+p2
                     wrtptr+=len(out)
+
+            if status=="ERROR": status_st = False
+        except OSError: status,status_st = "ERROR",True
         except: pass
         
     exit() # Reset

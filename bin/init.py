@@ -92,8 +92,7 @@ if not __name__=="__main__":
     rows,columns=get_size()
     filename = filename.replace(sep,"/")
 
-    #Flag to show after saving the file
-    saved_txt="SAVED"; status=saved_df=""; status_st=False
+    status=""; status_st=False
     print("\033c", end="") # Clear the screen
     print("\033[1 q", end="") # Change cursor
 
