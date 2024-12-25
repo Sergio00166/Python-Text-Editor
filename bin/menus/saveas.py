@@ -79,6 +79,9 @@ def save_as(arg):
             key=read_key() #Map keys
             run=False #Stop update screen thread
 
+            # Reset error message
+            if status=="ERROR": status_st = False
+
             if key==keys["tab"]:
                 if not (len(filewrite)==0 or (sep==chr(92) and not ":/" in filewrite)):
                     if not complete: content=glob(filewrite+"*",recursive=False)
@@ -160,7 +163,6 @@ def save_as(arg):
                     filewrite=p1+out+p2
                     wrtptr+=len(out)
 
-            if status=="ERROR": status_st = False
         except OSError: status,status_st = "ERROR",True
         except: pass
         

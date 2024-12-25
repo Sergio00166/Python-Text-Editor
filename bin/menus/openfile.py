@@ -78,6 +78,9 @@ def open_file(arg):
             run=True #Start update screen thread
             key=read_key() #Map keys
             run=False #Stop update screen thread
+
+            # Reset error message
+            if status=="ERROR": status_st = False
             
             if key==keys["tab"]:
                 if not (len(openfile)==0 or (sep==chr(92) and not ":/" in openfile)):
@@ -154,7 +157,6 @@ def open_file(arg):
                     wrtptr+=len(out)
                     complete=False
 
-            if status=="ERROR": status_st = False
         except OSError: status,status_st = "ERROR",True
         except: pass
 
